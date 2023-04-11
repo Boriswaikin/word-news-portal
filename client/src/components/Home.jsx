@@ -1,33 +1,14 @@
 import "../style/home.css";
-import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-
+import useNews from "../hooks/useNews";
+import { Outlet, Link } from "react-router-dom";
 
 export default function Home() {
   const navigate = useNavigate();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const signUp = () => loginWithRedirect({authorizationParams: {screen_hint: "signup"}});
-  const [news,setNews]=useState([]);
-
-  useEffect(()=>{
-    async function getNews(){ 
-      try {
-        fetch(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.REACT_APP_NEWS_ID}`)
-        .then(response=>response.json())
-        .then((data)=>{
-          console.log(data.articles);
-          setNews(data.articles)
-          });
-      }
-      catch (err){
-        console.log("fetch error");
-      }
-    }
-    getNews();
-  },[]);
-
+  const [news, setNews] = useNews();
 
   return (
     <div className="home">
@@ -43,14 +24,16 @@ export default function Home() {
             Bookmarks 
       </button> */}
       {/* </div> */}
-      <ul className="newsList">
+        {news &&
+        <ul className="newsList">
         {news.map((item,index)=>{
           return (
             <li key={index} className="todo-item">
-              <span className="itemName">{item.articles}</span>
-            </li>)
-        })}
-      </ul>
+              <Link to={`/news/${index}`}>{item.title}</Link>
+              {/* <div className="itemName">{item.title}</div> */}
+            </li>)})}
+             </ul>}
+     
       <div> 
         {!isAuthenticated ? (
           <button className="btn-primary" onClick={loginWithRedirect}>
