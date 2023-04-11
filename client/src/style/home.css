@@ -20,6 +20,7 @@
 
 .newslist {
   width: 500px;
+  background-color: 'green';
 }
 
 .newslist ul {
