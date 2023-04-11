@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuthToken } from "../AuthTokenContext";
 
 export default function useNews() {
-  const [news, setNews] = useState([]);
+  const [news, setNews] = useState();
 
   useEffect(() => {
     async function getNews() {
@@ -14,10 +14,8 @@ export default function useNews() {
       setNews(data.articles);
     }
 
-    if (!news.length) {
-      getNews();
-    }
-  }, [news]);
+    getNews();
+  }, []);
 
   return [news, setNews];
 }
