@@ -13,9 +13,30 @@
   align-items: center;
 }
 
-.btn-primary {
-  background-color: coral;
-  color: whitesmoke;
+.news-item{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.item-subButton {
+  /* background-color: coral; */
+  /* color: whitesmoke; */
+  color: transparent;
+  width: 50px;
+  height: 20px;
+  margin-left: 10px;
+}
+
+.bookmark-logo{
+  width: 15px;
+  height: 15px;
+}
+
+.chatGPT-logo{
+  width: 15px;
+  height: 15px;
 }
 
 .newslist {
