@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuthToken } from "../AuthTokenContext";
 
 export default function useNews() {
-  const [news, setNews] = useState([]);
+  const [news, setNews] = useState();
 
   useEffect(() => {
     async function getNews() {
@@ -10,14 +10,11 @@ export default function useNews() {
         `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.REACT_APP_NEWS_ID}`
       );
       const data = await res.json();
-      console.log(data.articles);
+
       setNews(data.articles);
     }
 
-    if (!news.length) {
-      
-      getNews();
-    }
+    getNews();
   }, []);
 
   return [news, setNews];
