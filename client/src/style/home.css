@@ -2,14 +2,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 100%;
+}
+
+.btn-class {
+  display: flex;
+  flex-direction: row;
+  justify-items: flex-start;
+  align-items: center;
 }
 
 .btn-primary {
   background-color: coral;
   color: whitesmoke;
 }
+
+.newslist {
+  width: 500px;
+}
+
+.newslist ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 
 .btn-secondary {
   margin-top: 5px;
