@@ -3,6 +3,7 @@ import { useAuthToken } from "../AuthTokenContext";
 
 export default function useNews() {
   const [news, setNews] = useState();
+  const [tempNews, setTempNews] = useState();
 
   useEffect(() => {
     async function getNews() {
@@ -12,10 +13,11 @@ export default function useNews() {
       const data = await res.json();
 
       setNews(data.articles);
+      setTempNews(data.articles);
     }
 
     getNews();
   }, []);
 
-  return [news, setNews];
+  return [[news, setNews], [tempNews, setTempNews]];
 }
