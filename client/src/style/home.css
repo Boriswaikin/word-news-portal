@@ -25,6 +25,12 @@
   justify-content: flex-start;
 }
 
+#sel{
+  width: 400px;
+  margin-left: 50px;
+  margin-bottom: 10px;
+}
+
 .search{
   width: 200px;
   margin-left: 50px;

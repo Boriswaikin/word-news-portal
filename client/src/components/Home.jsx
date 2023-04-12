@@ -14,6 +14,7 @@ export default function Home() {
   const [tempNews, setTempNews] = useNews()[1];
   const [text, setText] = useState("");
   const { user, isLoading, logout } = useAuth0();
+  const [category,setCategory]=useState("");
 
   useEffect(()=>{
     setNews(tempNews);
@@ -22,11 +23,23 @@ export default function Home() {
     item.title.toLowerCase().includes(text.toLowerCase())));}
   },[text])
 
+  useEffect(()=>{
+  async function getNewsCategory(){
+    const res = await fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${process.env.REACT_APP_NEWS_ID}`);
+    const data = await res.json();
+    setNews(data.articles);
+    setTempNews(data.articles);
+  }
+  getNewsCategory();
+
+},[category])
+
+
   return (
     <div className="home">
       {/* <h1>World News</h1> */} 
       <div className="header">
-      <Link  className="heading-link" to="/">
+      <Link  className="heading-link" to="http://localhost:3000/">
         <h2 >World News</h2>
       </Link>
             <nav className="menu">
@@ -72,7 +85,25 @@ export default function Home() {
       </button> */}
       {/* </div> */}
       <div className="section-news">
-      <input
+
+       {/* <button className="category-Button" onClick={
+        ()=>{getNewsCategory('business');}}>
+        <p>business</p>        
+        </button> */}
+        <select id="sel" onChange={
+          
+          (e)=>{
+            document.getElementById('search').value = ''
+          setCategory(e.target.value)}}>
+          <option value='general'>General</option>
+          <option value='business'>Business</option>
+          <option value='entertainment'>Entertainment</option>
+          <option value='health'>Health</option>
+          <option value='science'>Science</option>
+          <option value='sports'>Sports</option>
+          <option value='technology'>Technology</option>
+        </select>
+        <input
         type="text"
         name="search"
         id="search"
@@ -81,7 +112,6 @@ export default function Home() {
         onChange={(e) => {
           setText(e.target.value)}}
       />
-      
         {news &&
         <ul className="newsList">
         {news.map((item,index)=>{
