@@ -4,14 +4,23 @@ import { useNavigate } from "react-router-dom";
 import useNews from "../hooks/useNews";
 import { Outlet, Link } from "react-router-dom";
 import 'boxicons';
+import { useState ,useEffect} from "react";
 
 export default function Home() {
   const navigate = useNavigate();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const signUp = () => loginWithRedirect({authorizationParams: {screen_hint: "signup"}});
-  const [news, setNews] = useNews();
-
+  const [news, setNews] = useNews()[0];
+  const [tempNews, setTempNews] = useNews()[1];
+  const [text, setText] = useState("");
   const { user, isLoading, logout } = useAuth0();
+
+  useEffect(()=>{
+    setNews(tempNews);
+    if(text){
+    setNews((prevItem)=> prevItem.filter((item)=>
+    item.title.toLowerCase().includes(text.toLowerCase())));}
+  },[text])
 
   return (
     <div className="home">
@@ -23,7 +32,11 @@ export default function Home() {
             <nav className="menu">
           <ul className="menu-list">
             <li>
-            {isAuthenticated?(<Link to="/app/Profile">Profile</Link>):
+            {isAuthenticated?(
+            
+            <Link to="/app/Profile">
+               <box-icon class="user-logo" name='user'></box-icon>
+            </Link>):
             (<></>)
             }
             </li>
@@ -58,6 +71,17 @@ export default function Home() {
             Bookmarks 
       </button> */}
       {/* </div> */}
+      <div className="section-news">
+      <input
+        type="text"
+        name="search"
+        id="search"
+        className="search"
+        placeholder="Search on the news!"
+        onChange={(e) => {
+          setText(e.target.value)}}
+      />
+      
         {news &&
         <ul className="newsList">
         {news.map((item,index)=>{
@@ -92,7 +116,7 @@ export default function Home() {
           Create Account
         </button>
       </div> */}
-      <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+      </div>
     </div>
     
   );
