@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import useNews from "../hooks/useNews";
 import { Outlet, Link } from "react-router-dom";
-
+import 'boxicons';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -11,39 +11,39 @@ export default function Home() {
   const signUp = () => loginWithRedirect({authorizationParams: {screen_hint: "signup"}});
   const [news, setNews] = useNews();
 
+  const { user, isLoading, logout } = useAuth0();
+
   return (
     <div className="home">
-      <h1>World News</h1>
+      {/* <h1>World News</h1> */} 
       <div className="header">
-        <nav className="menu">
+      <Link  className="heading-link" to="/">
+        <h2 >World News</h2>
+      </Link>
+            <nav className="menu">
           <ul className="menu-list">
             <li>
             {isAuthenticated?(<Link to="/app/Profile">Profile</Link>):
-            (<Link to="/" onClick={loginWithRedirect}>Profile</Link>)}
-            </li>
-            <li>
-            {isAuthenticated?(<Link to="/app/Bookmark">Profile</Link>):
-            (<Link to="/" onClick={loginWithRedirect}>Bookmark</Link>)}
-            </li>
-            <li>
-              <Link to="/app/debugger">Auth Debugger</Link>
+            (<></>)
+            }
             </li>
             <li>
               {!isAuthenticated?(<button
                 className="exit-button"
-                onClick={()=>console.log("Signin")}
+                onClick={loginWithRedirect}
               >
                 SignIn
               </button>):
               (<button
                 className="exit-button"
-                onClick={()=>console.log("logout")}
+                onClick={() => logout({ returnTo: window.location.origin })}
               >
                 LogOut
               </button>)
               }
             </li>
           </ul>
+          
         </nav>
         {/* <div>Welcome 👋 {user.name} </div> */}
       </div>
@@ -76,7 +76,7 @@ export default function Home() {
             </li>)})}
              </ul>}
      
-      <div> 
+      {/* <div> 
         {!isAuthenticated ? (
           <button className="btn-primary" onClick={loginWithRedirect}>
             Login
@@ -86,12 +86,12 @@ export default function Home() {
             Enter App
           </button>
         )}
-      </div>
-      <div>
+      </div> */}
+      {/* <div>
         <button className="btn-secondary" onClick={signUp}>
           Create Account
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

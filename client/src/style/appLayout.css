@@ -14,7 +14,7 @@
 
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   margin: 5px 0;
 }
 
@@ -36,7 +36,14 @@
 }
 
 .exit-button {
-  background-color: lightcoral;
+  background-color: transparent;
+  color: red;
+  border: 0px;
+}
+
+.exit-button:hover,
+.exit-button:focus {
+  cursor: pointer;
 }
 
 .loading {
