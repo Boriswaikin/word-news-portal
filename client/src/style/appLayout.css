@@ -39,6 +39,8 @@
   background-color: transparent;
   color: red;
   border: 0px;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .exit-button:hover,

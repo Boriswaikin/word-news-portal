@@ -10,12 +10,26 @@
   text-decoration: none;
   position: relative;
   left: auto;   
-  
+  color: black;
+  font-weight: 900px;
+  font-size: 20px;
 }
 .menu{
   position: absolute;
   right:100px;
 }
+
+.section-news{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.search{
+  width: 200px;
+  margin-left: 50px;
+}
+
 
 .btn-class {
   display: flex;
