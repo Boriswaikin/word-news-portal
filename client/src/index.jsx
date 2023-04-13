@@ -68,7 +68,8 @@ root.render(
               path="app"
               element={
                 <RequireAuth>
-                  <AppLayout />
+                  {/* <AppLayout /> */}
+                  <Home/>
                 </RequireAuth>
               }
               // authentication required to access the app, otherwise redirect to home

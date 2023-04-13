@@ -6,6 +6,37 @@
   height: 100%;
 }
 
+.heading-link{
+  text-decoration: none;
+  position: relative;
+  left: auto;   
+  color: black;
+  font-weight: 900px;
+  font-size: 20px;
+}
+.menu{
+  position: absolute;
+  right:100px;
+}
+
+.section-news{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+#sel{
+  width: 400px;
+  margin-left: 50px;
+  margin-bottom: 10px;
+}
+
+.search{
+  width: 200px;
+  margin-left: 50px;
+}
+
+
 .btn-class {
   display: flex;
   flex-direction: row;
@@ -13,9 +44,35 @@
   align-items: center;
 }
 
-.btn-primary {
-  background-color: coral;
-  color: whitesmoke;
+.news-item{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.item-subButton {
+  /* background-color: coral; */
+  /* color: whitesmoke; */
+  background-color: transparent;
+  width: 50px;
+  height: 20px;
+  margin-left: 10px;
+  border: 0px;
+}
+.item-subButton:hover,
+.item-subButton:focus{
+  cursor: pointer;
+}
+
+.bookmark-logo{
+  width: 15px;
+  height: 15px;
+}
+
+.chatGPT-logo{
+  width: 15px;
+  height: 15px;
 }
 
 .newslist {
