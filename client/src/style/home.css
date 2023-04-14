@@ -60,15 +60,17 @@
   margin-left: 10px;
   border: 0px;
 }
-.item-subButton:hover,
-.item-subButton:focus{
+.item-subButton:hover{
   cursor: pointer;
+  transform: scale(1.2);
 }
+
 
 .bookmark-logo{
   width: 15px;
   height: 15px;
 }
+
 
 .chatGPT-logo{
   width: 15px;
