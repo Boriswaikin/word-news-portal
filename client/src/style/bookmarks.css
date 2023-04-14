@@ -22,6 +22,18 @@
 }
 
 
+.delete-bookmarks{
+  width: 10%;
+  border: 0px;
+  background-color: transparent;
+}
+
+.delete-bookmarks:hover{
+  cursor: pointer;
+  /* background-color: lightgray; */
+  transform: scale(1.2);
+}
+
 
 .todo-form {
   display: grid;
