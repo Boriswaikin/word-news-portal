@@ -14,7 +14,6 @@ export default function Bookmarks() {
   const {bookmarks}= useLocation().state;
   const [newsInBookmark,setNewsInBookmark]=useState([]);
 
-
   useEffect(()=>{
     setNewsInBookmark(bookmarks);
   },[])
