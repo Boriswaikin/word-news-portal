@@ -201,7 +201,7 @@ useEffect(()=>{
                   }
                 } 
                 }}>
-                {isAuthenticated && bookmarks.map(item=>item.title).includes(item.title)?<box-icon class ="bookmark-logo" type="solid" name='bookmark-alt'></box-icon>:<box-icon class ="bookmark-logo" name='bookmark'></box-icon>}
+                {isAuthenticated && bookmarks.map(item=>item.title).includes(item.title)?<box-icon class ="bookmark-logo" color="slateblue" type="solid" name='bookmark-alt'></box-icon>:<box-icon class ="bookmark-logo" name='bookmark'></box-icon>}
               </button>
               <button className="item-subButton" onClick={()=>console.log("Ask GPT")}>
                 <box-icon class="chatGPT-logo" name='question-mark'></box-icon>
