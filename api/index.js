@@ -51,6 +51,7 @@ app.post("/todos", requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
 
   const { title } = req.body;
+  const { category } = req.body;
 
   if (!title) {
     res.status(400).send("title is required");
@@ -59,6 +60,7 @@ app.post("/todos", requireAuth, async (req, res) => {
       data: {
         title,
         author: { connect: { auth0Id } },
+        category,
       },
     });
 
@@ -70,8 +72,8 @@ app.post("/todos", requireAuth, async (req, res) => {
 app.delete("/todos/:id", requireAuth, async (req, res) => {
   const id = req.params.id;
   const deletedItem = await prisma.todoItem.delete({
-    where: {
-      id,
+    where: { 
+      id: parseInt(id) 
     },
   });
   res.json(deletedItem);

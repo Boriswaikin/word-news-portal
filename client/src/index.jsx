@@ -2,7 +2,7 @@ import React from "react";
 import * as ReactDOMClient from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./components/AppLayout";
-import Todos from "./components/Todos";
+import Bookmarks from "./components/Bookmarks";
 import TodoDetail from "./components/TodoDetail";
 import Profile from "./components/Profile";
 import NotFound from "./components/NotFound";
@@ -67,18 +67,17 @@ root.render(
             <Route
               path="app"
               element={
-                <RequireAuth>
-                  {/* <AppLayout /> */}
+                // <RequireAuth>
+                 
                   <Home/>
-                </RequireAuth>
+                // </RequireAuth>
               }
               // authentication required to access the app, otherwise redirect to home
-            >
-              <Route path="todos" element={<Todos />} />
+            ></Route>
+              <Route path="bookmarks" element={<Bookmarks />} />
               <Route path="todos/:todoId" element={<TodoDetail />} />
               <Route path="debugger" element={<AuthDebugger />} />
-              <Route index element={<Profile />} />
-            </Route>
+              {/* <Route index element={<Profile />} /> */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

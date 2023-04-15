@@ -5,6 +5,7 @@ import useNews from "../hooks/useNews";
 import { Outlet, Link } from "react-router-dom";
 import 'boxicons';
 import { useState ,useEffect} from "react";
+import { useAuthToken } from "../AuthTokenContext";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ export default function Home() {
   const [text, setText] = useState("");
   const { user, isLoading, logout } = useAuth0();
   const [category,setCategory]=useState("");
+  const [bookmarks, setBookmarks] = useState([]);
+  const { accessToken } = useAuthToken();
 
   useEffect(()=>{
     setNews(tempNews);
@@ -34,6 +37,62 @@ export default function Home() {
 
 },[category])
 
+async function insertBookmarks(itemTitle,itemCategory) {
+  const data = await fetch(`${process.env.REACT_APP_API_URL}/todos`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      title: itemTitle,
+      category: itemCategory,
+    }),
+  });
+  if (data.ok) {
+    const todo = await data.json();
+    return todo;
+  } else {
+    return null;
+  }
+}
+
+async function deleteBookmarks(deleteID) {
+  const data = await fetch(`${process.env.REACT_APP_API_URL}/todos/` + deleteID, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  if (data.ok) {
+    await data.json();
+    console.log("delete success");
+  }
+}
+
+useEffect(()=>{
+  async function getBookmarks() {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/todos`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      setBookmarks(data.map(item=>(
+          {
+          id: item.id,
+          title: item.title,
+          category: item.category}
+        )));
+    }
+  }
+  getBookmarks();
+  },[bookmarks.length]);
+
 
   return (
     <div className="home">
@@ -46,8 +105,17 @@ export default function Home() {
           <ul className="menu-list">
             <li>
             {isAuthenticated?(
+            <Link to="/bookmarks" state={{bookmarks:bookmarks}}>
+               <box-icon name='bookmark-alt'></box-icon>
+            </Link>):
+            (<></>)
+            }
+            </li>
+            <li>
+            {isAuthenticated?(
             
-            <Link to="/app/Profile">
+            
+            <Link to="/Profile">
                <box-icon class="user-logo" name='user'></box-icon>
             </Link>):
             (<></>)
@@ -85,13 +153,7 @@ export default function Home() {
       </button> */}
       {/* </div> */}
       <div className="section-news">
-
-       {/* <button className="category-Button" onClick={
-        ()=>{getNewsCategory('business');}}>
-        <p>business</p>        
-        </button> */}
         <select id="sel" onChange={
-          
           (e)=>{
             document.getElementById('search').value = ''
           setCategory(e.target.value)}}>
@@ -108,7 +170,7 @@ export default function Home() {
         name="search"
         id="search"
         className="search"
-        placeholder="Search on the news!"
+        placeholder="Search for the news!"
         onChange={(e) => {
           setText(e.target.value)}}
       />
@@ -119,8 +181,27 @@ export default function Home() {
             <li key={index} className="news-item">
               <Link to={`/news/${index}`}>{item.title}</Link>
               <div className="item-button">
-              <button className="item-subButton" onClick={loginWithRedirect}>
-                <box-icon class="bookmark-logo" name='star'></box-icon>
+              <button className="item-subButton" onClick={
+                ()=>{
+                if (!isAuthenticated){
+                loginWithRedirect();}
+                else{
+                  const bookmarksTitle= bookmarks.map(item=>item.title);
+                  if(!bookmarksTitle.includes(item.title)){
+                  insertBookmarks(item.title,!category?"general":category)
+                  setBookmarks((prev)=>[...prev,{title:item.title,
+                      category: !category?"general":category}])
+                  }
+                  else {
+                    const filterBookmark= bookmarks.filter((element)=>
+                    element.title===item.title);
+                    const deleteID = parseInt(filterBookmark[0].id);
+                    deleteBookmarks(deleteID);
+                    setBookmarks((prev)=>prev.filter((element)=>element.title!==item.title))
+                  }
+                } 
+                }}>
+                {isAuthenticated && bookmarks.map(item=>item.title).includes(item.title)?<box-icon class ="bookmark-logo" color="slateblue" type="solid" name='bookmark-alt'></box-icon>:<box-icon class ="bookmark-logo" name='bookmark'></box-icon>}
               </button>
               <button className="item-subButton" onClick={()=>console.log("Ask GPT")}>
                 <box-icon class="chatGPT-logo" name='question-mark'></box-icon>
@@ -148,6 +229,5 @@ export default function Home() {
       </div> */}
       </div>
     </div>
-    
   );
 }
