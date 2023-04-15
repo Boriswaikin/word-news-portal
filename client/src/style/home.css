@@ -23,6 +23,8 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-self: normal;
+  margin-left: 150px;
 }
 
 #sel{
@@ -44,11 +46,23 @@
   align-items: center;
 }
 
+
 .news-item{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin: 10px;
+  width: 100%;
+}
+
+.item-link{
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.item-button{
+  width: 30%;
 }
 
 .item-subButton {
