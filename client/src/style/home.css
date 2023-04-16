@@ -24,7 +24,46 @@
   flex-direction: column;
   justify-content: flex-start;
   align-self: normal;
-  margin-left: 150px;
+  margin-left: 100px;
+}
+
+.category-wrapButton{
+  display: flex;
+  flex-direction: row;
+  margin-left: 50px;
+}
+
+.category-Button{
+  width: 120px;
+  color:white;
+  font-weight: bold;
+  border-radius: 10px;
+  height: 40px;
+  margin-right: 30px
+}
+
+.category-business{
+  background-color: lightgreen;
+}
+
+.category-entertainment{
+  background-color: hotpink;
+}
+
+.category-health{
+  background-color: plum;
+}
+
+.category-science{
+  background-color: skyblue;
+}
+
+.category-sports{
+  background-color: orangered;
+}
+
+.category-technology{
+  background-color: silver;
 }
 
 #sel{
@@ -36,6 +75,7 @@
 .search{
   width: 200px;
   margin-left: 50px;
+  margin-bottom: 20px;
 }
 
 
@@ -46,23 +86,47 @@
   align-items: center;
 }
 
+.newsList{
+  display: flex;
+  flex-direction: row;
+}
+
+.category-news{
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+}
+
 
 .news-item{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin: 10px;
-  width: 100%;
+  width: 70%;
+}
+
+.news-subItem{
+  width: 80%;
+  margin-left: 60px;
 }
 
 .item-link{
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  text-decoration: none;
+  font-size: 24px;
+  color: black;
+  height: 30%;
+  margin-top: 20px;
+
 }
 
 .item-button{
+  margin-top: 50px;
   width: 30%;
+  display: flex;
 }
 
 .item-subButton {
@@ -70,9 +134,9 @@
   /* color: whitesmoke; */
   background-color: transparent;
   width: 50px;
-  height: 20px;
-  margin-left: 10px;
   border: 0px;
+  display: flex;
+  padding: 0px;
 }
 .item-subButton:hover{
   cursor: pointer;
@@ -81,27 +145,60 @@
 
 
 .bookmark-logo{
-  width: 15px;
-  height: 15px;
+  width: 24px;
+  height: 24px;
 }
 
 
 .chatGPT-logo{
-  width: 15px;
-  height: 15px;
+  width: 24px;
+  height: 24px;
 }
 
-.newslist {
-  width: 500px;
-  background-color: 'green';
+.top-news{
+  display: flex;
+  flex-direction: column;
+  width: 30%;
 }
 
-.newslist ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.top-news-header{
+  align-self: center;
+  font-size: 28px;
+  font-family: 'Raleway',sans-serif;
+  height: 0px;
 }
 
+.top-news-item{
+  list-style-type:none;
+}
+
+.top-news-subitem{
+  display: flex;
+  flex-direction: row;
+}
+
+.top-news-index{
+  font-size: 30px;
+  width: 15%;
+  text-decoration: underline red;
+}
+
+.top-news-info{
+  margin-top: 20px;
+  width: 70%;
+}
+
+.top-news-category{
+  font-size: 20px;
+  font-weight: bolder;
+  color: red;
+  text-transform: uppercase;
+  font-family: 'Raleway',sans-serif;
+}
+
+.top-news-link{
+  width: 70%;
+}
 
 .btn-secondary {
   margin-top: 5px;
