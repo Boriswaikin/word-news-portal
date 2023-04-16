@@ -19,6 +19,7 @@ model TodoItem {
   author    User     @relation(fields: [authorId], references: [id])
   authorId  Int
   category  String   @db.VarChar(255)
+  publishDate String   @db.VarChar(255)
 }
 
 model User {

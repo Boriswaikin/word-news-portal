@@ -50,8 +50,8 @@ app.get("/todos", requireAuth, async (req, res) => {
 app.post("/todos", requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
 
-  const { title } = req.body;
-  const { category } = req.body;
+  const { title,category,publishDate} = req.body;
+  
 
   if (!title) {
     res.status(400).send("title is required");
@@ -61,6 +61,8 @@ app.post("/todos", requireAuth, async (req, res) => {
         title,
         author: { connect: { auth0Id } },
         category,
+        publishDate
+
       },
     });
 

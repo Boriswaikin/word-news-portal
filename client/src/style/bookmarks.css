@@ -21,6 +21,10 @@
   width: 80%;
 }
 
+.bookmarks-publishDate{
+  width: 15%;
+  margin-left: 30px;
+}
 
 .delete-bookmarks{
   width: 10%;

@@ -37,7 +37,7 @@ export default function Home() {
 
 },[category])
 
-async function insertBookmarks(itemTitle,itemCategory) {
+async function insertBookmarks(itemTitle,itemCategory,itemPublishDate) {
   const data = await fetch(`${process.env.REACT_APP_API_URL}/todos`, {
     method: "POST",
     headers: {
@@ -47,6 +47,7 @@ async function insertBookmarks(itemTitle,itemCategory) {
     body: JSON.stringify({
       title: itemTitle,
       category: itemCategory,
+      publishDate: itemPublishDate,
     }),
   });
   if (data.ok) {
@@ -86,7 +87,8 @@ useEffect(()=>{
           {
           id: item.id,
           title: item.title,
-          category: item.category}
+          category: item.category,
+          publishDate: item.publishDate}
         )));
     }
   }
@@ -179,16 +181,17 @@ useEffect(()=>{
         {news.map((item,index)=>{
           return (
             <li key={index} className="news-item">
-              <Link to={`/news/${index}`}>{item.title}</Link>
+              <Link className="item-link" to={`/news/${index}`}>{item.title}</Link>
+              
               <div className="item-button">
-              <button className="item-subButton" onClick={
+              <button className="item-subButton" title="bookmark" onClick={
                 ()=>{
                 if (!isAuthenticated){
                 loginWithRedirect();}
                 else{
                   const bookmarksTitle= bookmarks.map(item=>item.title);
                   if(!bookmarksTitle.includes(item.title)){
-                  insertBookmarks(item.title,!category?"general":category)
+                  insertBookmarks(item.title,!category?"general":category,item.publishedAt.substring(0,10))
                   setBookmarks((prev)=>[...prev,{title:item.title,
                       category: !category?"general":category}])
                   }
@@ -203,7 +206,7 @@ useEffect(()=>{
                 }}>
                 {isAuthenticated && bookmarks.map(item=>item.title).includes(item.title)?<box-icon class ="bookmark-logo" color="slateblue" type="solid" name='bookmark-alt'></box-icon>:<box-icon class ="bookmark-logo" name='bookmark'></box-icon>}
               </button>
-              <button className="item-subButton" onClick={()=>console.log("Ask GPT")}>
+              <button className="item-subButton" title="Ask chatGPT" onClick={()=>console.log("Ask GPT")}>
                 <box-icon class="chatGPT-logo" name='question-mark'></box-icon>
               </button>
               </div>

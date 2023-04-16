@@ -87,6 +87,7 @@ export default function Bookmarks() {
               key={index} className="bookmark-item">
                 <Link to={`/news/${index}`} className="bookmark-link">{item.title}</Link>
                 <p>{item.category}</p>
+                <p className="bookmarks-publishDate">{item.publishDate}</p>
                 <button className="delete-bookmarks" onClick={()=>deleteBookmarks(item.id)}>
                   <box-icon class="delete-bookmarks-icon" name='trash'></box-icon>
               </button>
