@@ -6,7 +6,7 @@
   height: 100%;
 }
 
-.heading-link{
+/* .heading-link{
   text-decoration: none;
   position: relative;
   left: auto;   
@@ -17,7 +17,7 @@
 .menu{
   position: absolute;
   right:100px;
-}
+} */
 
 .section-news{
   display: flex;

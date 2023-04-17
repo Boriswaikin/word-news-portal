@@ -1,11 +1,9 @@
-.app {
-  margin: 5px;
-}
-
-.title {
-  font-size: 12px;
-  border: 1px solid rgb(0, 255, 179);
-  text-align: center;
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
 }
 
 .header {
@@ -18,10 +16,17 @@
   margin: 5px 0;
 }
 
-.content {
-  width: 100%;
-  border: 1px solid lightskyblue;
-  margin-top: 5px;
+.heading-link{
+  text-decoration: none;
+  position: relative;
+  left: auto;   
+  color: black;
+  font-weight: 900px;
+  font-size: 20px;
+}
+.menu{
+  position: absolute;
+  right:100px;
 }
 
 .menu-list {
@@ -34,6 +39,7 @@
 .menu-list li {
   margin-right: 8px;
 }
+
 
 .exit-button {
   background-color: transparent;
@@ -48,7 +54,7 @@
   cursor: pointer;
 }
 
-.loading {
+/* .loading {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -56,4 +62,4 @@
   color: aliceblue;
   height: 100%;
   font-size: 36px;
-}
+} */

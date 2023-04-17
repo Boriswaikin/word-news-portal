@@ -6,6 +6,7 @@ import { Outlet, Link } from "react-router-dom";
 import 'boxicons';
 import { useState ,useEffect} from "react";
 import { useAuthToken } from "../AuthTokenContext";
+import AppLayout from "./AppLayout";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -133,62 +134,7 @@ useEffect(()=>{
 
   return (
     <div className="home">
-      {/* <h1>World News</h1> */} 
-      <div className="header">
-      <Link  className="heading-link" to="http://localhost:3000/">
-        <h2 >World News</h2>
-      </Link>
-            <nav className="menu">
-          <ul className="menu-list">
-            <li>
-            {isAuthenticated?(
-            <Link to="/bookmarks" state={{bookmarks:bookmarks}}>
-               <box-icon name='bookmark-alt'></box-icon>
-            </Link>):
-            (<></>)
-            }
-            </li>
-            <li>
-            {isAuthenticated?(
-            
-            
-            <Link to="/Profile">
-               <box-icon class="user-logo" name='user'></box-icon>
-            </Link>):
-            (<></>)
-            }
-            </li>
-            <li>
-              {!isAuthenticated?(<button
-                className="exit-button"
-                onClick={loginWithRedirect}
-              >
-                SignIn
-              </button>):
-              (<button
-                className="exit-button"
-                onClick={() => logout({ returnTo: window.location.origin })}
-              >
-                LogOut
-              </button>)
-              }
-            </li>
-          </ul>
-          
-        </nav>
-        {/* <div>Welcome 👋 {user.name} </div> */}
-      </div>
-      {/* <div className="btn-class"> */}
-      {/* <button className="btn-primary" onClick={{}}>
-            Home
-      </button>
-      <button className="btn-primary" onClick={{}}>
-            Profile
-      </button>
-      <button className="btn-primary" onClick={{}}>
-            Bookmarks 
-      </button> */}
-      {/* </div> */}
+    <AppLayout bookmarks={bookmarks}></AppLayout>
       <div className="section-news">
         <div className="search-panel">
           <div className="search-subPanel">
