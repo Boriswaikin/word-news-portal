@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useAuthToken } from "../AuthTokenContext";
 
 export function useNews() {
-  const [news, setNews] = useState();
-  const [tempNews, setTempNews] = useState();
+  const [news, setNews] = useState([]);
+  const [tempNews, setTempNews] = useState([]);
   const to_date = new Date().toISOString().slice(0, 10);
   const today = new Date(to_date);
   const yesterday = new Date(today);
