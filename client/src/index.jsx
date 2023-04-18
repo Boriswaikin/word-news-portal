@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./components/AppLayout";
 import Bookmarks from "./components/Bookmarks";
 import NewsDetail from "./components/NewsDetail";
+import SavedNews from "./components/SavedNews";
 import Profile from "./components/Profile";
 import NotFound from "./components/NotFound";
 import Home from "./components/Home";
@@ -75,11 +76,14 @@ root.render(
               // authentication required to access the app, otherwise redirect to home
             ></Route>
             <Route path="bookmarks" element={<Bookmarks />} />
+            <Route path="bookmarks/:id" element={<SavedNews />} />
             <Route path="news/:newsID" element={<NewsDetail />} />
             <Route path="debugger" element={<AuthDebugger />} />
               {/* <Route index element={<Profile />} /> */}
             <Route path="*" element={<NotFound />} />
+
           </Routes>
+          
         </BrowserRouter>
       </AuthTokenProvider>
     </Auth0Provider>
