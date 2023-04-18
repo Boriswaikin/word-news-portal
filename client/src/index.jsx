@@ -3,7 +3,7 @@ import * as ReactDOMClient from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./components/AppLayout";
 import Bookmarks from "./components/Bookmarks";
-import TodoDetail from "./components/TodoDetail";
+import NewsDetail from "./components/NewsDetail";
 import Profile from "./components/Profile";
 import NotFound from "./components/NotFound";
 import Home from "./components/Home";
@@ -74,9 +74,9 @@ root.render(
               }
               // authentication required to access the app, otherwise redirect to home
             ></Route>
-              <Route path="bookmarks" element={<Bookmarks />} />
-              <Route path="todos/:todoId" element={<TodoDetail />} />
-              <Route path="debugger" element={<AuthDebugger />} />
+            <Route path="bookmarks" element={<Bookmarks />} />
+            <Route path="news/:newsID" element={<NewsDetail />} />
+            <Route path="debugger" element={<AuthDebugger />} />
               {/* <Route index element={<Profile />} /> */}
             <Route path="*" element={<NotFound />} />
           </Routes>
