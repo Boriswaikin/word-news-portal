@@ -23,7 +23,7 @@ export default function NewsDetail() {
         <div>{`Published: ${thisNews?.publishedAt.substring(0, 10)}`}</div>
       </div>
       <img src={thisNews?.urlToImage} alt="News_Image"></img>
-      <article>{`Content: ${thisNews?.content}`} <a href={thisNews?.url}>[Read More]</a></article>
+      <article>{thisNews?.content} <a href={thisNews?.url}>[Read More]</a></article>
       
     </>
   )
