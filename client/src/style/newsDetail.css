@@ -1,0 +1,26 @@
+h1 {
+  font-family: inherit;
+  text-align: center;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  width: 50%;
+  height: 50%;
+}
+
+.news-detail {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+article {
+  font-size: 1.2em;
+  margin-left: 4em;
+  margin-right: 2em;
+}

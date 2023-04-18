@@ -1,4 +1,4 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import "../style/newsDetail.css";
 import { useNavigate, useParams } from "react-router-dom";
 import {useNews,useHotNews} from "../hooks/useNews";
 import { Outlet, Link } from "react-router-dom";
@@ -18,8 +18,10 @@ export default function NewsDetail() {
     <>
     <AppLayout></AppLayout>
       <h1>{thisNews?.title}</h1>
-      <div>{`Author: ${thisNews?.author}`}</div>
-      <div>{`Published: ${thisNews?.publishedAt.substring(0, 10)}`}</div>
+      <div className="news-detail">
+        <div>{`Author: ${thisNews?.author}`}</div>
+        <div>{`Published: ${thisNews?.publishedAt.substring(0, 10)}`}</div>
+      </div>
       <img src={thisNews?.urlToImage} alt="News_Image"></img>
       <article>{`Content: ${thisNews?.content}`} <a href={thisNews?.url}>[Read More]</a></article>
       
