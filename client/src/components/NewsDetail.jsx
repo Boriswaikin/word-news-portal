@@ -10,15 +10,18 @@ import AppLayout from "./AppLayout";
 
 export default function NewsDetail() {
   const [news] = useNews()[0];
-  const [hotNews] = useHotNews()[0];
+  const [hotNews] = useHotNews();
   const [bookmarks] = useBookmarks();
   
   const {sourceID, newsID} = useParams();
   const id = parseInt(newsID);
 
+  console.log(sourceID);
+  console.log(newsID);
+
   let newsList;
   switch(sourceID){
-    case "newest":
+    case "news":
       newsList = news;
       break;
     case "hotNews":

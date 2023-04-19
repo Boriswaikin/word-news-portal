@@ -66,7 +66,7 @@ root.render(
             {/* pages that don't require authentication */}
             <Route path="/" element={<AppLayout />} >
               <Route index element={<Home />} />
-              <Route path="/source/:sourceID/news/:newsID" element={<NewsDetail />} />  
+              <Route path=":sourceID/:newsID" element={<NewsDetail />} />  
             </Route>
             <Route path="/verify-user" element={<VerifyUser />} />
             {/* pages that require authentication */}
@@ -78,7 +78,7 @@ root.render(
             >
               <Route index element={<Profile />} />
               <Route path="bookmarks" element={<Bookmarks />} />
-              <Route path="/source/:sourceID/news/:newsID" element={<NewsDetail />} />
+              <Route path=":sourceID/:newsID" element={<NewsDetail />} />
               <Route path="debugger" element={<AuthDebugger />} />
             </Route>
             <Route path="*" element={<NotFound />} />
