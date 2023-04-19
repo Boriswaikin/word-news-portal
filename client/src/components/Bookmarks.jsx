@@ -10,14 +10,15 @@ import useBookmarks from "../hooks/useBookmarks";
 
 export default function Bookmarks() {
   const { accessToken } = useAuthToken();
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
-  const signUp = () => loginWithRedirect({authorizationParams: {screen_hint: "signup"}});
-  const { user, isLoading, logout } = useAuth0();
-  const [bookmarks,setBookmarks]=useBookmarks();
-  const [edit,setEdit]=useState(false);
+  console.log(accessToken);
+  // const { isAuthenticated, loginWithRedirect } = useAuth0();
+  // const signUp = () => loginWithRedirect({authorizationParams: {screen_hint: "signup"}});
+  // const { user, isLoading, logout } = useAuth0();
+  const [bookmarks,setBookmarks] = useBookmarks();
+  const [edit,setEdit] = useState(false);
   const editForm = document.querySelector(".edit-panel");
-  const [newTitle,setNewTitle]=useState("");
-  const [newID,setNewID]=useState();
+  const [newTitle,setNewTitle] = useState("");
+  const [newID,setNewID] = useState();
 
   async function deleteBookmarks(deleteID) {
     const data = await fetch(`${process.env.REACT_APP_API_URL}/todos/` + deleteID, {
@@ -74,7 +75,6 @@ export default function Bookmarks() {
 
   return (
     <div className="home">
-      <AppLayout></AppLayout>
       <div className="bookmark-panel">
       <ul className="bookmark-list">
       {bookmarks && bookmarks.map((item,index) => {

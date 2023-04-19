@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./components/AppLayout";
 import Bookmarks from "./components/Bookmarks";
 import NewsDetail from "./components/NewsDetail";
-import SavedNews from "./components/SavedNews";
 import Profile from "./components/Profile";
 import NotFound from "./components/NotFound";
 import Home from "./components/Home";

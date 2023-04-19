@@ -16,9 +16,6 @@ export default function NewsDetail() {
   const {sourceID, newsID} = useParams();
   const id = parseInt(newsID);
 
-  console.log(sourceID);
-  console.log(newsID);
-
   let newsList;
   switch(sourceID){
     case "news":

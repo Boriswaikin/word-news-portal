@@ -15,7 +15,7 @@ export default function AppLayout() {
   return (
     <div className="app">
       <div className="header">
-        <Link  className="heading-link" to="http://localhost:3000/">
+        <Link  className="heading-link" to="/">
           <h2 >World News</h2>
         </Link>
         <nav className="menu">
@@ -23,7 +23,7 @@ export default function AppLayout() {
             <li>
               {
                 isAuthenticated ? (
-                  <Link to="/bookmarks" aria-label="Bookmarks pages">
+                  <Link to="/app/bookmarks" aria-label="Bookmarks pages">
                     <box-icon name='bookmark-alt'></box-icon>
                   </Link>) :
                   (<></>)
@@ -32,7 +32,7 @@ export default function AppLayout() {
             <li>
               {
                 isAuthenticated ? (
-                  <Link to="/Profile"  aria-label="Profile pages">
+                  <Link to="/app/Profile"  aria-label="Profile pages">
                     <box-icon class="user-logo" name='user'></box-icon>
                   </Link>) :
                   (<></>)
