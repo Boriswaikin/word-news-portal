@@ -109,7 +109,6 @@ async function deleteBookmarks(deleteID) {
 
   return (
     <div className="home">
-    <AppLayout></AppLayout>
       <div className="section-news">
         <div className="search-panel">
           <div className="search-subPanel">
