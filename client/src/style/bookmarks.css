@@ -1,15 +1,18 @@
 /* TodoList Form */
-.todo-list {
+.bookmark-panel {
   background: white;
-  padding: 3rem;
+  /* padding: 3rem; */
   border-radius: 1rem;
-  width: 60%;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-self: flex-start;
 }
-
+.bookmark-list{
+  width: 60%;
+}
 
 .bookmark-item{
   display: flex;
@@ -44,8 +47,77 @@
   grid-template-columns: 1fr auto;
 }
 
+.edit-form {
+  display: flex;
+  position: fixed;
+  /* padding: 20px; */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  
+}
+
+.edit-panel{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 35%;
+  height:30%;
+  top: 30%;
+  left: 32%;
+  border-radius: 10px;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: white;
+  padding: 15px;
+}
+
+.edit-subHeader{
+  text-align: start;
+  margin: 0px;
+  margin-bottom: 10px;
+}
+
+#newBookmarks{
+  width: 80%;
+  margin-bottom: 10px;
+}
 
 
+.edit-button-wrapper{
+  display: flex;
+  align-self: flex-end;
+  flex-direction: row;
+}
+
+.edit-button-wrapper{
+  width: 30%;
+}
+
+.edit-button{
+  margin-right: 10px; 
+  width: 50%;
+  border-radius: 5px;
+  font-size: 14px;
+  border-width:1px;
+  border-color: lightgrey;
+
+}
+
+.save{
+  background-color: rgb(0, 153, 255);
+  color: white;
+  height: 30px;
+}
+
+.cancel{
+  background-color: white;
+  color: rgb(0, 153, 255);
+}
+
+
+/* 
 .todo-list ul {
   list-style: none;
   margin: 0;
@@ -78,4 +150,4 @@
 
 .todo-item button:hover {
   transform: scale(1.4);
-}
+} */
