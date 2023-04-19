@@ -63,11 +63,13 @@ root.render(
       <AuthTokenProvider>   {/* provide context(access token) to children */}
         <BrowserRouter>
           <Routes>
+            {/* pages that don't require authentication */}
             <Route path="/" element={<AppLayout />} >
               <Route index element={<Home />} />
-              <Route path="news/:newsID" element={<NewsDetail />} />  
+              <Route path="/source/:sourceID/news/:newsID" element={<NewsDetail />} />  
             </Route>
             <Route path="/verify-user" element={<VerifyUser />} />
+            {/* pages that require authentication */}
             <Route path="app" element={
                 <RequireAuth>
                   <AppLayout/>
@@ -76,7 +78,7 @@ root.render(
             >
               <Route index element={<Profile />} />
               <Route path="bookmarks" element={<Bookmarks />} />
-              <Route path="bookmarks/:id" element={<SavedNews />} />
+              <Route path="/source/:sourceID/news/:newsID" element={<NewsDetail />} />
               <Route path="debugger" element={<AuthDebugger />} />
             </Route>
             <Route path="*" element={<NotFound />} />

@@ -16,7 +16,6 @@ export default function SavedNews() {
 
   return (
     <>
-    <AppLayout></AppLayout>
       <h1>{thisNews?.title}</h1>
       <div className="news-detail">
         <div>{`Author: ${thisNews?.author}`}</div>

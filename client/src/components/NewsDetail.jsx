@@ -1,6 +1,7 @@
 import "../style/newsDetail.css";
 import { useNavigate, useParams } from "react-router-dom";
 import {useNews,useHotNews} from "../hooks/useNews";
+import useBookmarks from "../hooks/useBookmarks";
 import { Outlet, Link } from "react-router-dom";
 import 'boxicons';
 import { useState ,useEffect} from "react";
@@ -8,15 +9,32 @@ import { useAuthToken } from "../AuthTokenContext";
 import AppLayout from "./AppLayout";
 
 export default function NewsDetail() {
-  const {newsID} = useParams();
+  const [news] = useNews()[0];
+  const [hotNews] = useHotNews()[0];
+  const [bookmarks] = useBookmarks();
+  
+  const {sourceID, newsID} = useParams();
   const id = parseInt(newsID);
-  const [news, setNews] = useNews()[0];
-  const thisNews = news[id];
+
+  let newsList;
+  switch(sourceID){
+    case "newest":
+      newsList = news;
+      break;
+    case "hotNews":
+      newsList = hotNews;
+      break;
+    case "bookmarks":
+      newsList = bookmarks;
+      break;
+    default:
+  }
+ 
+  const thisNews = newsList.filter((item)=>item.urlToImage!==null)[id];
   console.log(thisNews);
 
   return (
     <>
-    <AppLayout></AppLayout>
       <h1>{thisNews?.title}</h1>
       <div className="news-detail">
         <div>{`Author: ${thisNews?.author}`}</div>

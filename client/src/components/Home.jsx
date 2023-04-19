@@ -31,6 +31,8 @@ export default function Home() {
   const [fromDate,setFromDate]= useState(from_date);
   const [toDate,setToDate]= useState(to_date);
 
+  console.log(news);
+
   useEffect(()=>{
     setNews(tempNews);
     if(text){
@@ -40,7 +42,6 @@ export default function Home() {
 
   useEffect(()=>{
   async function getNewsCategory(){
-    // const res = await fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${process.env.REACT_APP_NEWS_ID}`);
     const res = await fetch(
       `https://newsapi.org/v2/everything?`+
       `q=${category}`+
@@ -237,23 +238,7 @@ async function deleteBookmarks(deleteID) {
                 </ul>
             </li>
              </ul>}
-     
-      {/* <div> 
-        {!isAuthenticated ? (
-          <button className="btn-primary" onClick={loginWithRedirect}>
-            Login
-          </button>
-        ) : (
-          <button className="btn-primary" onClick={() => navigate("/app")}>
-            Enter App
-          </button>
-        )}
-      </div> */}
-      {/* <div>
-        <button className="btn-secondary" onClick={signUp}>
-          Create Account
-        </button>
-      </div> */}
+
       </div>
     </div>
   );
