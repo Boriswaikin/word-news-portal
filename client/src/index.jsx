@@ -65,21 +65,18 @@ root.render(
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/verify-user" element={<VerifyUser />} />
-            <Route
-              path="app"
-              element={
-                // <RequireAuth>
-                 
-                  <Home/>
-                // </RequireAuth>
+            <Route path="app" element={
+                <RequireAuth>
+                  <AppLayout/>
+                </RequireAuth>
               }
-              // authentication required to access the app, otherwise redirect to home
-            ></Route>
-            <Route path="bookmarks" element={<Bookmarks />} />
-            <Route path="bookmarks/:id" element={<SavedNews />} />
-            <Route path="news/:newsID" element={<NewsDetail />} />
-            <Route path="debugger" element={<AuthDebugger />} />
-              {/* <Route index element={<Profile />} /> */}
+            >
+              <Route index element={<Profile />} />
+              <Route path="bookmarks" element={<Bookmarks />} />
+              <Route path="bookmarks/:id" element={<SavedNews />} />
+              <Route path="debugger" element={<AuthDebugger />} />
+          </Route>
+            <Route path="news/:newsID" element={<NewsDetail />} />  
             <Route path="*" element={<NotFound />} />
 
           </Routes>
