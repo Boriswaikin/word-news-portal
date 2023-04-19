@@ -1,6 +1,6 @@
 import "../style/appLayout.css";
 
-import {Link } from "react-router-dom";
+import {Outlet, Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import 'boxicons';
 
@@ -8,50 +8,54 @@ export default function AppLayout() {
   const { user, isLoading, logout } = useAuth0();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
 
+  if (isLoading) {
+    return <div className="loading">Loading...</div>;
+  }
+
   return (
-    <div className="header">
-    <Link  className="heading-link" to="http://localhost:3000/">
-      <h2 >World News</h2>
-    </Link>
-          <nav className="menu">
-        <ul className="menu-list">
-          <li>
-          {isAuthenticated?(
-          <Link to="/bookmarks" aria-label="Bookmarks pages">
-             <box-icon name='bookmark-alt'></box-icon>
-          </Link>):
-          (<></>)
-          }
-          </li>
-          <li>
-          {isAuthenticated?(
-          
-          
-          <Link to="/Profile"  aria-label="Profile pages">
-             <box-icon class="user-logo" name='user'></box-icon>
-          </Link>):
-          (<></>)
-          }
-          </li>
-          <li>
-            {!isAuthenticated?(<button
-              className="exit-button"
-              onClick={loginWithRedirect}
-            >
-              SignIn
-            </button>):
-            (<button
-              className="exit-button"
-              onClick={() => logout({ returnTo: window.location.origin })}
-            >
-              LogOut
-            </button>)
-            }
-          </li>
-        </ul>
-        
-      </nav>
-      {/* <div>Welcome 👋 {user.name} </div> */}
+    <div className="app">
+      <div className="header">
+        <Link  className="heading-link" to="/">
+          <h2 >World News</h2>
+        </Link>
+        <nav className="menu">
+          <ul className="menu-list">
+            <li>
+              {
+                isAuthenticated ? (
+                  <Link to="/app/bookmarks" aria-label="Bookmarks pages">
+                    <box-icon name='bookmark-alt'></box-icon>
+                  </Link>) :
+                  (<></>)
+              }
+            </li>
+            <li>
+              {
+                isAuthenticated ? (
+                  <Link to="/app/Profile"  aria-label="Profile pages">
+                    <box-icon class="user-logo" name='user'></box-icon>
+                  </Link>) :
+                  (<></>)
+              }
+            </li>
+            <li>
+              {
+                !isAuthenticated ? (
+                  <button className="exit-button" onClick={loginWithRedirect}>
+                    SignIn
+                  </button>) :
+                  (<button className="exit-button" onClick={() => logout({ returnTo: window.location.origin })}>
+                    LogOut
+                  </button>)
+              }
+            </li>
+          </ul>
+        </nav>
+        {/* <div>Welcome 👋 {user.name} </div> */}
+      </div>
+      <div className="content">
+        <Outlet />
+      </div>
     </div>
   );
 }

@@ -40,7 +40,6 @@ export default function Home() {
 
   useEffect(()=>{
   async function getNewsCategory(){
-    // const res = await fetch(`https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${process.env.REACT_APP_NEWS_ID}`);
     const res = await fetch(
       `https://newsapi.org/v2/everything?`+
       `q=${category}`+
@@ -109,7 +108,6 @@ async function deleteBookmarks(deleteID) {
 
   return (
     <div className="home">
-    <AppLayout></AppLayout>
       <div className="section-news">
         <div className="search-panel">
           <div className="search-subPanel">
@@ -186,7 +184,7 @@ async function deleteBookmarks(deleteID) {
               <li key={index} className="news-item">
                 <img className="newsImage" src={item.urlToImage} alt="Logo"></img>
               <div className="news-subItem">
-              <Link className="item-link" to={`/news/${index}`}>{item.title}</Link>
+              <Link className="item-link" to={`news/${index}`}>{item.title}</Link>
               <p className="item-date">{item.publishedAt}</p>
               <div className="item-button">
               <button className="item-subButton" title="bookmark" onClick={
@@ -231,30 +229,14 @@ async function deleteBookmarks(deleteID) {
                     <p className="top-news-index">{index+1}</p>
                     <div className="top-news-info">
                     <p className="top-news-category">{item.source.name}</p>
-                    <Link className="item-link top-news-link" to={`/news/${index}`}>{item.title}</Link>
+                    <Link className="item-link top-news-link" to={`hotNews/${index}`}>{item.title}</Link>
                     </div>
                   </div>
                 </li>)})}
                 </ul>
             </li>
              </ul>}
-     
-      {/* <div> 
-        {!isAuthenticated ? (
-          <button className="btn-primary" onClick={loginWithRedirect}>
-            Login
-          </button>
-        ) : (
-          <button className="btn-primary" onClick={() => navigate("/app")}>
-            Enter App
-          </button>
-        )}
-      </div> */}
-      {/* <div>
-        <button className="btn-secondary" onClick={signUp}>
-          Create Account
-        </button>
-      </div> */}
+
       </div>
     </div>
   );
