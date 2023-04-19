@@ -50,7 +50,7 @@ app.get("/todos", requireAuth, async (req, res) => {
 app.post("/todos", requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
 
-  const { title,category,publishDate} = req.body;
+  const { title,category,publishDate,displayTitle} = req.body;
   
 
   if (!title) {
@@ -59,10 +59,10 @@ app.post("/todos", requireAuth, async (req, res) => {
     const newItem = await prisma.todoItem.create({
       data: {
         title,
+        displayTitle,
         author: { connect: { auth0Id } },
         category,
         publishDate
-
       },
     });
 
@@ -86,26 +86,43 @@ app.get("/todos/:id", requireAuth, async (req, res) => {
   const id = req.params.id;
   const todoItem = await prisma.todoItem.findUnique({
     where: {
-      id,
+      id: parseInt(id),
     },
   });
   res.json(todoItem);
 });
 
-// updates a todo item by id
+// updates a todo item by id (Put)
 app.put("/todos/:id", requireAuth, async (req, res) => {
   const id = req.params.id;
-  const { title } = req.body;
+  const { displayTitle } = req.body;
   const updatedItem = await prisma.todoItem.update({
     where: {
-      id,
+      id: parseInt(id),
     },
     data: {
-      title,
+      displayTitle,
     },
   });
   res.json(updatedItem);
 });
+
+// updates a todo item by id (Patch)
+app.patch("/todos/:id", requireAuth, async (req, res) => {
+  const id = req.params.id;
+  const { displayTitle } = req.body;
+  const updatedItem = await prisma.todoItem.update({
+    where: {
+      id :parseInt(id),
+    },
+    data: {
+      displayTitle,
+    },
+  });
+  res.json(updatedItem);
+});
+
+
 
 // get Profile information of authenticated user
 app.get("/me", requireAuth, async (req, res) => {
