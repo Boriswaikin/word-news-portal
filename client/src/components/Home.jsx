@@ -31,8 +31,6 @@ export default function Home() {
   const [fromDate,setFromDate]= useState(from_date);
   const [toDate,setToDate]= useState(to_date);
 
-  console.log(news);
-
   useEffect(()=>{
     setNews(tempNews);
     if(text){

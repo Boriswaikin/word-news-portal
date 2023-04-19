@@ -1,6 +1,6 @@
 import "../style/newsDetail.css";
 import { useNavigate, useParams } from "react-router-dom";
-import {useNews,useHotNews} from "../hooks/useNews";
+import { useNews, useHotNews} from "../hooks/useNews";
 import useBookmarks from "../hooks/useBookmarks";
 import { Outlet, Link } from "react-router-dom";
 import 'boxicons';

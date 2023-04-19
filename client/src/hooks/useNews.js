@@ -39,7 +39,7 @@ export function useNews() {
 }
 
 export function useHotNews() {
-  const [hotNews, setHotNews] = useState();
+  const [hotNews, setHotNews] = useState([]);
 
   useEffect(() => {
     async function getHotNews() {
