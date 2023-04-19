@@ -10,7 +10,6 @@ import useBookmarks from "../hooks/useBookmarks";
 
 export default function Bookmarks() {
   const { accessToken } = useAuthToken();
-  console.log(accessToken);
   // const { isAuthenticated, loginWithRedirect } = useAuth0();
   // const signUp = () => loginWithRedirect({authorizationParams: {screen_hint: "signup"}});
   // const { user, isLoading, logout } = useAuth0();

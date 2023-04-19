@@ -75,7 +75,8 @@ root.render(
                 </RequireAuth>
               }
             >
-              <Route index element={<Profile />} />
+              <Route index element={<Home />} />
+              <Route path="profile" element={<Profile />} />
               <Route path="bookmarks" element={<Bookmarks />} />
               <Route path=":sourceID/:newsID" element={<NewsDetail />} />
               <Route path="debugger" element={<AuthDebugger />} />

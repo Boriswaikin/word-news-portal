@@ -9,7 +9,6 @@ export default function useBookmarks() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      console.log(accessToken);
       async function getBookmarks() {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/todos`, {
           method: "GET",
