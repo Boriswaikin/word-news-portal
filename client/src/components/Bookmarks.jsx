@@ -6,18 +6,18 @@ import { Outlet, Link,useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 import AppLayout from "./AppLayout";
+import useBookmarks from "../hooks/useBookmarks";
 
 export default function Bookmarks() {
   const { accessToken } = useAuthToken();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const signUp = () => loginWithRedirect({authorizationParams: {screen_hint: "signup"}});
   const { user, isLoading, logout } = useAuth0();
-  const {bookmarks}= useLocation().state;
-  const [newsInBookmark,setNewsInBookmark]=useState([]);
-
-  useEffect(()=>{
-    setNewsInBookmark(bookmarks);
-  },[])
+  const [bookmarks,setBookmarks]=useBookmarks();
+  const [edit,setEdit]=useState(false);
+  const editForm = document.querySelector(".edit-panel");
+  const [newTitle,setNewTitle]=useState("");
+  const [newID,setNewID]=useState();
 
   async function deleteBookmarks(deleteID) {
     const data = await fetch(`${process.env.REACT_APP_API_URL}/todos/` + deleteID, {
@@ -30,29 +30,91 @@ export default function Bookmarks() {
     if (data.ok) {
       await data.json();
       console.log("delete success");
-      setNewsInBookmark((prev)=>prev.filter((element)=>element.id!==deleteID));
+      setBookmarks((prev)=>prev.filter((element)=>element.id!==deleteID));
     }
   }
 
+  async function updateBookmarks(updateID) {
+    const data = await fetch(`${process.env.REACT_APP_API_URL}/todos/` + updateID, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body:JSON.stringify({
+        displayTitle: newTitle}),
+    });
+    if (data.ok) {
+      await data.json();
+      console.log("update success");
+      setBookmarks((prev)=>prev.map(({id,displayTitle,...prev})=>
+      ({...prev,displayTitle:id===updateID?newTitle:displayTitle})
+      ));
+    }
+  }
+
+
+
+  // async function deleteBookmarks(updateID) {
+
+  //   const newTitle = e
+  //   const data = await fetch(`${process.env.REACT_APP_API_URL}/todos/` + updateID, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${accessToken}`,
+  //     },
+  //   });
+  //   if (data.ok) {
+  //     await data.json();
+  //     console.log("update success");
+  //     setBookmarks((prev)=>prev.filter((element)=>element.id!==deleteID));
+  //   }
+  // }
+
   return (
     <div className="home">
-      <AppLayout bookmarks={bookmarks}></AppLayout>
-      <div className="todo-list">
+      <AppLayout></AppLayout>
+      <div className="bookmark-panel">
       <ul className="bookmark-list">
-      {newsInBookmark && newsInBookmark.map((item,index) => {
+      {bookmarks && bookmarks.map((item,index) => {
           return (
             <li 
               key={index} className="bookmark-item">
-                <Link to={`/news/${index}`} className="bookmark-link">{item.title}</Link>
+                <Link to={`/news/${index}`} className="bookmark-link">{item.displayTitle}</Link>
                 <p>{item.category}</p>
                 <p className="bookmarks-publishDate">{item.publishDate}</p>
+                <button className="delete-bookmarks" onClick={()=>{
+                  setNewID(item.id);
+                  setEdit(true);}}>
+                  <box-icon class="delete-bookmarks-icon" name='edit'></box-icon>
+                </button>
                 <button className="delete-bookmarks" onClick={()=>deleteBookmarks(item.id)}>
                   <box-icon class="delete-bookmarks-icon" name='trash'></box-icon>
-              </button>
+                </button>
             </li>
-            
           )})}
         </ul>
+        {edit && <section className="edit-form">
+        <form className="edit-panel">
+          <h3 className="edit-header">Edit Bookmark</h3>
+          <h5 className="edit-subHeader">Name</h5>
+          <input type="text" id="newBookmarks" name="newBookmarks"
+          onChange={(e)=>{
+            // console.log(e.target.value);
+            setNewTitle(e.target.value)}}
+          ></input>
+          <div className="edit-button-wrapper">
+          <button title="cancel" className="edit-button cancel" onClick={(e)=>{
+            console.log(e.target.value);
+            setEdit(false);
+            }}>Cancel</button>
+          <button title="save" className="edit-button save" onClick={()=>{
+            updateBookmarks(newID);
+            setEdit(false)}}>Save</button>
+          </div>
+          </form>
+            </section>}
     </div>
     </div>
   );

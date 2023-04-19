@@ -7,6 +7,7 @@ import 'boxicons';
 import { useState ,useEffect} from "react";
 import { useAuthToken } from "../AuthTokenContext";
 import AppLayout from "./AppLayout";
+import useBookmarks from "../hooks/useBookmarks";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -16,9 +17,8 @@ export default function Home() {
   const [tempNews, setTempNews] = useNews()[1];
   const [hotNews, setHotNews] = useHotNews();
   const [text, setText] = useState("");
-  const { user, isLoading, logout } = useAuth0();
+  const [bookmarks,setBookmarks]=useBookmarks();
   const [category,setCategory]=useState('business');
-  const [bookmarks, setBookmarks] = useState([]);
   const { accessToken } = useAuthToken();
   const to_date = new Date().toISOString().slice(0, 10);
   const today = new Date(to_date);
@@ -82,6 +82,7 @@ async function insertBookmarks(itemTitle,itemCategory,itemPublishDate) {
       title: itemTitle,
       category: itemCategory,
       publishDate: itemPublishDate,
+      displayTitle:itemTitle,
     }),
   });
   if (data.ok) {
@@ -106,35 +107,9 @@ async function deleteBookmarks(deleteID) {
   }
 }
 
-useEffect(()=>{
-  if (isAuthenticated){
-  async function getBookmarks() {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/todos`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    if (response.ok) {
-      const data = await response.json();
-      setBookmarks(data.map(item=>(
-          {
-          id: item.id,
-          title: item.title,
-          category: item.category,
-          publishDate: item.publishDate}
-        )));
-    }
-  }
-
-  getBookmarks();
-  }},[bookmarks.length]);
-
-
   return (
     <div className="home">
-    <AppLayout bookmarks={bookmarks}></AppLayout>
+    <AppLayout></AppLayout>
       <div className="section-news">
         <div className="search-panel">
           <div className="search-subPanel">
@@ -155,11 +130,11 @@ useEffect(()=>{
             <div className ="date-panel">
               <div className ="date-panel" >
                 <p className="date-range">From</p>
-                <input type="date" id="from-date" name="from-date" className="date"></input>
+                <input type="date" id="from-date" name="from-date" className="date" aria-label="Starting Date"></input>
               </div>
               <div className ="date-panel">
                 <p className="date-range">To</p>
-                <input type="date" id="to-date" name="to-date" className="date"></input>
+                <input type="date" id="to-date" name="to-date" className="date" aria-label="End Date"></input>
               </div>
             </div>
           </div>
@@ -244,11 +219,13 @@ useEffect(()=>{
 
             </li>)})}
             </div>
-            <div className="top-news">
+            <li className="top-news">
                   <h2 className="top-news-header">LATEST</h2>
                   <h2 className="top-news-header">HOT NEWS</h2>
+                  <ul>
                   {hotNews && hotNews.slice(0,5).map((item,index)=>{
           return (
+
               <li key={index} className="top-news-item">
                   <div className="top-news-subitem">
                     <p className="top-news-index">{index+1}</p>
@@ -258,7 +235,8 @@ useEffect(()=>{
                     </div>
                   </div>
                 </li>)})}
-            </div>
+                </ul>
+            </li>
              </ul>}
      
       {/* <div> 

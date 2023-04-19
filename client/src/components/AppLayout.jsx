@@ -4,7 +4,7 @@ import {Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import 'boxicons';
 
-export default function AppLayout({bookmarks}) {
+export default function AppLayout() {
   const { user, isLoading, logout } = useAuth0();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
 
@@ -17,7 +17,7 @@ export default function AppLayout({bookmarks}) {
         <ul className="menu-list">
           <li>
           {isAuthenticated?(
-          <Link to="/bookmarks" state={{bookmarks:bookmarks}}>
+          <Link to="/bookmarks" aria-label="Bookmarks pages">
              <box-icon name='bookmark-alt'></box-icon>
           </Link>):
           (<></>)
@@ -27,7 +27,7 @@ export default function AppLayout({bookmarks}) {
           {isAuthenticated?(
           
           
-          <Link to="/Profile">
+          <Link to="/Profile"  aria-label="Profile pages">
              <box-icon class="user-logo" name='user'></box-icon>
           </Link>):
           (<></>)
