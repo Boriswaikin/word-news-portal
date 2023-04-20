@@ -1,7 +1,7 @@
 import "../style/home.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
-import { useHotNews } from "../hooks/useNews";
+import { useHotNews } from "../hooks/useHotNews";
 import { Link } from "react-router-dom";
 import { useState ,useEffect} from "react";
 import { useAuthToken } from "../AuthTokenContext";

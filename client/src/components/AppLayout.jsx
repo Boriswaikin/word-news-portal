@@ -1,8 +1,7 @@
 import "../style/appLayout.css";
 
-import {Outlet, Link } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import 'boxicons';
 
 export default function AppLayout() {
   const { user, isLoading, logout } = useAuth0();
@@ -51,7 +50,6 @@ export default function AppLayout() {
             </li>
           </ul>
         </nav>
-        {/* <div>Welcome 👋 {user.name} </div> */}
       </div>
       <div className="content">
         <Outlet />

@@ -1,23 +1,20 @@
 import "../style/newsDetail.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { useHotNews} from "../hooks/useNews";
-import useBookmarks from "../hooks/useBookmarks";
-// import { Outlet, Link } from "react-router-dom";
-// import 'boxicons';
-import { useState ,useEffect} from "react";
-import { useAuthToken } from "../AuthTokenContext";
 import { useNews } from "../hooks/newsContext";
+import { useHotNews } from "../hooks/useHotNews";
+import useBookmarks from "../hooks/useBookmarks";
+import { useState ,useEffect } from "react";
+import { useAuthToken } from "../AuthTokenContext";
+
 
 
 export default function NewsDetail() {
-  // const [news] = useNews()[0];
-  const [hotNews] = useHotNews();
-  const [bookmarks] = useBookmarks();
-  const {accessToken} = useAuthToken();
-  const [newsDetail, setNewsDetail] = useState([]);
   const { news } = useNews();
-
-
+  const [ hotNews ] = useHotNews();
+  const [ bookmarks ] = useBookmarks();
+  const { accessToken } = useAuthToken();
+  const [ newsDetail, setNewsDetail ] = useState([]);
+  
   useEffect(() => {
     async function getNewsDetail() {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/details`, {
@@ -46,7 +43,7 @@ export default function NewsDetail() {
     }
   }, [bookmarks, accessToken]);
   
-  const {sourceID, newsID} = useParams();
+  const { sourceID, newsID } = useParams();
   const id = parseInt(newsID);
 
   let thisNews;
