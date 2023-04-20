@@ -15,7 +15,6 @@ export function useNews() {
 
   useEffect(() => {
     async function getNews() {
-      // const res = await fetch(`https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=${process.env.REACT_APP_NEWS_ID}`);
       const res = await fetch(
         `https://newsapi.org/v2/everything?` +
           `q=business` +
@@ -25,8 +24,17 @@ export function useNews() {
           `&apiKey=${process.env.REACT_APP_NEWS_ID}`
       );
       const data = await res.json();
-      setNews(data.articles.slice(0, 21));
-      setTempNews(data.articles.slice(0, 21));
+      // filter out articles without images
+      let trimmedData = data.articles.filter(
+        (item) => item.urlToImage !== null
+      );
+      // trim the publishedAt date
+      for (const item of trimmedData) {
+        item.publishedAt = item.publishedAt.slice(0, 10);
+      }
+      trimmedData = trimmedData.slice(0, 21);
+      setNews(trimmedData);
+      setTempNews(trimmedData);
     }
 
     getNews();

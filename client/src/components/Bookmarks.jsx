@@ -2,10 +2,8 @@ import "../style/bookmarks.css";
 import "../style/home.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthToken } from "../AuthTokenContext";
-import { Outlet, Link,useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import { useState } from "react";
-import AppLayout from "./AppLayout";
+import { Outlet, Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import useBookmarks from "../hooks/useBookmarks";
 
 export default function Bookmarks() {
@@ -13,11 +11,11 @@ export default function Bookmarks() {
   // const { isAuthenticated, loginWithRedirect } = useAuth0();
   // const signUp = () => loginWithRedirect({authorizationParams: {screen_hint: "signup"}});
   // const { user, isLoading, logout } = useAuth0();
-  const [bookmarks,setBookmarks] = useBookmarks();
-  const [edit,setEdit] = useState(false);
+  const [bookmarks, setBookmarks] = useBookmarks();
+  const [edit, setEdit] = useState(false);
   const editForm = document.querySelector(".edit-panel");
-  const [newTitle,setNewTitle] = useState("");
-  const [newID,setNewID] = useState();
+  const [newTitle, setNewTitle] = useState("");
+  const [newID, setNewID] = useState();
 
   async function deleteBookmarks(deleteID) {
     const data = await fetch(`${process.env.REACT_APP_API_URL}/todos/` + deleteID, {
@@ -80,7 +78,7 @@ export default function Bookmarks() {
           return (
             <li 
               key={index} className="bookmark-item">
-                <Link className="bookmark-link" to={`/news/${index}?data=${encodeURIComponent(JSON.stringify(item))}`}>{item.displayTitle}</Link>
+                <Link to={`/news/${index}`} className="bookmark-link">{item.displayTitle}</Link>
                 <p>{item.category}</p>
                 <p className="bookmarks-publishDate">{item.publishDate}</p>
                 <button className="delete-bookmarks" onClick={()=>{

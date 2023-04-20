@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthToken } from "../AuthTokenContext";
 
 export default function useBookmarks() {
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
   const [bookmarks, setBookmarks] = useState([]);
   const { accessToken } = useAuthToken();
 
   useEffect(() => {
-    if (accessToken) {
-      // console.log("checked",accessToken);
+    if (isAuthenticated) {
       async function getBookmarks() {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/todos`, {
           method: "GET",
@@ -32,6 +29,7 @@ export default function useBookmarks() {
         }
       }
 
+    if (accessToken) {
       getBookmarks();
     }
   }, [accessToken]);

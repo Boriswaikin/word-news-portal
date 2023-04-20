@@ -1,9 +1,9 @@
 import "../style/home.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
-import {useNews,useHotNews} from "../hooks/useNews";
+import { useNews, useHotNews } from "../hooks/useNews";
 import { Outlet, Link } from "react-router-dom";
-import 'boxicons';
+// import 'boxicons';
 import { useState ,useEffect} from "react";
 import { useAuthToken } from "../AuthTokenContext";
 import AppLayout from "./AppLayout";
@@ -91,6 +91,27 @@ async function insertBookmarks(itemTitle,itemCategory,itemPublishDate) {
     return todo;
   } else {
     return null;
+  }
+}
+
+// post news details to database
+async function insertDetails(newsTitle, newsContent, newsImage, newsAuthor, newsURL) {
+  const data = await fetch(`${process.env.REACT_APP_API_URL}/details`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      title: newsTitle,
+      content: newsContent,
+      imageURL: newsImage,
+      author: newsAuthor,
+      articleURL: newsURL,
+    }),
+  });
+  if(!data.ok){
+    alert("insert details failed");
   }
 }
 
@@ -185,19 +206,28 @@ async function deleteBookmarks(deleteID) {
           return (
               <li key={index} className="news-item">
                 <img className="newsImage" src={item.urlToImage} alt="Logo"></img>
+<<<<<<< HEAD
               <div className="news-subItem">
               <Link className="item-link" to={`news/${index}?data=${encodeURIComponent(JSON.stringify(item))}`} >{item.title}</Link>
               <p className="item-date">{item.publishedAt}</p>
               <div className="item-button">
+=======
+                <div className="news-subItem">
+                  <Link className="item-link" to={`news/${index}`}>{item.title}</Link>
+                  <p className="item-date">{item.publishedAt}</p>
+                  <div className="item-button">
+>>>>>>> main
               <button className="item-subButton" title="bookmark" onClick={
                 ()=>{
                 if (!isAuthenticated){
-                loginWithRedirect();}
+                  loginWithRedirect();
+                }
                 else{
-                  const bookmarksTitle= bookmarks.map(item=>item.title);
+                  const bookmarksTitle = bookmarks.map(item=>item.title);
                   if(!bookmarksTitle.includes(item.title)){
-                  insertBookmarks(item.title,!category?"general":category,item.publishedAt.substring(0,10))
-                  setBookmarks((prev)=>[...prev,{title:item.title,
+                    insertBookmarks(item.title,!category?"general":category,item.publishedAt.substring(0,10));
+                    insertDetails(item.title, item.content, item.urlToImage, item.author, item.url);
+                    setBookmarks((prev)=>[...prev,{title:item.title,
                       category: !category?"business":category}])
                   }
                   else {
@@ -211,7 +241,7 @@ async function deleteBookmarks(deleteID) {
                 }}>
                 {isAuthenticated && bookmarks.map(item=>item.title).includes(item.title)?<box-icon class ="bookmark-logo" color="slateblue" type="solid" name='bookmark-alt'></box-icon>:<box-icon class ="bookmark-logo" name='bookmark'></box-icon>}
               </button>
-              <button className="item-subButton" title="Ask chatGPT" onClick={()=>console.log("Ask GPT")}>
+              <button className="item-subButton" title="Ask chatGPT" onClick={()=>navigate(`/app/chatGPT/${index}`)}>
                 <box-icon class="chatGPT-logo" name='question-mark'></box-icon>
               </button>
               </div>

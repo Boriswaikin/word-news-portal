@@ -11,27 +11,27 @@ datasource db {
 }
 
 model TodoItem {
-  id           Int           @id @default(autoincrement())
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  title        String        @db.VarChar(255)
-  displayTitle String        @db.VarChar(255)
-  completed    Boolean       @default(false)
-  author       User          @relation(fields: [authorId], references: [id])
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  title        String   @db.VarChar(255)
+  displayTitle String   @db.VarChar(255)
+  completed    Boolean  @default(false)
+  category     String   @db.VarChar(255)
+  publishDate  String   @db.VarChar(255)
+  author       User     @relation(fields: [authorId], references: [id])
   authorId     Int
-  category     String        @db.VarChar(255)
-  publishDate  String        @db.VarChar(255)
-  NewsDetails  NewsDetails[]
 }
 
 model User {
-  id          Int        @id @default(autoincrement())
-  email       String     @unique
-  auth0Id     String     @unique @default("")
+  id          Int           @id @default(autoincrement())
+  email       String        @unique
+  auth0Id     String        @unique @default("")
   name        String?
   todos       TodoItem[]
+  NewsDetails NewsDetails[]
   stripeId    String?
-  currentPlan plans?     @default(FREE)
+  currentPlan plans?        @default(FREE)
 }
 
 enum plans {
@@ -45,10 +45,12 @@ model NewsDetails {
   id         Int      @id @default(autoincrement())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  title      TodoItem @relation(fields: [newsTitle], references: [id])
-  newsTitle  Int
-  content    String   @db.VarChar(255)
-  imageURL   String   @db.VarChar(255)
+  title      String   @db.VarChar(255)
+  content    String   @db.Text
+  imageURL   String   @db.Text
   author     String   @db.VarChar(255)
-  articleURL String   @db.VarChar(255)
+  articleURL String   @db.Text
+  chatGPT    String?  @db.Text
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
 }
