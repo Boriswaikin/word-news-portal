@@ -14,6 +14,7 @@ import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { AuthTokenProvider } from "./AuthTokenContext";
 import "./style/normalize.css"
 import "./style/index.css";
+import { NewsProvider } from "./hooks/newsContext";
 
 const container = document.getElementById("root");
 
@@ -56,29 +57,31 @@ root.render(
     >
       <AuthTokenProvider> 
         <BrowserRouter>
-          <Routes>
-            {/* pages that don't require authentication */}
-            <Route path="/" element={<AppLayout />} >
-              <Route index element={<Home />} />
-              <Route path=":sourceID/:newsID" element={<NewsDetail />} />  
-            </Route>
-            <Route path="/verify-user" element={<VerifyUser />} />
-            {/* pages that require authentication */}
-            <Route path="app" element={
-                <RequireAuth>
-                  <AppLayout/>
-                </RequireAuth>
-              }
-            >
-              <Route index element={<Home />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="bookmarks" element={<Bookmarks />} />
-              <Route path=":sourceID/:newsID" element={<NewsDetail />} />
-              <Route path="chatGPT/:newsID" element={<ChatGPT />} />
-              <Route path="debugger" element={<AuthDebugger />} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <NewsProvider>
+            <Routes>
+              {/* pages that don't require authentication */}
+              <Route path="/" element={<AppLayout />} >
+                <Route index element={<Home />} />
+                <Route path=":sourceID/:newsID" element={<NewsDetail />} />  
+              </Route>
+              <Route path="/verify-user" element={<VerifyUser />} />
+              {/* pages that require authentication */}
+              <Route path="app" element={
+                  <RequireAuth>
+                    <AppLayout/>
+                  </RequireAuth>
+                }
+              >
+                <Route index element={<Home />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="bookmarks" element={<Bookmarks />} />
+                <Route path=":sourceID/:newsID" element={<NewsDetail />} />
+                <Route path="chatGPT/:newsID" element={<ChatGPT />} />
+                <Route path="debugger" element={<AuthDebugger />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </NewsProvider>
         </BrowserRouter>
       </AuthTokenProvider>
     </Auth0Provider>

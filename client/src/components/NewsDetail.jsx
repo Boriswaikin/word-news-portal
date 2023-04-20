@@ -1,19 +1,22 @@
 import "../style/newsDetail.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { useNews, useHotNews} from "../hooks/useNews";
+import { useHotNews} from "../hooks/useNews";
 import useBookmarks from "../hooks/useBookmarks";
 // import { Outlet, Link } from "react-router-dom";
 // import 'boxicons';
 import { useState ,useEffect} from "react";
 import { useAuthToken } from "../AuthTokenContext";
+import { useNews } from "../hooks/newsContext";
 
 
 export default function NewsDetail() {
-  const [news] = useNews()[0];
+  // const [news] = useNews()[0];
   const [hotNews] = useHotNews();
   const [bookmarks] = useBookmarks();
   const {accessToken} = useAuthToken();
   const [newsDetail, setNewsDetail] = useState([]);
+  const { news } = useNews();
+
 
   useEffect(() => {
     async function getNewsDetail() {
