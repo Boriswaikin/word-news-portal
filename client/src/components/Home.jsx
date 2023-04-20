@@ -9,11 +9,13 @@ import { useAuthToken } from "../AuthTokenContext";
 import AppLayout from "./AppLayout";
 import useBookmarks from "../hooks/useBookmarks";
 
+
 export default function Home() {
   const navigate = useNavigate();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const signUp = () => loginWithRedirect({authorizationParams: {screen_hint: "signup"}});
   const [news, setNews] = useNews()[0];
+  // const {news,setNews} = useNewsContext();
   const [tempNews, setTempNews] = useNews()[1];
   const [hotNews, setHotNews] = useHotNews();
   const [text, setText] = useState("");
@@ -184,7 +186,7 @@ async function deleteBookmarks(deleteID) {
               <li key={index} className="news-item">
                 <img className="newsImage" src={item.urlToImage} alt="Logo"></img>
               <div className="news-subItem">
-              <Link className="item-link" to={`news/${index}`}>{item.title}</Link>
+              <Link className="item-link" to={`news/${index}?data=${encodeURIComponent(JSON.stringify(item))}`} >{item.title}</Link>
               <p className="item-date">{item.publishedAt}</p>
               <div className="item-button">
               <button className="item-subButton" title="bookmark" onClick={
@@ -221,7 +223,7 @@ async function deleteBookmarks(deleteID) {
                   <h2 className="top-news-header">LATEST</h2>
                   <h2 className="top-news-header">HOT NEWS</h2>
                   <ul>
-                  {hotNews && hotNews.slice(0,5).map((item,index)=>{
+                  {hotNews && hotNews.slice(0,5).filter(item=>item.urlToImage!==null).map((item,index)=>{
           return (
 
               <li key={index} className="top-news-item">
@@ -229,7 +231,7 @@ async function deleteBookmarks(deleteID) {
                     <p className="top-news-index">{index+1}</p>
                     <div className="top-news-info">
                     <p className="top-news-category">{item.source.name}</p>
-                    <Link className="item-link top-news-link" to={`hotNews/${index}`}>{item.title}</Link>
+                    <Link className="item-link top-news-link" to={`hotNews/${index}?data=${encodeURIComponent(JSON.stringify(item))}`}>{item.title}</Link>
                     </div>
                   </div>
                 </li>)})}
