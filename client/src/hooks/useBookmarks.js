@@ -8,8 +8,6 @@ export default function useBookmarks() {
     const { accessToken } = useAuthToken();
     
 useEffect(()=>{
-    if (isAuthenticated){
-      console.log(accessToken);
     async function getBookmarks() {
       // TODO: change to news
       const response = await fetch(`${process.env.REACT_APP_API_URL}/todos`, {
@@ -31,7 +29,7 @@ useEffect(()=>{
           )));
       }
     }
-  
+    if (accessToken){
     getBookmarks();
     }},[])
 
