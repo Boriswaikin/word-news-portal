@@ -10,11 +10,11 @@ import NotFound from "./components/NotFound";
 import Home from "./components/Home";
 import VerifyUser from "./components/VerifyUser";
 import AuthDebugger from "./components/AuthDebugger";
-// Auth0 Context, exposes Auth0 methods and data
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { AuthTokenProvider } from "./AuthTokenContext";
 import "./style/normalize.css";
 import "./style/index.css";
+import { NewsProvider } from "./hooks/newsContext";
 
 const container = document.getElementById("root");
 
@@ -47,38 +47,37 @@ const root = ReactDOMClient.createRoot(container);
 root.render(
   <React.StrictMode>
     <Auth0Provider
-      // configuration from environment variables
-      // domain and client ID of the Auth0 application
       domain={process.env.REACT_APP_AUTH0_DOMAIN}
       clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
-      // window.location.origin - origin URL of the current window (no path)
       authorizationParams={{
         redirect_uri: `${window.location.origin}/verify-user`,
-        // audience of the Auth0 API - our todoAPI
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-        // generate a token with specific scopes, the react app can only perform the actions
         scope: requestedScopes.join(" "),
       }}
     >
-      <AuthTokenProvider>   {/* provide context(access token) to children */}
+      <AuthTokenProvider> 
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Home />} />
+            {/* pages that don't require authentication */}
+            <Route path="/" element={<AppLayout />} >
+              <Route index element={<Home />} />
+              <Route path=":sourceID/:newsID" element={<NewsDetail />} />  
+            </Route>
             <Route path="/verify-user" element={<VerifyUser />} />
-            <Route
-              path="app"
-              element={
-                // <RequireAuth>
-                 
-                  <Home/>
-                // </RequireAuth>
+            {/* pages that require authentication */}
+            <Route path="app" element={
+                <RequireAuth>
+                  <AppLayout/>
+                </RequireAuth>
               }
-              // authentication required to access the app, otherwise redirect to home
-            ></Route>
+            >
+              <Route index element={<Home />} />
+              <Route path="profile" element={<Profile />} />
               <Route path="bookmarks" element={<Bookmarks />} />
-              <Route path="todos/:todoId" element={<TodoDetail />} />
+              <Route path=":sourceID/:newsID" element={<NewsDetail />} />
+              <Route path="chatGPT/:newsID" element={<ChatGPT />} />
               <Route path="debugger" element={<AuthDebugger />} />
-              {/* <Route index element={<Profile />} /> */}
+            </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

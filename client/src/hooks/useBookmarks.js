@@ -11,6 +11,7 @@ useEffect(()=>{
     if (isAuthenticated){
       console.log(accessToken);
     async function getBookmarks() {
+      // TODO: change to news
       const response = await fetch(`${process.env.REACT_APP_API_URL}/todos`, {
         method: "GET",
         headers: {
