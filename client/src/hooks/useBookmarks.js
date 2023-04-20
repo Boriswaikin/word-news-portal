@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthToken } from "../AuthTokenContext";
 
 export default function useBookmarks() {
-  const { isAuthenticated } = useAuth0();
   const [bookmarks, setBookmarks] = useState([]);
   const { accessToken } = useAuthToken();
 
@@ -30,10 +28,10 @@ export default function useBookmarks() {
       }
     }
 
-    if (isAuthenticated && accessToken) {
+    if (accessToken) {
       getBookmarks();
     }
-  }, [accessToken, isAuthenticated]);
+  }, [accessToken]);
 
   return [bookmarks, setBookmarks];
 }
