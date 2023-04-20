@@ -38,8 +38,9 @@ export default function NewsDetail() {
       }
     }
 
-    getNewsDetail();
-
+    if(accessToken){
+      getNewsDetail();
+    }
   }, [bookmarks, accessToken]);
   
   const {sourceID, newsID} = useParams();
