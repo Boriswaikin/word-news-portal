@@ -78,7 +78,7 @@ export default function Bookmarks() {
           return (
             <li 
               key={index} className="bookmark-item">
-                <Link to={`/bookmarks/${index}`} className="bookmark-link">{item.displayTitle}</Link>
+                <Link to={`/news/${index}`} className="bookmark-link">{item.displayTitle}</Link>
                 <p>{item.category}</p>
                 <p className="bookmarks-publishDate">{item.publishDate}</p>
                 <button className="delete-bookmarks" onClick={()=>{

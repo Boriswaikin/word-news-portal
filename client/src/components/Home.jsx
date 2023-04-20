@@ -38,7 +38,7 @@ export default function Home() {
           `q=${category}` +
           `&language=en` +
           `&sortBy=popularity` +
-          `&from=${from_date}&to=${to_date}` +
+          `&from=${fromDate}&to=${toDate}` +
           `&apiKey=${process.env.REACT_APP_NEWS_ID}`
       );
       const data = await res.json();
@@ -56,7 +56,7 @@ export default function Home() {
     }
 
     getNews();
-  }, [category, fromDate, toDate]);
+  }, [category,fromDate,toDate]);
 
   // useEffect(()=>{
   //   if(text){
@@ -187,13 +187,12 @@ async function deleteBookmarks(deleteID) {
               </div>
             </div>
         <button title="Search" className="search-news-by-date" onClick={
-          ()=>{
-                const from_date= document.getElementById("from-date").value;
-                const to_date= document.getElementById("to-date").value;
-                setFromDate(from_date);
-                setToDate(to_date);
-              }
-          }>Search</button>
+         ()=>{
+        const from_date= document.getElementById("from-date").value;
+        const to_date= document.getElementById("to-date").value;
+        setFromDate(from_date);
+        setToDate(to_date);
+        }}>Search</button>
         </div>
       </div>
         <div className="category-wrapButton">
