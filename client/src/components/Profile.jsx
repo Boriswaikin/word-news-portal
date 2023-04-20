@@ -3,7 +3,6 @@ import "../style/profile.css";
 
 export default function Profile() {
   const { user } = useAuth0();
-  console.log(user);
 
   return (
     <div className="profile">

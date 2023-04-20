@@ -5,6 +5,7 @@ import AppLayout from "./components/AppLayout";
 import Bookmarks from "./components/Bookmarks";
 import NewsDetail from "./components/NewsDetail";
 import Profile from "./components/Profile";
+import ChatGPT from "./components/ChatGPT";
 import NotFound from "./components/NotFound";
 import Home from "./components/Home";
 import VerifyUser from "./components/VerifyUser";
@@ -12,7 +13,7 @@ import AuthDebugger from "./components/AuthDebugger";
 // Auth0 Context, exposes Auth0 methods and data
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { AuthTokenProvider } from "./AuthTokenContext";
-import "./style/normalize.css";
+import "./style/normalize.css"
 import "./style/index.css";
 
 const container = document.getElementById("root");
@@ -79,6 +80,7 @@ root.render(
               <Route path="profile" element={<Profile />} />
               <Route path="bookmarks" element={<Bookmarks />} />
               <Route path=":sourceID/:newsID" element={<NewsDetail />} />
+              <Route path="chatGPT/:newsID" element={<ChatGPT />} />
               <Route path="debugger" element={<AuthDebugger />} />
             </Route>
             <Route path="*" element={<NotFound />} />
