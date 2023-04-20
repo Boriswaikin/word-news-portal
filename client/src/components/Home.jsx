@@ -5,7 +5,6 @@ import { useHotNews } from "../hooks/useHotNews";
 import { Link } from "react-router-dom";
 import { useState ,useEffect} from "react";
 import { useAuthToken } from "../AuthTokenContext";
-import AppLayout from "./AppLayout";
 import useBookmarks from "../hooks/useBookmarks";
 import { useNews } from "../hooks/newsContext";
 
