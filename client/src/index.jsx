@@ -12,7 +12,7 @@ import VerifyUser from "./components/VerifyUser";
 import AuthDebugger from "./components/AuthDebugger";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { AuthTokenProvider } from "./AuthTokenContext";
-import "./style/normalize.css"
+import "./style/normalize.css";
 import "./style/index.css";
 import { NewsProvider } from "./hooks/newsContext";
 
@@ -55,20 +55,22 @@ root.render(
         scope: requestedScopes.join(" "),
       }}
     >
-      <AuthTokenProvider> 
+      <AuthTokenProvider>
         <BrowserRouter>
           <NewsProvider>
             <Routes>
               {/* pages that don't require authentication */}
-              <Route path="/" element={<AppLayout />} >
+              <Route path="/" element={<AppLayout />}>
                 <Route index element={<Home />} />
-                <Route path=":sourceID/:newsID" element={<NewsDetail />} />  
+                <Route path=":sourceID/:newsID" element={<NewsDetail />} />
               </Route>
               <Route path="/verify-user" element={<VerifyUser />} />
               {/* pages that require authentication */}
-              <Route path="app" element={
+              <Route
+                path="app"
+                element={
                   <RequireAuth>
-                    <AppLayout/>
+                    <AppLayout />
                   </RequireAuth>
                 }
               >

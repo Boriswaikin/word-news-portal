@@ -1,13 +1,12 @@
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthToken } from "../AuthTokenContext";
 
 export default function useBookmarks() {
-    const { isAuthenticated, loginWithRedirect } = useAuth0();
-    const [bookmarks, setBookmarks] = useState([]);
-    const { accessToken } = useAuthToken();
-    
-useEffect(()=>{
+  const [bookmarks, setBookmarks] = useState([]);
+  const { accessToken } = useAuthToken();
+
+  useEffect(() => {
     async function getBookmarks() {
       // TODO: change to news
       const response = await fetch(`${process.env.REACT_APP_API_URL}/todos`, {
@@ -19,19 +18,21 @@ useEffect(()=>{
       });
       if (response.ok) {
         const data = await response.json();
-        setBookmarks(data.map(item=>(
-            {
+        setBookmarks(
+          data.map((item) => ({
             id: item.id,
             title: item.title,
             displayTitle: item.displayTitle,
             category: item.category,
-            publishDate: item.publishDate}
-          )));
+            publishDate: item.publishDate,
+          }))
+        );
       }
     }
-    if (accessToken){
-    getBookmarks();
-    }},[])
+    if (accessToken) {
+      getBookmarks();
+    }
+  }, []);
 
-    return [bookmarks, setBookmarks];
+  return [bookmarks, setBookmarks];
 }
