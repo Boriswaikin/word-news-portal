@@ -13,8 +13,7 @@ export default function Home() {
   const navigate = useNavigate();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const signUp = () => loginWithRedirect({authorizationParams: {screen_hint: "signup"}});
-  const [news, setNews] = useNews()[0];
-  const [tempNews, setTempNews] = useNews()[1];
+  const [[news, setNews], [tempNews, setTempNews]] = useNews();
   const [hotNews, setHotNews] = useHotNews();
   const [text, setText] = useState("");
   const [bookmarks,setBookmarks]=useBookmarks();

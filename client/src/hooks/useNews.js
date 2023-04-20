@@ -3,7 +3,10 @@ import { useAuthToken } from "../AuthTokenContext";
 
 export function useNews() {
   const [news, setNews] = useState([]);
+  // for search bar
   const [tempNews, setTempNews] = useState([]);
+
+  // set default date to yesterday
   const to_date = new Date().toISOString().slice(0, 10);
   const today = new Date(to_date);
   const yesterday = new Date(today);
@@ -30,15 +33,17 @@ export function useNews() {
       );
       // trim the publishedAt date
       for (const item of trimmedData) {
+        // TODO: back to full string when rendering
         item.publishedAt = item.publishedAt.slice(0, 10);
       }
+      console.log(trimmedData);
       trimmedData = trimmedData.slice(0, 21);
       setNews(trimmedData);
       setTempNews(trimmedData);
     }
 
     getNews();
-  }, []);
+  }, [from_date, to_date]);
 
   return [
     [news, setNews],
