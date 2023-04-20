@@ -56,9 +56,9 @@ export default function NewsDetail() {
     case "bookmarks":
       const detailList = newsDetail.filter((item) => item.title === bookmarks[id]?.title);
       thisNews = detailList[0];
-      if(bookmarks[id]){
-        thisNews.publishedAt = bookmarks[id].publishDate;
-      }
+      // if(bookmarks[id]){
+      //   thisNews.publishedAt = bookmarks[id].publishDate;
+      // }
       console.log(thisNews);
       break;
     default:
