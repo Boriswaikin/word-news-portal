@@ -3,131 +3,151 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import { useNews, useHotNews } from "../hooks/useNews";
 import { Outlet, Link } from "react-router-dom";
-// import 'boxicons';
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useAuthToken } from "../AuthTokenContext";
 import AppLayout from "./AppLayout";
 import useBookmarks from "../hooks/useBookmarks";
 
-
 export default function Home() {
   const navigate = useNavigate();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
-  const signUp = () => loginWithRedirect({authorizationParams: {screen_hint: "signup"}});
-  const [news, setNews] = useNews()[0];
-  // const {news,setNews} = useNewsContext();
-  const [tempNews, setTempNews] = useNews()[1];
+  const signUp = () =>
+    loginWithRedirect({ authorizationParams: { screen_hint: "signup" } });
+  const [news, setNews] = useState([]);
+  const [tempNews, setTempNews] = useState([]);
   const [hotNews, setHotNews] = useHotNews();
   const [text, setText] = useState("");
-  const [bookmarks,setBookmarks]=useBookmarks();
-  const [category,setCategory]=useState('business');
+  const [bookmarks, setBookmarks] = useBookmarks();
+  const [category, setCategory] = useState("business");
   const { accessToken } = useAuthToken();
   const to_date = new Date().toISOString().slice(0, 10);
   const today = new Date(to_date);
   const yesterday = new Date(today);
   yesterday.setDate(today.getDate() - 1);
   const yyyy = yesterday.getFullYear().toString();
-  const mm = (yesterday.getMonth() + 1).toString().padStart(2, '0');
-  const dd = yesterday.getDate().toString().padStart(2, '0');
-  const from_date = yyyy + '-' + mm + '-' + dd;
-  const [fromDate,setFromDate]= useState(from_date);
-  const [toDate,setToDate]= useState(to_date);
+  const mm = (yesterday.getMonth() + 1).toString().padStart(2, "0");
+  const dd = yesterday.getDate().toString().padStart(2, "0");
+  const from_date = yyyy + "-" + mm + "-" + dd;
+  const [fromDate, setFromDate] = useState(from_date);
+  const [toDate, setToDate] = useState(to_date);
 
-  useEffect(()=>{
+  useEffect(() => {
     setNews(tempNews);
-    if(text){
-    setNews((prevItem)=> prevItem.filter((item)=>
-    item.title.toLowerCase().includes(text.toLowerCase())));}
-  },[text])
-
-  useEffect(()=>{
-  async function getNewsCategory(){
-    const res = await fetch(
-      `https://newsapi.org/v2/everything?`+
-      `q=${category}`+
-      `&language=en`+
-      `&sortBy=popularity`+
-      `&from=${fromDate}&to=${toDate}`+
-      `&apiKey=${process.env.REACT_APP_NEWS_ID}`);
-    const data = await res.json();
-    setNews(data.articles.slice(0,21));
-    setTempNews(data.articles.slice(0,21));
-  }
-  getNewsCategory();
-
-},[category,fromDate,toDate])
-
-  async function getNewsByDate(from_Date,to_Date){
-  
-      const res = await fetch(
-        `https://newsapi.org/v2/everything?`+
-        `q=${category}`+
-        `&language=en`+
-        `&sortBy=popularity`+
-        `&from=${from_Date}&to=${to_Date}`+
-        `&apiKey=${process.env.REACT_APP_NEWS_ID}`)
-      const data = await res.json();
-      setNews(data.articles.slice(0,21));
-      setFromDate(from_Date);
-      setToDate(to_Date);
+    if (text) {
+      setNews((prevItem) =>
+        prevItem.filter((item) =>
+          item.title.toLowerCase().includes(text.toLowerCase())
+        )
+      );
     }
+  }, [text]);
 
-async function insertBookmarks(itemTitle,itemCategory,itemPublishDate) {
-  const data = await fetch(`${process.env.REACT_APP_API_URL}/todos`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify({
-      title: itemTitle,
-      category: itemCategory,
-      publishDate: itemPublishDate,
-      displayTitle:itemTitle,
-    }),
-  });
-  if (data.ok) {
-    const todo = await data.json();
-    return todo;
-  } else {
-    return null;
-  }
-}
+  useEffect(() => {
+    async function getNewsCategory() {
+      const res = await fetch(
+        `https://newsapi.org/v2/everything?` +
+          `q=${category}` +
+          `&language=en` +
+          `&sortBy=popularity` +
+          `&from=${fromDate}&to=${toDate}` +
+          `&apiKey=${process.env.REACT_APP_NEWS_ID}`
+      );
+      const data = await res.json();
 
-// post news details to database
-async function insertDetails(newsTitle, newsContent, newsImage, newsAuthor, newsURL) {
-  const data = await fetch(`${process.env.REACT_APP_API_URL}/details`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify({
-      title: newsTitle,
-      content: newsContent,
-      imageURL: newsImage,
-      author: newsAuthor,
-      articleURL: newsURL,
-    }),
-  });
-  if(!data.ok){
-    alert("insert details failed");
-  }
-}
+      let trimmedData = data.articles.filter(
+        (item) => item.urlToImage !== null
+      );
+      // trim the publishedAt date
+      for (const item of trimmedData) {
+        item.publishedAt = item.publishedAt.slice(0, 10);
+      }
+      trimmedData = trimmedData.slice(0, 21);
+      setNews(trimmedData);
+      setTempNews(trimmedData);
+    }
+    getNewsCategory();
+  }, [category, fromDate, toDate]);
 
-async function deleteBookmarks(deleteID) {
-  const data = await fetch(`${process.env.REACT_APP_API_URL}/todos/` + deleteID, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-  if (data.ok) {
-    await data.json();
-    console.log("delete success");
+  async function getNewsByDate(from_Date, to_Date) {
+    const res = await fetch(
+      `https://newsapi.org/v2/everything?` +
+        `q=${category}` +
+        `&language=en` +
+        `&sortBy=popularity` +
+        `&from=${from_Date}&to=${to_Date}` +
+        `&apiKey=${process.env.REACT_APP_NEWS_ID}`
+    );
+    const data = await res.json();
+    setNews(data.articles.slice(0, 21));
+    setFromDate(from_Date);
+    setToDate(to_Date);
   }
-}
+
+  async function insertBookmarks(itemTitle, itemCategory, itemPublishDate) {
+    const data = await fetch(`${process.env.REACT_APP_API_URL}/todos`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        title: itemTitle,
+        category: itemCategory,
+        publishDate: itemPublishDate,
+        displayTitle: itemTitle,
+      }),
+    });
+    if (data.ok) {
+      const todo = await data.json();
+      return todo;
+    } else {
+      return null;
+    }
+  }
+
+  // post news details to database
+  async function insertDetails(
+    newsTitle,
+    newsContent,
+    newsImage,
+    newsAuthor,
+    newsURL
+  ) {
+    const data = await fetch(`${process.env.REACT_APP_API_URL}/details`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        title: newsTitle,
+        content: newsContent,
+        imageURL: newsImage,
+        author: newsAuthor,
+        articleURL: newsURL,
+      }),
+    });
+    if (!data.ok) {
+      alert("insert details failed");
+    }
+  }
+
+  async function deleteBookmarks(deleteID) {
+    const data = await fetch(
+      `${process.env.REACT_APP_API_URL}/todos/` + deleteID,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    if (data.ok) {
+      await data.json();
+      console.log("delete success");
+    }
+  }
 
   return (
     <div className="home">
@@ -141,50 +161,104 @@ async function deleteBookmarks(deleteID) {
               className="search"
               placeholder="Search for the news!"
               onChange={(e) => {
-                setText(e.target.value)}}
+                setText(e.target.value);
+              }}
             />
           </div>
-      {isAuthenticated && 
-        <div className="search-date-panel">
-          <div className="search-date-subPanel">
-            <p>Date Range</p>
-            <div className ="date-panel">
-              <div className ="date-panel" >
-                <p className="date-range">From</p>
-                <input type="date" id="from-date" name="from-date" className="date" aria-label="Starting Date"></input>
-              </div>
-              <div className ="date-panel">
-                <p className="date-range">To</p>
-                <input type="date" id="to-date" name="to-date" className="date" aria-label="End Date"></input>
+          <div className="search-date-panel">
+            <div className="search-date-subPanel">
+              <p>Date Range</p>
+              <div className="date-panel">
+                <div className="date-panel">
+                  <p className="date-range">From</p>
+                  <input
+                    type="date"
+                    id="from-date"
+                    name="from-date"
+                    className="date"
+                    aria-label="Starting Date"
+                  ></input>
+                </div>
+                <div className="date-panel">
+                  x <p className="date-range">To</p>
+                  <input
+                    type="date"
+                    id="to-date"
+                    name="to-date"
+                    className="date"
+                    aria-label="End Date"
+                  ></input>
+                </div>
               </div>
             </div>
+            <button
+              title="Search"
+              className="search-news-by-date"
+              onClick={() => {
+                const from_date = document.getElementById("from-date").value;
+                const to_date = document.getElementById("to-date").value;
+                getNewsByDate(from_date, to_date);
+              }}
+            >
+              Search
+            </button>
           </div>
-        <button title="Search" className="search-news-by-date" onClick={
-          ()=>{
-            const from_date= document.getElementById("from-date").value;
-            const to_date= document.getElementById("to-date").value;
-            getNewsByDate(from_date,to_date)}}>Search</button>
-            </div>}
         </div>
         <div className="category-wrapButton">
-        <button className="category-Button category-business" title="Business" onClick={()=>
-          {setCategory('business')}}>
-            Business</button>
-          <button className="category-Button category-entertainment" title="Entertainment" onClick={()=>
-          {setCategory('entertainment')}}>
-           Entertainment</button>
-          <button className="category-Button category-health" title="Health" onClick={()=>
-          {setCategory('health')}}>
-           Health</button>
-          <button className="category-Button category-science" title="Science" onClick={()=>
-          {setCategory('science')}}>
-            Science</button>
-          <button className="category-Button category-sports" title="Sports" onClick={()=>
-          {setCategory('sports')}}>
-            Sports</button>
-          <button className="category-Button category-technology" title="technology" onClick={()=>
-          {setCategory('technology')}}>
-          Technology</button>
+          <button
+            className="category-Button category-business"
+            title="Business"
+            onClick={() => {
+              setCategory("business");
+            }}
+          >
+            Business
+          </button>
+          <button
+            className="category-Button category-entertainment"
+            title="Entertainment"
+            onClick={() => {
+              setCategory("entertainment");
+            }}
+          >
+            Entertainment
+          </button>
+          <button
+            className="category-Button category-health"
+            title="Health"
+            onClick={() => {
+              setCategory("health");
+            }}
+          >
+            Health
+          </button>
+          <button
+            className="category-Button category-science"
+            title="Science"
+            onClick={() => {
+              setCategory("science");
+            }}
+          >
+            Science
+          </button>
+          <button
+            className="category-Button category-sports"
+            title="Sports"
+            onClick={() => {
+              setCategory("sports");
+            }}
+          >
+            Sports
+          </button>
+          <button
+            className="category-Button category-technology"
+            title="technology"
+            onClick={() => {
+              setCategory("technology");
+            }}
+          >
+            Technology
+          </button>
         </div>
         {/* <select id="sel" onChange={
           (e)=>{
@@ -199,76 +273,136 @@ async function deleteBookmarks(deleteID) {
           <option value='technology'>Technology</option>
         </select> */}
 
-        {news &&
-        <ul className="newsList">
-          <div className="category-news">
-        {news.filter(item=>item.urlToImage!==null).map((item,index)=>{
-          return (
-              <li key={index} className="news-item">
-                <img className="newsImage" src={item.urlToImage} alt="Logo"></img>
-<<<<<<< HEAD
-              <div className="news-subItem">
-              <Link className="item-link" to={`news/${index}?data=${encodeURIComponent(JSON.stringify(item))}`} >{item.title}</Link>
-              <p className="item-date">{item.publishedAt}</p>
-              <div className="item-button">
-=======
-                <div className="news-subItem">
-                  <Link className="item-link" to={`news/${index}`}>{item.title}</Link>
-                  <p className="item-date">{item.publishedAt}</p>
-                  <div className="item-button">
->>>>>>> main
-              <button className="item-subButton" title="bookmark" onClick={
-                ()=>{
-                if (!isAuthenticated){
-                  loginWithRedirect();
-                }
-                else{
-                  const bookmarksTitle = bookmarks.map(item=>item.title);
-                  if(!bookmarksTitle.includes(item.title)){
-                    insertBookmarks(item.title,!category?"general":category,item.publishedAt.substring(0,10));
-                    insertDetails(item.title, item.content, item.urlToImage, item.author, item.url);
-                    setBookmarks((prev)=>[...prev,{title:item.title,
-                      category: !category?"business":category}])
-                  }
-                  else {
-                    const filterBookmark= bookmarks.filter((element)=>
-                    element.title===item.title);
-                    const deleteID = parseInt(filterBookmark[0].id);
-                    deleteBookmarks(deleteID);
-                    setBookmarks((prev)=>prev.filter((element)=>element.title!==item.title))
-                  }
-                } 
-                }}>
-                {isAuthenticated && bookmarks.map(item=>item.title).includes(item.title)?<box-icon class ="bookmark-logo" color="slateblue" type="solid" name='bookmark-alt'></box-icon>:<box-icon class ="bookmark-logo" name='bookmark'></box-icon>}
-              </button>
-              <button className="item-subButton" title="Ask chatGPT" onClick={()=>navigate(`/app/chatGPT/${index}`)}>
-                <box-icon class="chatGPT-logo" name='question-mark'></box-icon>
-              </button>
-              </div>
-              </div>
-
-            </li>)})}
+        {news && (
+          <ul className="newsList">
+            <div className="category-news">
+              {news
+                .filter((item) => item.urlToImage !== null)
+                .map((item, index) => {
+                  return (
+                    <li key={index} className="news-item">
+                      <img
+                        className="newsImage"
+                        src={item.urlToImage}
+                        alt="Logo"
+                      ></img>
+                      <div className="news-subItem">
+                        <Link className="item-link" to={`news/${index}`}>
+                          {item.title}
+                        </Link>
+                        <p className="item-date">{item.publishedAt}</p>
+                        <div className="item-button">
+                          <button
+                            className="item-subButton"
+                            title="bookmark"
+                            onClick={() => {
+                              if (!isAuthenticated) {
+                                loginWithRedirect();
+                              } else {
+                                const bookmarksTitle = bookmarks.map(
+                                  (item) => item.title
+                                );
+                                if (!bookmarksTitle.includes(item.title)) {
+                                  insertBookmarks(
+                                    item.title,
+                                    !category ? "general" : category,
+                                    item.publishedAt.substring(0, 10)
+                                  );
+                                  insertDetails(
+                                    item.title,
+                                    item.content,
+                                    item.urlToImage,
+                                    item.author,
+                                    item.url
+                                  );
+                                  setBookmarks((prev) => [
+                                    ...prev,
+                                    {
+                                      title: item.title,
+                                      category: !category
+                                        ? "business"
+                                        : category,
+                                    },
+                                  ]);
+                                } else {
+                                  const filterBookmark = bookmarks.filter(
+                                    (element) => element.title === item.title
+                                  );
+                                  const deleteID = parseInt(
+                                    filterBookmark[0].id
+                                  );
+                                  deleteBookmarks(deleteID);
+                                  setBookmarks((prev) =>
+                                    prev.filter(
+                                      (element) => element.title !== item.title
+                                    )
+                                  );
+                                }
+                              }
+                            }}
+                          >
+                            {isAuthenticated &&
+                            bookmarks
+                              .map((item) => item.title)
+                              .includes(item.title) ? (
+                              <box-icon
+                                class="bookmark-logo"
+                                color="slateblue"
+                                type="solid"
+                                name="bookmark-alt"
+                              ></box-icon>
+                            ) : (
+                              <box-icon
+                                class="bookmark-logo"
+                                name="bookmark"
+                              ></box-icon>
+                            )}
+                          </button>
+                          <button
+                            className="item-subButton"
+                            title="Ask chatGPT"
+                            onClick={() => navigate(`/app/chatGPT/${index}`)}
+                          >
+                            <box-icon
+                              class="chatGPT-logo"
+                              name="question-mark"
+                            ></box-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
             </div>
             <li className="top-news">
-                  <h2 className="top-news-header">LATEST</h2>
-                  <h2 className="top-news-header">HOT NEWS</h2>
-                  <ul>
-                  {hotNews && hotNews.slice(0,5).filter(item=>item.urlToImage!==null).map((item,index)=>{
-          return (
-
-              <li key={index} className="top-news-item">
-                  <div className="top-news-subitem">
-                    <p className="top-news-index">{index+1}</p>
-                    <div className="top-news-info">
-                    <p className="top-news-category">{item.source.name}</p>
-                    <Link className="item-link top-news-link" to={`hotNews/${index}?data=${encodeURIComponent(JSON.stringify(item))}`}>{item.title}</Link>
-                    </div>
-                  </div>
-                </li>)})}
-                </ul>
+              <h2 className="top-news-header">LATEST</h2>
+              <h2 className="top-news-header">HOT NEWS</h2>
+              <ul>
+                {hotNews &&
+                  hotNews.slice(0, 5).map((item, index) => {
+                    return (
+                      <li key={index} className="top-news-item">
+                        <div className="top-news-subitem">
+                          <p className="top-news-index">{index + 1}</p>
+                          <div className="top-news-info">
+                            <p className="top-news-category">
+                              {item.source.name}
+                            </p>
+                            <Link
+                              className="item-link top-news-link"
+                              to={`hotNews/${index}`}
+                            >
+                              {item.title}
+                            </Link>
+                          </div>
+                        </div>
+                      </li>
+                    );
+                  })}
+              </ul>
             </li>
-             </ul>}
-
+          </ul>
+        )}
       </div>
     </div>
   );

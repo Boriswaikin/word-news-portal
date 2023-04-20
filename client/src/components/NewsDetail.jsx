@@ -1,16 +1,16 @@
 import "../style/newsDetail.css";
-import { useNavigate, useParams ,useLocation} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useNews, useHotNews} from "../hooks/useNews";
 import useBookmarks from "../hooks/useBookmarks";
 // import { Outlet, Link } from "react-router-dom";
 // import 'boxicons';
 import { useState ,useEffect} from "react";
 import { useAuthToken } from "../AuthTokenContext";
-import AppLayout from "./AppLayout";
+
 
 export default function NewsDetail() {
-  // const [news] = useNews()[0];
-  // const [hotNews] = useHotNews();
+  const [news] = useNews()[0];
+  const [hotNews] = useHotNews();
   const [bookmarks] = useBookmarks();
   const {accessToken} = useAuthToken();
   const [newsDetail, setNewsDetail] = useState([]);
@@ -45,27 +45,24 @@ export default function NewsDetail() {
   
   const {sourceID, newsID} = useParams();
   const id = parseInt(newsID);
-  // const thisNews = useLocation().state.data;
-  const location = useLocation();
-  const query = new URLSearchParams(location.search);
-  const newsList = JSON.parse(decodeURIComponent(query.get('data')));
 
   let thisNews;
   switch(sourceID){
     case "news":
-      newsList = news;
+      thisNews = news[id];
       break;
     case "hotNews":
-      newsList = hotNews;
+      thisNews = hotNews[id];
       break;
     case "bookmarks":
-      newsList = bookmarks;
+      if(bookmarks.length && newsDetail.length){
+        const detailList = newsDetail.filter((item) => item.title === bookmarks[id].title);
+        thisNews = detailList[0];
+        thisNews.publishedAt = bookmarks[id].publishDate;
+      }
       break;
     default:
   }
- 
-  const thisNews = newsList.filter((item)=>item.urlToImage!==null)[id];
-  console.log(thisNews);
 
   return (
     <>

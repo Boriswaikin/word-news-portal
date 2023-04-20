@@ -1,11 +1,11 @@
+
 import React from "react";
 import * as ReactDOMClient from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./components/AppLayout";
 import Bookmarks from "./components/Bookmarks";
-import NewsDetail from "./components/NewsDetail";
+import TodoDetail from "./components/TodoDetail";
 import Profile from "./components/Profile";
-import ChatGPT from "./components/ChatGPT";
 import NotFound from "./components/NotFound";
 import Home from "./components/Home";
 import VerifyUser from "./components/VerifyUser";
@@ -13,7 +13,7 @@ import AuthDebugger from "./components/AuthDebugger";
 // Auth0 Context, exposes Auth0 methods and data
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { AuthTokenProvider } from "./AuthTokenContext";
-import "./style/normalize.css"
+import "./style/normalize.css";
 import "./style/index.css";
 
 const container = document.getElementById("root");
@@ -63,26 +63,22 @@ root.render(
       <AuthTokenProvider>   {/* provide context(access token) to children */}
         <BrowserRouter>
           <Routes>
-            {/* pages that don't require authentication */}
-            <Route path="/" element={<AppLayout />} >
-              <Route index element={<Home />} />
-              <Route path=":sourceID/:newsID" element={<NewsDetail />} />  
-            </Route>
+            <Route path="/" element={<Home />} />
             <Route path="/verify-user" element={<VerifyUser />} />
-            {/* pages that require authentication */}
-            <Route path="app" element={
-                <RequireAuth>
-                  <AppLayout/>
-                </RequireAuth>
+            <Route
+              path="app"
+              element={
+                // <RequireAuth>
+                 
+                  <Home/>
+                // </RequireAuth>
               }
-            >
-              <Route index element={<Home />} />
-              <Route path="profile" element={<Profile />} />
+              // authentication required to access the app, otherwise redirect to home
+            ></Route>
               <Route path="bookmarks" element={<Bookmarks />} />
-              <Route path=":sourceID/:newsID" element={<NewsDetail />} />
-              <Route path="chatGPT/:newsID" element={<ChatGPT />} />
+              <Route path="todos/:todoId" element={<TodoDetail />} />
               <Route path="debugger" element={<AuthDebugger />} />
-            </Route>
+              {/* <Route index element={<Profile />} /> */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
