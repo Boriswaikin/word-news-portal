@@ -1,7 +1,7 @@
 import "../style/home.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
-import {useNews,useHotNews} from "../hooks/useNews";
+import { useNews, useHotNews } from "../hooks/useNews";
 import { Outlet, Link } from "react-router-dom";
 import 'boxicons';
 import { useState ,useEffect} from "react";
@@ -232,7 +232,7 @@ async function deleteBookmarks(deleteID) {
                 }}>
                 {isAuthenticated && bookmarks.map(item=>item.title).includes(item.title)?<box-icon class ="bookmark-logo" color="slateblue" type="solid" name='bookmark-alt'></box-icon>:<box-icon class ="bookmark-logo" name='bookmark'></box-icon>}
               </button>
-              <button className="item-subButton" title="Ask chatGPT" onClick={()=>console.log("Ask GPT")}>
+              <button className="item-subButton" title="Ask chatGPT" onClick={()=>navigate(`/app/chatGPT/${index}`)}>
                 <box-icon class="chatGPT-logo" name='question-mark'></box-icon>
               </button>
               </div>
