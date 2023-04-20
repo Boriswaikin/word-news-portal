@@ -33,7 +33,6 @@ export function useNews() {
         item.publishedAt = item.publishedAt.slice(0, 10);
       }
       trimmedData = trimmedData.slice(0, 21);
-      console.log(trimmedData);
       setNews(trimmedData);
       setTempNews(trimmedData);
     }

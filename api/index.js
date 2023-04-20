@@ -42,6 +42,24 @@ app.get("/todos", requireAuth, async (req, res) => {
   res.json(todos);
 });
 
+app.get("/details", requireAuth, async (req, res) => {
+  const auth0Id = req.auth.payload.sub;
+
+  const user = await prisma.user.findUnique({
+    where: {
+      auth0Id,
+    },
+  });
+
+  const items = await prisma.newsDetails.findMany({
+    where: {
+      userId: user.id,
+    },
+  });
+
+  res.json(items);
+});
+
 // creates a todo item
 app.post("/todos", requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
