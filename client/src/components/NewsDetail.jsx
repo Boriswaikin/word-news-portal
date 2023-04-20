@@ -54,12 +54,11 @@ export default function NewsDetail() {
       thisNews = hotNews[id];
       break;
     case "bookmarks":
-      const detailList = newsDetail.filter((item) => item.title === bookmarks[id]?.title);
-      thisNews = detailList[0];
-      // if(bookmarks[id]){
-      //   thisNews.publishedAt = bookmarks[id].publishDate;
-      // }
-      console.log(thisNews);
+      if(bookmarks.length && newsDetail.length){
+        const detailList = newsDetail.filter((item) => item.title === bookmarks[id].title);
+        thisNews = detailList[0];
+        thisNews.publishedAt = bookmarks[id].publishDate;
+      }
       break;
     default:
   }
