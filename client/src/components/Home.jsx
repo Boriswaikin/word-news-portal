@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import { useNews, useHotNews } from "../hooks/useNews";
 import { Outlet, Link } from "react-router-dom";
-import 'boxicons';
+// import 'boxicons';
 import { useState ,useEffect} from "react";
 import { useAuthToken } from "../AuthTokenContext";
 import AppLayout from "./AppLayout";
