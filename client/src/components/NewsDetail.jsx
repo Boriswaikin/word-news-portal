@@ -6,7 +6,6 @@ import { Outlet, Link } from "react-router-dom";
 import 'boxicons';
 import { useState ,useEffect} from "react";
 import { useAuthToken } from "../AuthTokenContext";
-import AppLayout from "./AppLayout";
 
 export default function NewsDetail() {
   const [news] = useNews()[0];
@@ -30,7 +29,9 @@ export default function NewsDetail() {
     default:
   }
  
-  const thisNews = newsList.filter((item)=>item.urlToImage!==null)[id];
+  newsList = newsList.filter((item)=>item.urlToImage!==null);
+  console.log(newsList);
+  const thisNews = newsList[id];
   console.log(thisNews);
 
   return (
