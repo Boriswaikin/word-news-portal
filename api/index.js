@@ -23,10 +23,6 @@ app.use(morgan("dev"));
 const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
 
-app.get("/ping", (req, res) => {
-  res.send("pong");
-});
-
 app.get("/todos", requireAuth, async (req, res) => {
   // auth0 decodes the JWT and provides the payload in the request
   const auth0Id = req.auth.payload.sub;
@@ -50,8 +46,7 @@ app.get("/todos", requireAuth, async (req, res) => {
 app.post("/todos", requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
 
-  const { title,category,publishDate,displayTitle} = req.body;
-  
+  const { title, category, publishDate, displayTitle } = req.body;
 
   if (!title) {
     res.status(400).send("title is required");
@@ -62,7 +57,31 @@ app.post("/todos", requireAuth, async (req, res) => {
         displayTitle,
         author: { connect: { auth0Id } },
         category,
-        publishDate
+        publishDate,
+      },
+    });
+
+    res.status(201).json(newItem);
+  }
+});
+
+// insert news details
+app.post("/details", requireAuth, async (req, res) => {
+  const auth0Id = req.auth.payload.sub;
+
+  const { title, content, imageURL, author, articleURL } = req.body;
+
+  if (!title) {
+    res.status(400).send("title is required");
+  } else {
+    const newItem = await prisma.newsDetails.create({
+      data: {
+        title,
+        content,
+        imageURL,
+        author,
+        articleURL,
+        user: { connect: { auth0Id } },
       },
     });
 
@@ -74,8 +93,8 @@ app.post("/todos", requireAuth, async (req, res) => {
 app.delete("/todos/:id", requireAuth, async (req, res) => {
   const id = req.params.id;
   const deletedItem = await prisma.todoItem.delete({
-    where: { 
-      id: parseInt(id) 
+    where: {
+      id: parseInt(id),
     },
   });
   res.json(deletedItem);
@@ -113,7 +132,7 @@ app.patch("/todos/:id", requireAuth, async (req, res) => {
   const { displayTitle } = req.body;
   const updatedItem = await prisma.todoItem.update({
     where: {
-      id :parseInt(id),
+      id: parseInt(id),
     },
     data: {
       displayTitle,
@@ -121,8 +140,6 @@ app.patch("/todos/:id", requireAuth, async (req, res) => {
   });
   res.json(updatedItem);
 });
-
-
 
 // get Profile information of authenticated user
 app.get("/me", requireAuth, async (req, res) => {

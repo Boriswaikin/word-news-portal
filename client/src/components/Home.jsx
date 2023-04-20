@@ -103,9 +103,9 @@ async function insertDetails(newsTitle, newsContent, newsImage, newsAuthor, news
     body: JSON.stringify({
       title: newsTitle,
       content: newsContent,
-      image: newsImage,
+      imageURL: newsImage,
       author: newsAuthor,
-      url: newsURL,
+      articleURL: newsURL,
     }),
   });
   if(!data.ok){
