@@ -92,6 +92,27 @@ async function insertBookmarks(itemTitle,itemCategory,itemPublishDate) {
   }
 }
 
+// post news details to database
+async function insertDetails(newsTitle, newsContent, newsImage, newsAuthor, newsURL) {
+  const data = await fetch(`${process.env.REACT_APP_API_URL}/details`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      title: newsTitle,
+      content: newsContent,
+      image: newsImage,
+      author: newsAuthor,
+      url: newsURL,
+    }),
+  });
+  if(!data.ok){
+    alert("insert details failed");
+  }
+}
+
 async function deleteBookmarks(deleteID) {
   const data = await fetch(`${process.env.REACT_APP_API_URL}/todos/` + deleteID, {
     method: "DELETE",
@@ -183,19 +204,21 @@ async function deleteBookmarks(deleteID) {
           return (
               <li key={index} className="news-item">
                 <img className="newsImage" src={item.urlToImage} alt="Logo"></img>
-              <div className="news-subItem">
-              <Link className="item-link" to={`news/${index}`}>{item.title}</Link>
-              <p className="item-date">{item.publishedAt}</p>
-              <div className="item-button">
+                <div className="news-subItem">
+                  <Link className="item-link" to={`news/${index}`}>{item.title}</Link>
+                  <p className="item-date">{item.publishedAt}</p>
+                  <div className="item-button">
               <button className="item-subButton" title="bookmark" onClick={
                 ()=>{
                 if (!isAuthenticated){
-                loginWithRedirect();}
+                  loginWithRedirect();
+                }
                 else{
-                  const bookmarksTitle= bookmarks.map(item=>item.title);
+                  const bookmarksTitle = bookmarks.map(item=>item.title);
                   if(!bookmarksTitle.includes(item.title)){
-                  insertBookmarks(item.title,!category?"general":category,item.publishedAt.substring(0,10))
-                  setBookmarks((prev)=>[...prev,{title:item.title,
+                    insertBookmarks(item.title,!category?"general":category,item.publishedAt.substring(0,10));
+                    insertDetails(item.title, item.content, item.urlToImage, item.author, item.url);
+                    setBookmarks((prev)=>[...prev,{title:item.title,
                       category: !category?"business":category}])
                   }
                   else {

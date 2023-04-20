@@ -45,8 +45,8 @@ model NewsDetails {
   id         Int      @id @default(autoincrement())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  title      TodoItem @relation(fields: [newsTitle], references: [id])
-  newsTitle  Int
+  title      TodoItem @relation(fields: [titleID], references: [id])
+  titleID    Int
   content    String   @db.VarChar(255)
   imageURL   String   @db.VarChar(255)
   author     String   @db.VarChar(255)

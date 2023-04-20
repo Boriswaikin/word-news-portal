@@ -29,10 +29,7 @@ export default function NewsDetail() {
     default:
   }
  
-  newsList = newsList.filter((item)=>item.urlToImage!==null);
-  console.log(newsList);
   const thisNews = newsList[id];
-  console.log(thisNews);
 
   return (
     <>
