@@ -30,10 +30,10 @@ export default function useBookmarks() {
       }
     }
 
-    if (isAuthenticated) {
+    if (isAuthenticated && accessToken) {
       getBookmarks();
     }
-  }, []);
+  }, [accessToken, isAuthenticated]);
 
   return [bookmarks, setBookmarks];
 }
