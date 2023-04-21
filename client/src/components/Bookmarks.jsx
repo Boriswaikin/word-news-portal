@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import { useBookmark } from "../hooks/markContext";
 
 export default function Bookmarks() {
-  const navigate = useNavigate();
   const { accessToken } = useAuthToken();
   const { bookmarks, setBookmarks } = useBookmark();
   const [ edit, setEdit ] = useState(false);
@@ -60,13 +59,13 @@ export default function Bookmarks() {
                 <Link to={`/news/${index}`} className="bookmark-link">{item.displayTitle}</Link>
                 <p>{item.category}</p>
                 <p className="bookmarks-publishDate">{item.publishDate}</p>
-                <button className="delete-bookmarks" onClick={()=>{
+                <button className="bookmarks" onClick={()=>{
                   setNewID(item.id);
                   setEdit(true);}}>
-                  <box-icon class="delete-bookmarks-icon" name='edit'></box-icon>
+                  <box-icon class="bookmarks-icon" name='edit'></box-icon>
                 </button>
-                <button className="delete-bookmarks" onClick={()=>deleteBookmarks(item.id)}>
-                  <box-icon class="delete-bookmarks-icon" name='trash'></box-icon>
+                <button className="bookmarks" onClick={()=>deleteBookmarks(item.id)}>
+                  <box-icon class="bookmarks-icon" name='trash'></box-icon>
                 </button>
             </li>
           )})}
