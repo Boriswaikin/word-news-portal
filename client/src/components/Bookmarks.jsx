@@ -52,11 +52,11 @@ export default function Bookmarks() {
     <div className="home">
       <div className="bookmark-panel">
       <ul className="bookmark-list">
-      {bookmarks && bookmarks.map((item,index) => {
+        { bookmarks && bookmarks.map((item,index) => {
           return (
             <li 
               key={index} className="bookmark-item">
-                <Link to={`/news/${index}`} className="bookmark-link">{item.displayTitle}</Link>
+                <Link to={`/bookmarks/${index}`} className="bookmark-link">{item.displayTitle}</Link>
                 <p>{item.category}</p>
                 <p className="bookmarks-publishDate">{item.publishDate}</p>
                 <button className="bookmarks" onClick={()=>{
@@ -70,27 +70,24 @@ export default function Bookmarks() {
             </li>
           )})}
         </ul>
-        {edit && <section className="edit-form">
-        <form className="edit-panel">
-          <h3 className="edit-header">Edit Bookmark</h3>
-          <h5 className="edit-subHeader">Name</h5>
-          <input type="text" id="newBookmarks" name="newBookmarks"
-          onChange={(e)=>{
-            // console.log(e.target.value);
-            setNewTitle(e.target.value)}}
-          ></input>
-          <div className="edit-button-wrapper">
-          <button title="cancel" className="edit-button cancel" onClick={(e)=>{
-            console.log(e.target.value);
-            setEdit(false);
-            }}>Cancel</button>
-          <button title="save" className="edit-button save" onClick={()=>{
-            updateBookmarks(newID);
-            setEdit(false)}}>Save</button>
-          </div>
+        { edit && <section className="edit-form">
+          <form className="edit-panel">
+            <h3 className="edit-header">Edit Bookmark</h3>
+            <h5 className="edit-subHeader">Name</h5>
+            <input type="text" id="newBookmarks" name="newBookmarks"
+              onChange={(e)=>{
+                setNewTitle(e.target.value)}}
+              ></input>
+            <div className="edit-button-wrapper">
+              <button title="cancel" className="edit-button cancel" onClick={()=> setEdit(false)}>Cancel</button>
+              <button title="save" className="edit-button save" onClick={()=>{
+                updateBookmarks(newID);
+                setEdit(false)
+              }}>Save</button>
+            </div>
           </form>
-            </section>}
-    </div>
+        </section>}
+      </div>
     </div>
   );
 }
