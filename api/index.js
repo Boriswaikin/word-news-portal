@@ -44,15 +44,12 @@ app.get("/news", requireAuth, async (req, res) => {
 });
 
 // get detailed news
-app.get("/news:id", requireAuth, async (req, res) => {
-  const auth0Id = req.auth.payload.sub;
-
-  const newsDetails = await prisma.newsDetails.findUnique({
+app.get("/news/:id", requireAuth, async (req, res) => {
+  const newsDetails = await prisma.newsDetails.findMany({
     where: {
       newsId: parseInt(req.params.id),
     },
   });
-
   res.json(newsDetails);
 });
 
@@ -86,6 +83,7 @@ app.post("/news", requireAuth, async (req, res) => {
 
     const newsDetails = await prisma.newsDetails.create({
       data: {
+        title,
         content,
         imageURL,
         author,
@@ -125,15 +123,16 @@ app.post("/news", requireAuth, async (req, res) => {
 // deletes a news item by id
 app.delete("/news/:id", requireAuth, async (req, res) => {
   const id = req.params.id;
-  const deletedNews = await prisma.news.delete({
+
+  const deletedNewsDetails = await prisma.newsDetails.deleteMany({
     where: {
-      id: parseInt(id),
+      newsId: parseInt(id),
     },
   });
 
-  const deletedNewsDetails = await prisma.newsDetails.delete({
+  const deletedNews = await prisma.news.delete({
     where: {
-      newsId: parseInt(id),
+      id: parseInt(id),
     },
   });
 

@@ -62,8 +62,8 @@ export default function Home() {
     getNews();
   }, [category, fromDate, toDate]);
 
-  // post news draft to database
-  async function insertBookmarks(itemTitle,itemCategory,itemPublishDate) {
+  // post news to database
+  async function insertBookmarks(title, category, publishDate, content, imageURL, author, articleURL) {
     const data = await fetch(`${process.env.REACT_APP_API_URL}/news`, {
       method: "POST",
       headers: {
@@ -71,40 +71,41 @@ export default function Home() {
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
-        title: itemTitle,
-        category: itemCategory,
-        publishDate: itemPublishDate,
-        displayTitle:itemTitle,
+        title: title,
+        category: category,
+        publishDate: publishDate,
+        displayTitle: title,
+        content: content,
+        imageURL: imageURL,
+        author: author,
+        articleURL: articleURL,
       }),
     });
-    if (data.ok) {
-      const bookmark = await data.json();
-      return bookmark;
-    } else {
-      return null;
-    }
+    if (!data.ok) {
+      console.log("insert failed");
+    } 
   }
 
-  // post news details to database
-  async function insertDetails(newsTitle, newsContent, newsImage, newsAuthor, newsURL) {
-    const data = await fetch(`${process.env.REACT_APP_API_URL}/details`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-        title: newsTitle,
-        content: newsContent,
-        imageURL: newsImage,
-        author: newsAuthor,
-        articleURL: newsURL,
-      }),
-    });
-    if(!data.ok){
-      alert("insert details failed");
-    }
-  }
+  // // post news details to database
+  // async function insertDetails(newsTitle, newsContent, newsImage, newsAuthor, newsURL) {
+  //   const data = await fetch(`${process.env.REACT_APP_API_URL}/details`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${accessToken}`,
+  //     },
+  //     body: JSON.stringify({
+  //       title: newsTitle,
+  //       content: newsContent,
+  //       imageURL: newsImage,
+  //       author: newsAuthor,
+  //       articleURL: newsURL,
+  //     }),
+  //   });
+  //   if(!data.ok){
+  //     alert("insert details failed");
+  //   }
+  // }
 
   async function deleteBookmarks(deleteID) {
     const data = await fetch(`${process.env.REACT_APP_API_URL}/news/` + deleteID, {
@@ -120,19 +121,19 @@ export default function Home() {
     }
   }
 
-  async function deleteDetails(deleteID) {
-    const data = await fetch(`${process.env.REACT_APP_API_URL}/details/` + deleteID, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    if (data.ok) {
-      await data.json();
-      console.log("delete success");
-    }
-  }
+  // async function deleteDetails(deleteID) {
+  //   const data = await fetch(`${process.env.REACT_APP_API_URL}/details/` + deleteID, {
+  //     method: "DELETE",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${accessToken}`,
+  //     },
+  //   });
+  //   if (data.ok) {
+  //     await data.json();
+  //     console.log("delete success");
+  //   }
+  // }
 
   return (
     <div className="home">
@@ -220,8 +221,8 @@ export default function Home() {
                         else{
                           const bookmarksTitle = bookmarks.map(item => item.title);
                           if(!bookmarksTitle.includes(item.title)){
-                            insertBookmarks(item.title,category,item.publishedAt);
-                            insertDetails(item.title, item.content, item.urlToImage, item.author, item.url);
+                            insertBookmarks(item.title, category, item.publishedAt, item.content, item.urlToImage, item.author, item.url);
+                            // insertDetails(item.title, item.content, item.urlToImage, item.author, item.url);
                             setBookmarks((prev)=>[...prev, {title: item.title,
                               category: category}])
                           }
@@ -229,7 +230,7 @@ export default function Home() {
                             const filterBookmark = bookmarks.filter((element)=> element.title===item.title);
                             const deleteID = parseInt(filterBookmark[0].id);
                             deleteBookmarks(deleteID);
-                            deleteDetails(deleteID);
+                            // deleteDetails(deleteID);
                             setBookmarks((prev)=>prev.filter((element)=>element.title!==item.title))
                           }
                         } 

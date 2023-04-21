@@ -28,19 +28,19 @@ export default function Bookmarks() {
     }
   }
 
-  async function deleteDetails(deleteID) {
-    const data = await fetch(`${process.env.REACT_APP_API_URL}/details/` + deleteID, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    if (data.ok) {
-      await data.json();
-      console.log("delete success");
-    }
-  }
+  // async function deleteDetails(deleteID) {
+  //   const data = await fetch(`${process.env.REACT_APP_API_URL}/details/` + deleteID, {
+  //     method: "DELETE",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${accessToken}`,
+  //     },
+  //   });
+  //   if (data.ok) {
+  //     await data.json();
+  //     console.log("delete success");
+  //   }
+  // }
 
   async function updateBookmarks(updateID) {
     const data = await fetch(`${process.env.REACT_APP_API_URL}/news/` + updateID, {
@@ -77,9 +77,7 @@ export default function Bookmarks() {
                   setEdit(true);}}>
                   <box-icon class="delete-bookmarks-icon" name='edit'></box-icon>
                 </button>
-                <button className="delete-bookmarks" onClick={()=> {
-                  deleteBookmarks(item.id);
-                  deleteDetails(item.id)}}>
+                <button className="delete-bookmarks" onClick={()=> {deleteBookmarks(item.id)}}>
                   <box-icon class="delete-bookmarks-icon" name='trash'></box-icon>
                 </button>
             </li>
