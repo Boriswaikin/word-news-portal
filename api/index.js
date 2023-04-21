@@ -23,6 +23,7 @@ app.use(morgan("dev"));
 const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
 
+// get all news
 app.get("/news", requireAuth, async (req, res) => {
   // auth0 decodes the JWT and provides the payload in the request
   const auth0Id = req.auth.payload.sub;
@@ -42,34 +43,38 @@ app.get("/news", requireAuth, async (req, res) => {
   res.json(news);
 });
 
-app.get("/details", requireAuth, async (req, res) => {
+// get detailed news
+app.get("/news:id", requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
 
-  const user = await prisma.user.findUnique({
+  const newsDetails = await prisma.newsDetails.findUnique({
     where: {
-      auth0Id,
-    },
-  });
-
-  const newsDetails = await prisma.newsDetails.findMany({
-    where: {
-      userId: user.id,
+      newsId: parseInt(req.params.id),
     },
   });
 
   res.json(newsDetails);
 });
 
-// saves news to the database
+// saves news and its detail to the database
 app.post("/news", requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
 
-  const { title, category, publishDate, displayTitle } = req.body;
+  const {
+    title,
+    category,
+    publishDate,
+    displayTitle,
+    content,
+    imageURL,
+    author,
+    articleURL,
+  } = req.body;
 
   if (!title) {
     res.status(400).send("title is required");
   } else {
-    const newItem = await prisma.news.create({
+    const news = await prisma.news.create({
       data: {
         title,
         displayTitle,
@@ -79,66 +84,83 @@ app.post("/news", requireAuth, async (req, res) => {
       },
     });
 
-    res.status(201).json(newItem);
-  }
-});
-
-// insert news details
-app.post("/details", requireAuth, async (req, res) => {
-  const auth0Id = req.auth.payload.sub;
-
-  const { title, content, imageURL, author, articleURL } = req.body;
-
-  if (!title) {
-    res.status(400).send("title is required");
-  } else {
-    const newItem = await prisma.newsDetails.create({
+    const newsDetails = await prisma.newsDetails.create({
       data: {
-        title,
         content,
         imageURL,
         author,
         articleURL,
-        user: { connect: { auth0Id } },
+        news: { connect: { id: news.id } },
       },
     });
 
-    res.status(201).json(newItem);
+    res.status(201).json({ news, newsDetails });
   }
 });
+
+// // insert news details
+// app.post("/details", requireAuth, async (req, res) => {
+//   const auth0Id = req.auth.payload.sub;
+
+//   const { title, content, imageURL, author, articleURL } = req.body;
+
+//   if (!title) {
+//     res.status(400).send("title is required");
+//   } else {
+//     const newItem = await prisma.newsDetails.create({
+//       data: {
+//         title,
+//         content,
+//         imageURL,
+//         author,
+//         articleURL,
+//         user: { connect: { auth0Id } },
+//       },
+//     });
+
+//     res.status(201).json(newItem);
+//   }
+// });
 
 // deletes a news item by id
 app.delete("/news/:id", requireAuth, async (req, res) => {
   const id = req.params.id;
-  const deletedItem = await prisma.news.delete({
+  const deletedNews = await prisma.news.delete({
     where: {
       id: parseInt(id),
     },
   });
-  res.json(deletedItem);
+
+  const deletedNewsDetails = await prisma.newsDetails.delete({
+    where: {
+      newsId: parseInt(id),
+    },
+  });
+
+  res.json({ deletedNews, deletedNewsDetails });
 });
 
-// deletes detail item by id
-app.delete("/details/:id", requireAuth, async (req, res) => {
-  const id = req.params.id;
-  const deletedItem = await prisma.newsDetails.delete({
-    where: {
-      id: parseInt(id),
-    },
-  });
-  res.json(deletedItem);
-});
+// // deletes detail item by id
+// app.delete("/details/:id", requireAuth, async (req, res) => {
+//   const id = req.params.id;
+//   const deletedItem = await prisma.newsDetails.delete({
+//     where: {
+//       id: parseInt(id),
+//     },
+//   });
+//   res.json(deletedItem);
+// });
 
-// get a news item by id
-app.get("/news/:id", requireAuth, async (req, res) => {
-  const id = req.params.id;
-  const news = await prisma.news.findUnique({
-    where: {
-      id: parseInt(id),
-    },
-  });
-  res.json(news);
-});
+// // get a news item by id
+// app.get("/news/:id", requireAuth, async (req, res) => {
+//   const id = req.params.id;
+//   const news = await prisma.news.findUnique({
+//     where: {
+//       id: parseInt(id),
+//     },
+//   });
+//   res.json(news);
+// });
 
 // updates a news item by id (Put)
 app.put("/news/:id", requireAuth, async (req, res) => {

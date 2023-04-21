@@ -10,6 +10,10 @@ export function useHotNews() {
           `country=us` +
           `&apiKey=${process.env.REACT_APP_NEWS_ID}`
       );
+      if (!res.ok) {
+        console.log("Network response was not ok");
+        return;
+      }
       const data = await res.json();
       setHotNews(data.articles);
     }

@@ -5,7 +5,7 @@ import { useNews } from "../hooks/newsContext";
 export default function ChatGPT() {
     const { accessToken } = useAuthToken();
     const { news } = useNews();
-    const {newsID} = useParams();
+    const { newsID } = useParams();
     const index = parseInt(newsID);
     const thisNews = news[index];
 
