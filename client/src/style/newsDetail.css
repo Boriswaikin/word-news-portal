@@ -3,7 +3,11 @@ h1 {
   text-align: center;
 }
 
-img {
+h1 + p {
+  text-align: center;
+}
+
+.detail_image {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -11,12 +15,6 @@ img {
   margin-bottom: 1em;
   width: 50%;
   height: 50%;
-}
-
-.news-detail {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
 }
 
 article {
