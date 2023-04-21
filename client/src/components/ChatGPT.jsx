@@ -7,21 +7,24 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 export default function ChatGPT() {
-    const { accessToken } = useAuthToken();
     // TODO: enter from home page for now
     const { news } = useNews();
-    // const { news, setNews } = useBookmark();
+    // const { bookmarks, setBookmarks } = useBookmark();
     const {newsID} = useParams();
     const index = parseInt(newsID);
     const thisNews = news[index];
+
+    const [input, setInput] = useState("");
     const [text,setText] = useState("");
+
     // const configuration = new Configuration({
     //   apiKey:process.env.REACT_APP_OPENAI_API_KEY,
     // });
   //  const openai = new OpenAIApi(configuration);
 
-    async function getResponse(message){
-      const prompt = `Tell me more about "${message}"`
+    async function getResponse(){
+      
+      const prompt = `What do you know about"`
 
       const requestOptions = {
         method: 'POST',
@@ -32,7 +35,7 @@ export default function ChatGPT() {
         },
         body: JSON.stringify({
           model:"gpt-3.5-turbo",
-          messages: [{role: "user", content: `${prompt}`}], 
+          messages: [{role: "user", content: `${input}`}], 
           // prompt: prompt,
           temperature: 0.1,
           stop: "\n",
@@ -52,16 +55,30 @@ export default function ChatGPT() {
       const response = await fetch('https://api.openai.com/v1/chat/completions', requestOptions);
       if(response.ok){
           const data = await response.json();
+          console.log(data);
           setText(data.choices[0].message.content);
       }
       } catch (err) {
-      console.log(err);
+        console.log(err);
+      }
     }
-    }
+    // return (
+    //   <div>Tell me more about "{thisNews?.title}" by clicking this: 
+    //   <button title="test" onClick={()=>getResponse(thisNews?.title)}>Ask ChatGPT</button>
+    //   <p>Response: {text}</p>
+    //   </div>
+    // )
     return (
-      <div>Tell me more about "{thisNews?.title}" by clicking this: 
-      <button title="test" onClick={()=>getResponse(thisNews?.title)}>Ask ChatGPT</button>
-      <p>Response: {text}</p>
+      <div className="container">
+        <h2>Tell me something, and I'll tell you more</h2>
+        <textarea
+          value={input}
+          onChange={(event) => setInput(event.target.value)}
+          rows={5}
+          placeholder="Type in some words and I'll finish the rest..."
+        />
+        <button className="button" onClick={getResponse}>Complete Sentence</button>
+        {text && <p>Completed sentence: {text}</p>}
       </div>
-    )
+    );
   }
