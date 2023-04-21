@@ -23,7 +23,8 @@ app.use(morgan("dev"));
 const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
 
-app.get("/todos", requireAuth, async (req, res) => {
+// get all news
+app.get("/news", requireAuth, async (req, res) => {
   // auth0 decodes the JWT and provides the payload in the request
   const auth0Id = req.auth.payload.sub;
 
@@ -33,43 +34,44 @@ app.get("/todos", requireAuth, async (req, res) => {
     },
   });
 
-  const todos = await prisma.todoItem.findMany({
+  const news = await prisma.news.findMany({
     where: {
       authorId: user.id,
     },
   });
 
-  res.json(todos);
+  res.json(news);
 });
 
-app.get("/details", requireAuth, async (req, res) => {
-  const auth0Id = req.auth.payload.sub;
-
-  const user = await prisma.user.findUnique({
+// get detailed news
+app.get("/news/:id", requireAuth, async (req, res) => {
+  const newsDetails = await prisma.newsDetails.findMany({
     where: {
-      auth0Id,
+      newsId: parseInt(req.params.id),
     },
   });
-
-  const items = await prisma.newsDetails.findMany({
-    where: {
-      userId: user.id,
-    },
-  });
-
-  res.json(items);
+  res.json(newsDetails);
 });
 
-// creates a todo item
-app.post("/todos", requireAuth, async (req, res) => {
+// saves news and its detail to the database
+app.post("/news", requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
 
-  const { title, category, publishDate, displayTitle } = req.body;
+  const {
+    title,
+    category,
+    publishDate,
+    displayTitle,
+    content,
+    imageURL,
+    author,
+    articleURL,
+  } = req.body;
 
   if (!title) {
     res.status(400).send("title is required");
   } else {
-    const newItem = await prisma.todoItem.create({
+    const news = await prisma.news.create({
       data: {
         title,
         displayTitle,
@@ -79,61 +81,45 @@ app.post("/todos", requireAuth, async (req, res) => {
       },
     });
 
-    res.status(201).json(newItem);
-  }
-});
-
-// insert news details
-app.post("/details", requireAuth, async (req, res) => {
-  const auth0Id = req.auth.payload.sub;
-
-  const { title, content, imageURL, author, articleURL } = req.body;
-
-  if (!title) {
-    res.status(400).send("title is required");
-  } else {
-    const newItem = await prisma.newsDetails.create({
+    const newsDetails = await prisma.newsDetails.create({
       data: {
         title,
         content,
         imageURL,
         author,
         articleURL,
-        user: { connect: { auth0Id } },
+        news: { connect: { id: news.id } },
       },
     });
 
-    res.status(201).json(newItem);
+    res.status(201).json({ news, newsDetails });
   }
 });
 
-// deletes a todo item by id
-app.delete("/todos/:id", requireAuth, async (req, res) => {
+// deletes a news item by id
+app.delete("/news/:id", requireAuth, async (req, res) => {
   const id = req.params.id;
-  const deletedItem = await prisma.todoItem.delete({
+
+  const deletedNewsDetails = await prisma.newsDetails.deleteMany({
+    where: {
+      newsId: parseInt(id),
+    },
+  });
+
+  const deletedNews = await prisma.news.delete({
     where: {
       id: parseInt(id),
     },
   });
-  res.json(deletedItem);
+
+  res.json({ deletedNews, deletedNewsDetails });
 });
 
-// get a todo item by id
-app.get("/todos/:id", requireAuth, async (req, res) => {
-  const id = req.params.id;
-  const todoItem = await prisma.todoItem.findUnique({
-    where: {
-      id: parseInt(id),
-    },
-  });
-  res.json(todoItem);
-});
-
-// updates a todo item by id (Put)
-app.put("/todos/:id", requireAuth, async (req, res) => {
+// updates a news item by id (Put)
+app.put("/news/:id", requireAuth, async (req, res) => {
   const id = req.params.id;
   const { displayTitle } = req.body;
-  const updatedItem = await prisma.todoItem.update({
+  const updatedItem = await prisma.news.update({
     where: {
       id: parseInt(id),
     },
@@ -144,11 +130,11 @@ app.put("/todos/:id", requireAuth, async (req, res) => {
   res.json(updatedItem);
 });
 
-// updates a todo item by id (Patch)
-app.patch("/todos/:id", requireAuth, async (req, res) => {
+// updates a news item by id (Patch)
+app.patch("/news/:id", requireAuth, async (req, res) => {
   const id = req.params.id;
   const { displayTitle } = req.body;
-  const updatedItem = await prisma.todoItem.update({
+  const updatedItem = await prisma.news.update({
     where: {
       id: parseInt(id),
     },
@@ -160,7 +146,7 @@ app.patch("/todos/:id", requireAuth, async (req, res) => {
 });
 
 // get Profile information of authenticated user
-app.get("/me", requireAuth, async (req, res) => {
+app.get("/profile", requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
 
   const user = await prisma.user.findUnique({
