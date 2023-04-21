@@ -1,15 +1,16 @@
 import { useAuthToken } from "../AuthTokenContext";
 import { useParams } from "react-router-dom";
 import { useNews } from "../hooks/newsContext";
-import useBookmarks from "../hooks/useBookmarks";
+import { useBookmark } from "../hooks/markContext";
 import { Configuration, OpenAIApi } from "openai";
 import { useState } from "react";
 import { useEffect } from "react";
 
 export default function ChatGPT() {
     const { accessToken } = useAuthToken();
-    // const { news } = useNews();
-    const [news, setNews] = useBookmarks();
+    // TODO: enter from home page for now
+    const { news } = useNews();
+    // const { news, setNews } = useBookmark();
     const {newsID} = useParams();
     const index = parseInt(newsID);
     const thisNews = news[index];
@@ -20,7 +21,7 @@ export default function ChatGPT() {
   //  const openai = new OpenAIApi(configuration);
 
     async function getResponse(message){
-      const prompt = 'Tell me more about '+`${message}`
+      const prompt = `Tell me more about "${message}"`
 
       const requestOptions = {
         method: 'POST',
@@ -58,7 +59,7 @@ export default function ChatGPT() {
     }
     }
     return (
-      <div>Tell me more about {thisNews?.title} by clicking this: 
+      <div>Tell me more about "{thisNews?.title}" by clicking this: 
       <button title="test" onClick={()=>getResponse(thisNews?.title)}>Ask ChatGPT</button>
       <p>Response: {text}</p>
       </div>
