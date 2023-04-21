@@ -10,6 +10,7 @@ import { useAuthToken } from "../AuthTokenContext";
 
 export default function NewsDetail() {
   const { news } = useNews();
+  // will render twice because hotNews change from [] to [...hotNews]
   const [ hotNews ] = useHotNews();
   const { bookmarks } = useBookmark();
   const { accessToken } = useAuthToken();
@@ -41,10 +42,10 @@ export default function NewsDetail() {
       }
     }
 
-    if(accessToken && bookmarks?.[id]){
+    if(sourceID === "bookmarks"){
       getNewsDetail(bookmarks[id].id);
     }
-  }, [accessToken, bookmarks]);
+  }, []);
 
   let thisNews;
   switch(sourceID){
@@ -59,6 +60,7 @@ export default function NewsDetail() {
       break;
     default:
   }
+  console.log(thisNews);
 
   return (
     <>
