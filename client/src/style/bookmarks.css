@@ -29,13 +29,12 @@
   margin-left: 30px;
 }
 
-.delete-bookmarks{
-  width: 10%;
+.bookmarks{
   border: 0px;
   background-color: transparent;
 }
 
-.delete-bookmarks:hover{
+.bookmarks:hover{
   cursor: pointer;
   /* background-color: lightgray; */
   transform: scale(1.2);
@@ -68,20 +67,27 @@
   left: 32%;
   border-radius: 10px;
   align-items: flex-start;
-  justify-content: center;
   background-color: white;
   padding: 15px;
+}
+
+.edit-header{
+  margin:0px;
+  margin-top: 10px;
+  height:30%;
 }
 
 .edit-subHeader{
   text-align: start;
   margin: 0px;
   margin-bottom: 10px;
+  height:10%;
 }
 
 #newBookmarks{
   width: 80%;
-  margin-bottom: 10px;
+  margin-bottom: 40px;
+  height:10%;
 }
 
 
@@ -93,6 +99,7 @@
 
 .edit-button-wrapper{
   width: 30%;
+  
 }
 
 .edit-button{

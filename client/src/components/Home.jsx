@@ -54,7 +54,6 @@ export default function Home() {
       trimmedData = trimmedData.slice(0, 21);
       setNews(trimmedData);
     }
-
     getNews();
   }, [category, fromDate, toDate]);
 
@@ -175,8 +174,19 @@ export default function Home() {
               onClick={() => {
                 const from_date = document.getElementById("from-date").value;
                 const to_date = document.getElementById("to-date").value;
+                const diffInMs= new Date(from_date)- new Date(today);
+                const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+                console.log(to_date);
+                if(diffInDays<-30||diffInDays>0||new Date(to_date)- new Date(today)>0){
+                  alert("Input Date must be within 30 days from now")
+                }
+                else if(from_date>to_date){
+                  alert("Starting date cannot be greater than end date")
+                }
+                else {
                 setFromDate(from_date);
                 setToDate(to_date);
+                }
               }}
             >
               Search
@@ -305,7 +315,7 @@ export default function Home() {
                             ></box-icon>
                           )}
                         </button>
-                        <button
+                        {/* <button
                           className="item-subButton"
                           title="Ask chatGPT"
                           onClick={() => navigate(`/app/chatGPT/${index}`)}
@@ -314,7 +324,7 @@ export default function Home() {
                             class="chatGPT-logo"
                             name="question-mark"
                           ></box-icon>
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   </li>
