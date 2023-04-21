@@ -41,7 +41,7 @@ export default function NewsDetail() {
       }
     }
 
-    if(accessToken && bookmarks.length){
+    if(accessToken && bookmarks?.[id]){
       getNewsDetail(bookmarks[id].id);
     }
   }, [accessToken, bookmarks]);
