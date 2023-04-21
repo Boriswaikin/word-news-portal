@@ -43,6 +43,6 @@ function BookmarkProvider({ children }) {
 }
 
 // custom hook, access context
-const useBookmarks = () => useContext(BookmarkContext);
+const useBookmark = () => useContext(BookmarkContext);
 
-export { useBookmarks, BookmarkProvider };
+export { useBookmark, BookmarkProvider };
