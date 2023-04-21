@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import { useHotNews } from "../hooks/useHotNews";
 import { Link } from "react-router-dom";
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useAuthToken } from "../AuthTokenContext";
 import { useBookmark } from "../hooks/markContext";
 import { useNews } from "../hooks/newsContext";
@@ -26,9 +26,9 @@ export default function Home() {
   const yesterday = new Date(today);
   yesterday.setDate(today.getDate() - 1);
   const yyyy = yesterday.getFullYear().toString();
-  const mm = (yesterday.getMonth() + 1).toString().padStart(2, '0');
-  const dd = yesterday.getDate().toString().padStart(2, '0');
-  const from_date = yyyy + '-' + mm + '-' + dd;
+  const mm = (yesterday.getMonth() + 1).toString().padStart(2, "0");
+  const dd = yesterday.getDate().toString().padStart(2, "0");
+  const from_date = yyyy + "-" + mm + "-" + dd;
   const [fromDate, setFromDate] = useState(from_date);
   const [toDate, setToDate] = useState(to_date);
 
@@ -59,7 +59,6 @@ export default function Home() {
       trimmedData = trimmedData.slice(0, 21);
       setNews(trimmedData);
     }
-
     getNews();
   }, [category, fromDate, toDate]);
 
@@ -120,14 +119,26 @@ export default function Home() {
           <div className="search-date-panel">
             <div className="search-date-subPanel">
               <p>Date Range</p>
-              <div className ="date-panel">
-                <div className ="date-panel" >
+              <div className="date-panel">
+                <div className="date-panel">
                   <p className="date-range">From</p>
-                  <input type="date" id="from-date" name="from-date" className="date" aria-label="Starting Date"></input>
+                  <input
+                    type="date"
+                    id="from-date"
+                    name="from-date"
+                    className="date"
+                    aria-label="Starting Date"
+                  ></input>
                 </div>
-                <div className ="date-panel">
+                <div className="date-panel">
                   <p className="date-range">To</p>
-                  <input type="date" id="to-date" name="to-date" className="date" aria-label="End Date"></input>
+                  <input
+                    type="date"
+                    id="to-date"
+                    name="to-date"
+                    className="date"
+                    aria-label="End Date"
+                  ></input>
                 </div>
               </div>
             </div>

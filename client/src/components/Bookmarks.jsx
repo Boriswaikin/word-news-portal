@@ -25,7 +25,7 @@ export default function Bookmarks() {
     if (data.ok) {
       await data.json();
       console.log("delete success");
-      setBookmarks((prev)=>prev.filter((element)=>element.id!==deleteID));
+      setBookmarks((prev) => prev.filter((element) => element.id !== deleteID));
     }
   }
 
@@ -59,13 +59,13 @@ export default function Bookmarks() {
                 <Link to={`/bookmarks/${index}`} className="bookmark-link">{item.displayTitle}</Link>
                 <p>{item.category}</p>
                 <p className="bookmarks-publishDate">{item.publishDate}</p>
-                <button className="delete-bookmarks" onClick={()=>{
+                <button className="bookmarks" onClick={()=>{
                   setNewID(item.id);
                   setEdit(true);}}>
-                  <box-icon class="delete-bookmarks-icon" name='edit'></box-icon>
+                  <box-icon class="bookmarks-icon" name='edit'></box-icon>
                 </button>
-                <button className="delete-bookmarks" onClick={()=> {deleteBookmarks(item.id)}}>
-                  <box-icon class="delete-bookmarks-icon" name='trash'></box-icon>
+                <button className="bookmarks" onClick={()=>deleteBookmarks(item.id)}>
+                  <box-icon class="bookmarks-icon" name='trash'></box-icon>
                 </button>
             </li>
           )})}

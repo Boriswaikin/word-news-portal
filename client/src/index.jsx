@@ -12,7 +12,7 @@ import VerifyUser from "./components/VerifyUser";
 import AuthDebugger from "./components/AuthDebugger";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { AuthTokenProvider } from "./AuthTokenContext";
-import "./style/normalize.css"
+import "./style/normalize.css";
 import "./style/index.css";
 import { NewsProvider } from "./hooks/newsContext";
 import { BookmarkProvider } from "./hooks/markContext";
@@ -69,7 +69,7 @@ root.render(
             {/* pages that require authentication */}
               <Route path="app" element={
                   <RequireAuth>
-                    <AppLayout/>
+                    <AppLayout />
                   </RequireAuth>
                 }
               >
