@@ -5,6 +5,7 @@ export function useHotNews() {
 
   useEffect(() => {
     async function getHotNews() {
+      console.log("Getting hot news");
       const res = await fetch(
         `https://newsapi.org/v2/top-headlines/?` +
           `country=us` +

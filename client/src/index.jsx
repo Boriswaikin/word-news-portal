@@ -45,7 +45,6 @@ function RequireAuth({ children }) {
 const root = ReactDOMClient.createRoot(container);
 
 root.render(
-  <React.StrictMode>
     <Auth0Provider
       domain={process.env.REACT_APP_AUTH0_DOMAIN}
       clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
@@ -55,35 +54,34 @@ root.render(
         scope: requestedScopes.join(" "),
       }}
     >
-      <AuthTokenProvider> 
-        <BrowserRouter>
-          <NewsProvider>
-            <Routes>
-              {/* pages that don't require authentication */}
-              <Route path="/" element={<AppLayout />} >
-                <Route index element={<Home />} />
-                <Route path=":sourceID/:newsID" element={<NewsDetail />} />  
-              </Route>
-              <Route path="/verify-user" element={<VerifyUser />} />
-              {/* pages that require authentication */}
-              <Route path="app" element={
-                  <RequireAuth>
-                    <AppLayout/>
-                  </RequireAuth>
-                }
-              >
-                <Route index element={<Home />} />
-                <Route path="profile" element={<Profile />} />
-                <Route path="bookmarks" element={<Bookmarks />} />
-                <Route path=":sourceID/:newsID" element={<NewsDetail />} />
-                <Route path="chatGPT/:newsID" element={<ChatGPT />} />
-                <Route path="debugger" element={<AuthDebugger />} />
-              </Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </NewsProvider>
-        </BrowserRouter>
-      </AuthTokenProvider>
-    </Auth0Provider>
-  </React.StrictMode>
+    <AuthTokenProvider> 
+      <BrowserRouter>
+        <NewsProvider>
+          <Routes>
+            {/* pages that don't require authentication */}
+            <Route path="/" element={<AppLayout />} >
+              <Route index element={<Home />} />
+              <Route path=":sourceID/:newsID" element={<NewsDetail />} />  
+            </Route>
+            <Route path="/verify-user" element={<VerifyUser />} />
+            {/* pages that require authentication */}
+            <Route path="app" element={
+                <RequireAuth>
+                  <AppLayout/>
+                </RequireAuth>
+              }
+            >
+              <Route index element={<Home />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="bookmarks" element={<Bookmarks />} />
+              <Route path=":sourceID/:newsID" element={<NewsDetail />} />
+              <Route path="chatGPT/:newsID" element={<ChatGPT />} />
+              <Route path="debugger" element={<AuthDebugger />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </NewsProvider>
+      </BrowserRouter>
+    </AuthTokenProvider>
+  </Auth0Provider>
 );

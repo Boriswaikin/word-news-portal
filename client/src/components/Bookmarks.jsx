@@ -9,7 +9,6 @@ export default function Bookmarks() {
   const { accessToken } = useAuthToken();
   const [ bookmarks, setBookmarks ] = useBookmarks();
   const [ edit, setEdit ] = useState(false);
-  // const editForm = document.querySelector(".edit-panel");
   const [ newTitle, setNewTitle ] = useState("");
   const [ newID, setNewID ] = useState();
 
@@ -27,20 +26,6 @@ export default function Bookmarks() {
       setBookmarks((prev)=>prev.filter((element)=>element.id!==deleteID));
     }
   }
-
-  // async function deleteDetails(deleteID) {
-  //   const data = await fetch(`${process.env.REACT_APP_API_URL}/details/` + deleteID, {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${accessToken}`,
-  //     },
-  //   });
-  //   if (data.ok) {
-  //     await data.json();
-  //     console.log("delete success");
-  //   }
-  // }
 
   async function updateBookmarks(updateID) {
     const data = await fetch(`${process.env.REACT_APP_API_URL}/news/` + updateID, {

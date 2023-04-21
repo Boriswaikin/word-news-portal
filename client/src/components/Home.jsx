@@ -34,6 +34,7 @@ export default function Home() {
 
   useEffect(() => {
     async function getNews() {
+      console.log("fetching news by cataegory");
       const res = await fetch(
         `https://newsapi.org/v2/everything?` +
           `q=${category}` +
@@ -86,27 +87,6 @@ export default function Home() {
     } 
   }
 
-  // // post news details to database
-  // async function insertDetails(newsTitle, newsContent, newsImage, newsAuthor, newsURL) {
-  //   const data = await fetch(`${process.env.REACT_APP_API_URL}/details`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${accessToken}`,
-  //     },
-  //     body: JSON.stringify({
-  //       title: newsTitle,
-  //       content: newsContent,
-  //       imageURL: newsImage,
-  //       author: newsAuthor,
-  //       articleURL: newsURL,
-  //     }),
-  //   });
-  //   if(!data.ok){
-  //     alert("insert details failed");
-  //   }
-  // }
-
   async function deleteBookmarks(deleteID) {
     const data = await fetch(`${process.env.REACT_APP_API_URL}/news/` + deleteID, {
       method: "DELETE",
@@ -120,20 +100,6 @@ export default function Home() {
       console.log("delete success");
     }
   }
-
-  // async function deleteDetails(deleteID) {
-  //   const data = await fetch(`${process.env.REACT_APP_API_URL}/details/` + deleteID, {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${accessToken}`,
-  //     },
-  //   });
-  //   if (data.ok) {
-  //     await data.json();
-  //     console.log("delete success");
-  //   }
-  // }
 
   return (
     <div className="home">
@@ -222,7 +188,6 @@ export default function Home() {
                           const bookmarksTitle = bookmarks.map(item => item.title);
                           if(!bookmarksTitle.includes(item.title)){
                             insertBookmarks(item.title, category, item.publishedAt, item.content, item.urlToImage, item.author, item.url);
-                            // insertDetails(item.title, item.content, item.urlToImage, item.author, item.url);
                             setBookmarks((prev)=>[...prev, {title: item.title,
                               category: category}])
                           }
@@ -230,7 +195,6 @@ export default function Home() {
                             const filterBookmark = bookmarks.filter((element)=> element.title===item.title);
                             const deleteID = parseInt(filterBookmark[0].id);
                             deleteBookmarks(deleteID);
-                            // deleteDetails(deleteID);
                             setBookmarks((prev)=>prev.filter((element)=>element.title!==item.title))
                           }
                         } 
