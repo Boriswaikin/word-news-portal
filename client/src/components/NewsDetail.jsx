@@ -64,7 +64,7 @@ export default function NewsDetail() {
     <>
       <h1>{thisNews?.title}</h1>
       <p>{`Author: ${thisNews?.author}`}</p>
-      <img src={thisNews?.urlToImage} class="detail_image" alt="News_Image"></img>
+      <img src={thisNews?.urlToImage} className="detail_image" alt="News_Image"></img>
       <article>{thisNews?.content} <a href={thisNews?.url}>[Read More]</a></article>
       
     </>
