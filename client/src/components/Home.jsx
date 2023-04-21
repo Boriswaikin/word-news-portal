@@ -5,7 +5,7 @@ import { useHotNews } from "../hooks/useHotNews";
 import { Link } from "react-router-dom";
 import { useState ,useEffect} from "react";
 import { useAuthToken } from "../AuthTokenContext";
-import useBookmarks from "../hooks/useBookmarks";
+import { useBookmark } from "../hooks/markContext";
 import { useNews } from "../hooks/newsContext";
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
 
   const { news, setNews } = useNews();
   const [ hotNews ] = useHotNews();
-  const [ bookmarks, setBookmarks ] = useBookmarks();
+  const { bookmarks, setBookmarks } = useBookmark();
 
   const [ text, setText ] = useState("");
   const [ category, setCategory ] = useState('business');

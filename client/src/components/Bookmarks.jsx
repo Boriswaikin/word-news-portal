@@ -3,11 +3,11 @@ import "../style/home.css";
 import { useAuthToken } from "../AuthTokenContext";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import useBookmarks from "../hooks/useBookmarks";
+import { useBookmark } from "../hooks/markContext";
 
 export default function Bookmarks() {
   const { accessToken } = useAuthToken();
-  const [ bookmarks, setBookmarks ] = useBookmarks();
+  const { bookmarks, setBookmarks } = useBookmark();
   const [ edit, setEdit ] = useState(false);
   const [ newTitle, setNewTitle ] = useState("");
   const [ newID, setNewID ] = useState();

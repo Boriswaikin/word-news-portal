@@ -2,7 +2,7 @@ import "../style/newsDetail.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useNews } from "../hooks/newsContext";
 import { useHotNews } from "../hooks/useHotNews";
-import useBookmarks from "../hooks/useBookmarks";
+import { useBookmark } from "../hooks/markContext";
 import { useState ,useEffect } from "react";
 import { useAuthToken } from "../AuthTokenContext";
 
@@ -11,7 +11,7 @@ import { useAuthToken } from "../AuthTokenContext";
 export default function NewsDetail() {
   const { news } = useNews();
   const [ hotNews ] = useHotNews();
-  const [ bookmarks ] = useBookmarks();
+  const { bookmarks } = useBookmark();
   const { accessToken } = useAuthToken();
   const [ newsDetail, setNewsDetail ] = useState([]);
 
