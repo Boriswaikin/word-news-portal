@@ -3,36 +3,38 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import { useHotNews } from "../hooks/useHotNews";
 import { Link } from "react-router-dom";
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useAuthToken } from "../AuthTokenContext";
-import useBookmarks from "../hooks/useBookmarks";
+import { useBookmark } from "../hooks/markContext";
 import { useNews } from "../hooks/newsContext";
 
 export default function Home() {
   const navigate = useNavigate();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
-  // const [[news, setNews], [tempNews, setTempNews]] = useNews();
-  const [hotNews, setHotNews] = useHotNews();
-  const [text, setText] = useState("");
-  const [bookmarks,setBookmarks] = useBookmarks();
-  const [category,setCategory] = useState('business');
   const { accessToken } = useAuthToken();
+
+  const { news, setNews } = useNews();
+  const [ hotNews ] = useHotNews();
+  const { bookmarks, setBookmarks } = useBookmark();
+
+  const [ text, setText ] = useState("");
+  const [ category, setCategory ] = useState('business');
+ 
 
   const to_date = new Date().toISOString().slice(0, 10);
   const today = new Date(to_date);
   const yesterday = new Date(today);
   yesterday.setDate(today.getDate() - 1);
   const yyyy = yesterday.getFullYear().toString();
-  const mm = (yesterday.getMonth() + 1).toString().padStart(2, '0');
-  const dd = yesterday.getDate().toString().padStart(2, '0');
-  const from_date = yyyy + '-' + mm + '-' + dd;
+  const mm = (yesterday.getMonth() + 1).toString().padStart(2, "0");
+  const dd = yesterday.getDate().toString().padStart(2, "0");
+  const from_date = yyyy + "-" + mm + "-" + dd;
   const [fromDate, setFromDate] = useState(from_date);
   const [toDate, setToDate] = useState(to_date);
 
-  const { news, setNews } = useNews();
-
   useEffect(() => {
     async function getNews() {
+      console.log("fetching news by cataegory");
       const res = await fetch(
         `https://newsapi.org/v2/everything?` +
           `q=${category}` +
@@ -41,6 +43,10 @@ export default function Home() {
           `&from=${fromDate}&to=${toDate}` +
           `&apiKey=${process.env.REACT_APP_NEWS_ID}`
       );
+      if(!res.ok) {
+        console.log("fetch error");
+        return;
+      }
       const data = await res.json();
       // filter out articles without images
       let trimmedData = data.articles.filter(
@@ -48,13 +54,11 @@ export default function Home() {
       );
       // trim the publishedAt date
       for (const item of trimmedData) {
-        // TODO: back to full string when rendering
         item.publishedAt = item.publishedAt.slice(0, 10);
       }
       trimmedData = trimmedData.slice(0, 21);
       setNews(trimmedData);
     }
-
     getNews();
   }, [category,fromDate,toDate]);
 
@@ -168,33 +172,47 @@ async function deleteBookmarks(deleteID) {
               id="search"
               className="search"
               placeholder="Search for the news!"
-              onChange={(e) => {
-                setText(e.target.value)}}
+              onChange={(e) => setText(e.target.value)}
             />
           </div>
           <div className="search-date-panel">
             <div className="search-date-subPanel">
               <p>Date Range</p>
-              <div className ="date-panel">
-                <div className ="date-panel" >
+              <div className="date-panel">
+                <div className="date-panel">
                   <p className="date-range">From</p>
-                  <input type="date" id="from-date" name="from-date" className="date" aria-label="Starting Date"></input>
+                  <input
+                    type="date"
+                    id="from-date"
+                    name="from-date"
+                    className="date"
+                    aria-label="Starting Date"
+                  ></input>
                 </div>
-                <div className ="date-panel">
+                <div className="date-panel">
                   <p className="date-range">To</p>
-                  <input type="date" id="to-date" name="to-date" className="date" aria-label="End Date"></input>
+                  <input
+                    type="date"
+                    id="to-date"
+                    name="to-date"
+                    className="date"
+                    aria-label="End Date"
+                  ></input>
                 </div>
               </div>
             </div>
-        <button title="Search" className="search-news-by-date" onClick={
-         ()=>{
-        const from_date= document.getElementById("from-date").value;
-        const to_date= document.getElementById("to-date").value;
-        setFromDate(from_date);
-        setToDate(to_date);
-        }}>Search</button>
+            <button title="Search" className="search-news-by-date" onClick={
+              ()=>{
+                const from_date= document.getElementById("from-date").value;
+                const to_date= document.getElementById("to-date").value;
+                setFromDate(from_date);
+                setToDate(to_date);
+                }
+              }>
+              Search
+            </button>
+          </div>
         </div>
-      </div>
         <div className="category-wrapButton">
         <button className="category-Button category-business" title="Business" onClick={()=>
           setCategory('business')}>
@@ -215,18 +233,6 @@ async function deleteBookmarks(deleteID) {
           setCategory('technology')}>
           Technology</button>
         </div>
-        {/* <select id="sel" onChange={
-          (e)=>{
-            document.getElementById('search').value = ''
-          setCategory(e.target.value)}}>
-          <option value='general'>General</option>
-          <option value='business'>Business</option>
-          <option value='entertainment'>Entertainment</option>
-          <option value='health'>Health</option>
-          <option value='science'>Science</option>
-          <option value='sports'>Sports</option>
-          <option value='technology'>Technology</option>
-        </select> */}
 
         {news &&
         <ul className="newsList">

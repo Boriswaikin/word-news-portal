@@ -12,9 +12,10 @@ import VerifyUser from "./components/VerifyUser";
 import AuthDebugger from "./components/AuthDebugger";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { AuthTokenProvider } from "./AuthTokenContext";
-import "./style/normalize.css"
+import "./style/normalize.css";
 import "./style/index.css";
 import { NewsProvider } from "./hooks/newsContext";
+import { BookmarkProvider } from "./hooks/markContext";
 
 const container = document.getElementById("root");
 
@@ -45,7 +46,6 @@ function RequireAuth({ children }) {
 const root = ReactDOMClient.createRoot(container);
 
 root.render(
-  <React.StrictMode>
     <Auth0Provider
       domain={process.env.REACT_APP_AUTH0_DOMAIN}
       clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
@@ -55,20 +55,21 @@ root.render(
         scope: requestedScopes.join(" "),
       }}
     >
-      <AuthTokenProvider> 
-        <BrowserRouter>
-          <NewsProvider>
-            <Routes>
-              {/* pages that don't require authentication */}
-              <Route path="/" element={<AppLayout />} >
-                <Route index element={<Home />} />
-                <Route path=":sourceID/:newsID" element={<NewsDetail />} />  
-              </Route>
-              <Route path="/verify-user" element={<VerifyUser />} />
-              {/* pages that require authentication */}
+    <AuthTokenProvider> 
+      <BrowserRouter>
+        <NewsProvider>
+        <BookmarkProvider>
+          <Routes>
+            {/* pages that don't require authentication */}
+            <Route path="/" element={<AppLayout />} >
+              <Route index element={<Home />} />
+              <Route path=":sourceID/:newsID" element={<NewsDetail />} />  
+            </Route>
+            <Route path="/verify-user" element={<VerifyUser />} />
+            {/* pages that require authentication */}
               <Route path="app" element={
                   <RequireAuth>
-                    <AppLayout/>
+                    <AppLayout />
                   </RequireAuth>
                 }
               >
@@ -79,11 +80,11 @@ root.render(
                 <Route path="chatGPT/:newsID" element={<ChatGPT />} />
                 <Route path="debugger" element={<AuthDebugger />} />
               </Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </NewsProvider>
-        </BrowserRouter>
-      </AuthTokenProvider>
-    </Auth0Provider>
-  </React.StrictMode>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BookmarkProvider>
+        </NewsProvider>
+      </BrowserRouter>
+    </AuthTokenProvider>
+  </Auth0Provider>
 );
