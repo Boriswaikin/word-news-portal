@@ -96,30 +96,6 @@ app.post("/news", requireAuth, async (req, res) => {
   }
 });
 
-// // insert news details
-// app.post("/details", requireAuth, async (req, res) => {
-//   const auth0Id = req.auth.payload.sub;
-
-//   const { title, content, imageURL, author, articleURL } = req.body;
-
-//   if (!title) {
-//     res.status(400).send("title is required");
-//   } else {
-//     const newItem = await prisma.newsDetails.create({
-//       data: {
-//         title,
-//         content,
-//         imageURL,
-//         author,
-//         articleURL,
-//         user: { connect: { auth0Id } },
-//       },
-//     });
-
-//     res.status(201).json(newItem);
-//   }
-// });
-
 // deletes a news item by id
 app.delete("/news/:id", requireAuth, async (req, res) => {
   const id = req.params.id;
@@ -138,28 +114,6 @@ app.delete("/news/:id", requireAuth, async (req, res) => {
 
   res.json({ deletedNews, deletedNewsDetails });
 });
-
-// // deletes detail item by id
-// app.delete("/details/:id", requireAuth, async (req, res) => {
-//   const id = req.params.id;
-//   const deletedItem = await prisma.newsDetails.delete({
-//     where: {
-//       id: parseInt(id),
-//     },
-//   });
-//   res.json(deletedItem);
-// });
-
-// // get a news item by id
-// app.get("/news/:id", requireAuth, async (req, res) => {
-//   const id = req.params.id;
-//   const news = await prisma.news.findUnique({
-//     where: {
-//       id: parseInt(id),
-//     },
-//   });
-//   res.json(news);
-// });
 
 // updates a news item by id (Put)
 app.put("/news/:id", requireAuth, async (req, res) => {

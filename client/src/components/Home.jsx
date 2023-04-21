@@ -82,8 +82,10 @@ export default function Home() {
         articleURL: articleURL,
       }),
     });
-    if (!data.ok) {
-      console.log("insert failed");
+    if (data.ok) {
+      console.log("insert success");
+      const { news } = await data.json();
+      setBookmarks([...bookmarks, news]);
     } 
   }
 
@@ -188,8 +190,8 @@ export default function Home() {
                           const bookmarksTitle = bookmarks.map(item => item.title);
                           if(!bookmarksTitle.includes(item.title)){
                             insertBookmarks(item.title, category, item.publishedAt, item.content, item.urlToImage, item.author, item.url);
-                            setBookmarks((prev)=>[...prev, {title: item.title,
-                              category: category}])
+                            // setBookmarks((prev)=>[...prev, {title: item.title, displayTitle: item.title, 
+                            //                                 publishDate: item.publishedAt, category: category}])
                           }
                           else {
                             const filterBookmark = bookmarks.filter((element)=> element.title===item.title);

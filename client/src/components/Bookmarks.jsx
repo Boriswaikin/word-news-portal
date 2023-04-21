@@ -12,6 +12,8 @@ export default function Bookmarks() {
   const [ newTitle, setNewTitle ] = useState("");
   const [ newID, setNewID ] = useState();
 
+  console.log("bookmarks", bookmarks);
+
   async function deleteBookmarks(deleteID) {
     const data = await fetch(`${process.env.REACT_APP_API_URL}/news/` + deleteID, {
       method: "DELETE",
@@ -41,7 +43,7 @@ export default function Bookmarks() {
       await data.json();
       console.log("update success");
       setBookmarks((prev) => prev.map(({id , displayTitle, ...prev})=>
-        ({...prev, displayTitle : id === updateID ? newTitle : displayTitle})
+        ({...prev, id : id, displayTitle : id === updateID ? newTitle : displayTitle})
       ));
     }
   }
