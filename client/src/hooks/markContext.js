@@ -1,15 +1,16 @@
-import { useState, useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import React, { useContext, useState, useEffect } from "react";
 import { useAuthToken } from "../AuthTokenContext";
 
-export default function useBookmarks() {
+const BookmarkContext = React.createContext();
+
+function BookmarkProvider({ children }) {
   const [bookmarks, setBookmarks] = useState([]);
+  const value = { bookmarks, setBookmarks };
   const { accessToken } = useAuthToken();
 
   useEffect(() => {
     async function getBookmarks() {
-      // TODO: change to news
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/todos`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/news`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -18,6 +19,7 @@ export default function useBookmarks() {
       });
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         setBookmarks(
           data.map((item) => ({
             id: item.id,
@@ -32,8 +34,16 @@ export default function useBookmarks() {
     if (accessToken) {
       getBookmarks();
     }
-  }, []);
+  }, [accessToken]);
 
-  return [bookmarks, setBookmarks];
+  return (
+    <BookmarkContext.Provider value={value}>
+      {children}
+    </BookmarkContext.Provider>
+  );
 }
 
+// custom hook, access context
+const useBookmark = () => useContext(BookmarkContext);
+
+export { useBookmark, BookmarkProvider };
