@@ -1,3 +1,4 @@
+import "../style/chatGPT.css";
 import { useAuthToken } from "../AuthTokenContext";
 import { useParams } from "react-router-dom";
 import { useNews } from "../hooks/newsContext";
@@ -5,6 +6,8 @@ import { useBookmark } from "../hooks/markContext";
 import { Configuration, OpenAIApi } from "openai";
 import { useState } from "react";
 import { useEffect } from "react";
+
+const GPTIcon = "https://raw.githubusercontent.com/SAP-Custom-Widget/ChatGptWidget/main/icon.png";
 
 export default function ChatGPT() {
     // TODO: enter from home page for now
@@ -62,6 +65,8 @@ export default function ChatGPT() {
         console.log(err);
       }
     }
+
+    function saveResponse(){}
     // return (
     //   <div>Tell me more about "{thisNews?.title}" by clicking this: 
     //   <button title="test" onClick={()=>getResponse(thisNews?.title)}>Ask ChatGPT</button>
@@ -70,15 +75,30 @@ export default function ChatGPT() {
     // )
     return (
       <div className="container">
-        <h2>Tell me something, and I'll tell you more</h2>
-        <textarea
-          value={input}
-          onChange={(event) => setInput(event.target.value)}
-          rows={5}
-          placeholder="Type in some words and I'll finish the rest..."
-        />
-        <button className="button" onClick={getResponse}>Complete Sentence</button>
-        {text && <p>Completed sentence: {text}</p>}
+        <h2>{thisNews?.title}</h2>
+        <div className="input_wrapper">
+          <textarea className="GPT_input"
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+            rows={2.5}
+            cols={100}
+            placeholder="Ask ChatGPT about this news"
+          />
+          <button className="askGPT" onClick={getResponse}>
+            <box-icon name='send' type="solid"></box-icon>
+          </button>
+        </div>
+        {text &&
+          <div className="GPT_wrapper">
+            <div className="GPT_response"> 
+              <img src={GPTIcon} className="GPTlogo" alt="GPT_Logo"></img>
+              <p>{text}</p>
+            </div>
+            <button className="save" onClick={saveResponse}>
+              Save
+            </button>
+          </div>
+        }
       </div>
     );
   }
