@@ -1,3 +1,4 @@
+import "../style/chatGPT.css";
 import { useAuthToken } from "../AuthTokenContext";
 import { useParams } from "react-router-dom";
 import { useNews } from "../hooks/newsContext";
@@ -5,23 +6,31 @@ import { useBookmark } from "../hooks/markContext";
 import { Configuration, OpenAIApi } from "openai";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+
+const GPTIcon = "https://raw.githubusercontent.com/SAP-Custom-Widget/ChatGptWidget/main/icon.png";
 
 export default function ChatGPT() {
-    const { accessToken } = useAuthToken();
     // TODO: enter from home page for now
     const { news } = useNews();
-    // const { news, setNews } = useBookmark();
+    // const { bookmarks, setBookmarks } = useBookmark();
     const {newsID} = useParams();
     const index = parseInt(newsID);
     const thisNews = news[index];
+    const { user } = useAuth0();
+
+    const [input, setInput] = useState("");
     const [text,setText] = useState("");
+    const [history, setHistory] = useState([]);
+
     // const configuration = new Configuration({
     //   apiKey:process.env.REACT_APP_OPENAI_API_KEY,
     // });
   //  const openai = new OpenAIApi(configuration);
 
-    async function getResponse(message){
-      const prompt = `Tell me more about "${message}"`
+    async function getResponse(){
+      
+      const prompt = `What do you know about"`
 
       const requestOptions = {
         method: 'POST',
@@ -32,7 +41,7 @@ export default function ChatGPT() {
         },
         body: JSON.stringify({
           model:"gpt-3.5-turbo",
-          messages: [{role: "user", content: `${prompt}`}], 
+          messages: [{role: "user", content: `${input}`}], 
           // prompt: prompt,
           temperature: 0.1,
           stop: "\n",
@@ -53,15 +62,59 @@ export default function ChatGPT() {
       if(response.ok){
           const data = await response.json();
           setText(data.choices[0].message.content);
+          setHistory((prev) => [...prev, data.choices[0].message.content]);
+          console.log(history);
       }
       } catch (err) {
-      console.log(err);
+        console.log(err);
+      }
     }
-    }
+
+    function saveResponse(){}
+    // return (
+    //   <div>Tell me more about "{thisNews?.title}" by clicking this: 
+    //   <button title="test" onClick={()=>getResponse(thisNews?.title)}>Ask ChatGPT</button>
+    //   <p>Response: {text}</p>
+    //   </div>
+    // )
     return (
-      <div>Tell me more about "{thisNews?.title}" by clicking this: 
-      <button title="test" onClick={()=>getResponse(thisNews?.title)}>Ask ChatGPT</button>
-      <p>Response: {text}</p>
+      <div className="container">
+        <h2>
+          Ask me about "<span>{thisNews?.title}</span>... "
+        </h2>
+
+        {text &&
+          <ul className="GPT_wrapper">
+            {history.map((item, index) => {
+              return (
+                <li key={index} className="GPT_response"> 
+                    {index % 2 ? <img src={GPTIcon} className="GPTlogo" alt="GPT_Logo"></img> :
+                                  <img src={user.picture} className="Userlogo" alt="GPT_Logo"></img>   }
+                    <p>{item}</p>
+                </li>)
+            })}
+          </ul>
+        }
+
+        <div className="input_wrapper">
+          <textarea className="GPT_input"
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+            rows={2.5}
+            cols={100}
+            placeholder="Ask ChatGPT about this news"
+          />
+          <button className="askGPT" onClick={() => {
+            setHistory((prev) => [...prev, input]);
+            setInput("");
+            getResponse()
+          }}>
+            <box-icon name='send' type="solid"></box-icon>
+          </button> 
+          <button className="save" onClick={saveResponse}>
+              Save
+            </button>
+        </div>
       </div>
-    )
+    );
   }
