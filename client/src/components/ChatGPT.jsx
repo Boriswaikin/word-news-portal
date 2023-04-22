@@ -6,6 +6,7 @@ import { useBookmark } from "../hooks/markContext";
 import { Configuration, OpenAIApi } from "openai";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const GPTIcon = "https://raw.githubusercontent.com/SAP-Custom-Widget/ChatGptWidget/main/icon.png";
 
@@ -16,9 +17,11 @@ export default function ChatGPT() {
     const {newsID} = useParams();
     const index = parseInt(newsID);
     const thisNews = news[index];
+    const { user } = useAuth0();
 
     const [input, setInput] = useState("");
     const [text,setText] = useState("");
+    const [history, setHistory] = useState([]);
 
     // const configuration = new Configuration({
     //   apiKey:process.env.REACT_APP_OPENAI_API_KEY,
@@ -58,8 +61,9 @@ export default function ChatGPT() {
       const response = await fetch('https://api.openai.com/v1/chat/completions', requestOptions);
       if(response.ok){
           const data = await response.json();
-          console.log(data);
           setText(data.choices[0].message.content);
+          setHistory((prev) => [...prev, data.choices[0].message.content]);
+          console.log(history);
       }
       } catch (err) {
         console.log(err);
@@ -76,6 +80,20 @@ export default function ChatGPT() {
     return (
       <div className="container">
         <h2>{thisNews?.title}</h2>
+
+        {text &&
+          <ul className="GPT_wrapper">
+            {history.map((item, index) => {
+              return (
+                <li key={index} className="GPT_response"> 
+                    {index % 2 ? <img src={GPTIcon} className="GPTlogo" alt="GPT_Logo"></img> :
+                                  <img src={user.picture} className="Userlogo" alt="GPT_Logo"></img>   }
+                    <p>{item}</p>
+                </li>)
+            })}
+          </ul>
+        }
+
         <div className="input_wrapper">
           <textarea className="GPT_input"
             value={input}
@@ -84,21 +102,17 @@ export default function ChatGPT() {
             cols={100}
             placeholder="Ask ChatGPT about this news"
           />
-          <button className="askGPT" onClick={getResponse}>
+          <button className="askGPT" onClick={() => {
+            setHistory((prev) => [...prev, input]);
+            setInput("");
+            getResponse()
+          }}>
             <box-icon name='send' type="solid"></box-icon>
-          </button>
-        </div>
-        {text &&
-          <div className="GPT_wrapper">
-            <div className="GPT_response"> 
-              <img src={GPTIcon} className="GPTlogo" alt="GPT_Logo"></img>
-              <p>{text}</p>
-            </div>
-            <button className="save" onClick={saveResponse}>
+          </button> 
+          <button className="save" onClick={saveResponse}>
               Save
             </button>
-          </div>
-        }
+        </div>
       </div>
     );
   }
