@@ -2,6 +2,16 @@
   margin-left: 20px;
 }
 
+.container > h2 {
+  margin-left: 3%;
+}
+
+span {
+  color: #2246d8;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
 .GPT_response > img {
   width: 30px;
   height: 30px;

@@ -79,7 +79,9 @@ export default function ChatGPT() {
     // )
     return (
       <div className="container">
-        <h2>{thisNews?.title}</h2>
+        <h2>
+          Ask me about "<span>{thisNews?.title}</span>... "
+        </h2>
 
         {text &&
           <ul className="GPT_wrapper">
