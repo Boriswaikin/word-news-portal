@@ -16,7 +16,7 @@ export default function AppLayout() {
     <div className="app">
       <div className="header">
         <Link  className="heading-link" to="/">
-          <h2 >World News</h2>
+          <h2 >PressSphere</h2>
         </Link>
         <nav className="menu">
           <ul className="menu-list">
@@ -42,10 +42,10 @@ export default function AppLayout() {
               {
                 !isAuthenticated ? (
                   <button className="exit-button" onClick={loginWithRedirect}>
-                    SignIn
+                    LOG IN
                   </button>) :
                   (<button className="exit-button" onClick={() => logout({ returnTo: window.location.origin })}>
-                    LogOut
+                    LOG OUT
                   </button>)
               }
             </li>
