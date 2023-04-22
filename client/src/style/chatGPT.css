@@ -4,22 +4,33 @@
 
 .container > h2 {
   margin-left: 3%;
-}
-
-span {
-  color: #2246d8;
-  font-size: 0.9em;
-  font-weight: bold;
+  margin-right: 3%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #c2f0d8;
+  border-radius: 5px;
 }
 
 .GPT_response > img {
+  border-radius: 5px;
   width: 30px;
   height: 30px;
-  margin: 15px 10px 10px 0px;
+  margin: 15px 10px 10px 10px;
 }
 
 .GPT_response {
   display: flex;
+  border-radius: 5px;
+}
+
+.GPT_response:nth-child(odd) {
+  background-color: white;
+}
+
+.GPT_response:nth-child(even) {
+  background-color: #f2f2f2;
 }
 
 .GPT_input {
@@ -28,12 +39,14 @@ span {
   padding: 10px;
   margin-left: 0px;
   margin-right: 20px;
+  padding: 10px 20px;
 }
 
 .GPT_wrapper {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  padding-right: 40px;
 }
 
 .input_wrapper {
