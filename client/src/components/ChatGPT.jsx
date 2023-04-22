@@ -100,20 +100,20 @@ export default function ChatGPT() {
           <textarea className="GPT_input"
             value={input}
             onChange={(event) => setInput(event.target.value)}
-            rows={2.5}
+            rows={2}
             cols={100}
             placeholder="Ask ChatGPT about this news"
           />
-          <button className="askGPT" onClick={() => {
+          <button className="input_button" title="send" onClick={() => {
             setHistory((prev) => [...prev, input]);
             setInput("");
             getResponse()
           }}>
             <box-icon name='send' type="solid"></box-icon>
           </button> 
-          <button className="save" onClick={saveResponse}>
-              Save
-            </button>
+          <button className="input_button" title="save" onClick={saveResponse}>
+            <box-icon name='save'></box-icon>
+          </button>
         </div>
       </div>
     );
