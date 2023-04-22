@@ -2,10 +2,12 @@ import "../style/bookmarks.css";
 import "../style/home.css";
 import { useAuthToken } from "../AuthTokenContext";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useBookmark } from "../hooks/markContext";
 
 export default function Bookmarks() {
+  const navigate = useNavigate();
   const { accessToken } = useAuthToken();
   const { bookmarks, setBookmarks } = useBookmark();
   const [ edit, setEdit ] = useState(false);
@@ -52,20 +54,28 @@ export default function Bookmarks() {
     <div className="home">
       <div className="bookmark-panel">
       <ul className="bookmark-list">
+        <li className= "bookmark-header-wrapper">
+          <h5 className="bookmark-header title">Title</h5>
+          <h5 className="bookmark-header category">Category</h5>
+          <h5 className="bookmark-header publishDate">Publish Date</h5>
+        </li>
         { bookmarks && bookmarks.map((item,index) => {
           return (
             <li 
               key={index} className="bookmark-item">
                 <Link to={`/bookmarks/${index}`} className="bookmark-link">{item.displayTitle}</Link>
-                <p>{item.category}</p>
+                <p className="bookmarks-category">{item.category}</p>
                 <p className="bookmarks-publishDate">{item.publishDate}</p>
-                <button className="bookmarks" onClick={()=>{
+                <button title="edit bookmark" className="bookmarks" onClick={()=>{
                   setNewID(item.id);
                   setEdit(true);}}>
-                  <box-icon class="bookmarks-icon" name='edit'></box-icon>
+                  <box-icon class="bookmarks-icon" color="blue" name='edit'></box-icon>
                 </button>
-                <button className="bookmarks" onClick={()=>deleteBookmarks(item.id)}>
-                  <box-icon class="bookmarks-icon" name='trash'></box-icon>
+                <button title="delete bookmark" className="bookmarks" onClick={()=>deleteBookmarks(item.id)}>
+                  <box-icon class="bookmarks-icon" color="black" name='trash'></box-icon>
+                </button>
+                <button title="Ask chatGPT" className="bookmarks" onClick={()=>navigate(`/app/chatGPT/${index}`)}>
+                  <box-icon class="bookmarks-icon" color="green" name='message-rounded-detail'></box-icon>
                 </button>
             </li>
           )})}
