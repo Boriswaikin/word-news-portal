@@ -1,13 +1,5 @@
 
 []- polish web page styles
-[]- add fields to user profile page, and a link to bookmarks
-[]- allow users to change their personal information.  
-[]- move chatGPT function to bookmarks
-[]- add link to chatGPT history in detail page
-[]- display chatGPT in chatGPT page(get), allow user to save history(post)
-[]- responsive design
-[]- testing 2-3
-[]- accessibility 2 snapshots
 []- front and back-end validations
 
 
@@ -26,8 +18,8 @@
 []- Navigating to the home page must be clearly marked
 []- Navigating to the profile must be clearly marked
 
-[]# Accessibility requirements
+[]# Accessibility requirements (2 snapshots)
 []- Include accessibility reports from all your pages using https://developers.google.com/web/tools/lighthouse (Links to an external site.) 
 
-[]# Testing requirements
+[]# Testing requirements (2-3 tests)
 []Your application should have at least one unit test per page. 
