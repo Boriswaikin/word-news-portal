@@ -37,6 +37,7 @@
 
 .search-subPanel{
   flex-basis: 30%;
+  margin-left: 1%;
 }
 
 .search{
@@ -60,7 +61,7 @@
 }
 
 .date-header{
-  font-size: 8px;
+  font-size: 12px;
 }
 
 .date-panel{
@@ -71,7 +72,7 @@
 .date-range{
   text-align: center;
   width: 20%;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .date{
@@ -96,13 +97,13 @@
 
 @media (min-width: 550px) {
   .search,.date,.date-range,.date-header,.search-news-by-date{
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 
 @media (min-width: 800px) {
   .search,.date,.date-range,.date-header,.search-news-by-date{
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 
@@ -236,6 +237,19 @@
   justify-content: space-between;
   margin: 1%;
   flex-basis: 90%;
+  margin-left: 0%;
+}
+
+@media (min-width: 550px) {
+  .news-item{
+    margin-left: 5%;
+  }
+}
+
+@media (min-width: 800px) {
+  .news-item{
+    margin-left: 5%;
+  }
 }
 
 .newsImage{
@@ -347,11 +361,6 @@
   }
 }
 
-.chatGPT-logo{
-  width: 24px;
-  height: 24px;
-}
-
 .top-news{
   display: flex;
   flex-direction: column;
@@ -407,7 +416,6 @@
     font-size: 30px;
   }
 }
-
 
 .top-news-info{
   margin-top: 8%;
