@@ -1,7 +1,5 @@
 
 []- polish web page styles
-[]- add fields to user profile page, and a link to bookmarks
-[]- allow users to change their personal information.  
 []- front and back-end validations
 
 
