@@ -7,10 +7,10 @@ export default function Profile() {
   return (
     <div className="profile">
       <div>
-        <p>Name: {user.name}</p>
+        <img src={user.picture} className="icon" width="70" alt="profile avatar" />
       </div>
       <div>
-        <img src={user.picture} className="icon" width="70" border-radius='50%' alt="profile avatar" />
+        <p>Name: {user.name}</p>
       </div>
       <div>
         <p>📧 Email: {user.email}</p>

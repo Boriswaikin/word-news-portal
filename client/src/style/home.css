@@ -56,7 +56,7 @@
 .search-date-subPanel{
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 90%;
 }
 
 .date-header{
@@ -91,6 +91,7 @@
   align-self: flex-end;  
   border-width:3px;
   font-size: 10px;
+  margin-bottom: 5%;
 }
 
 @media (min-width: 550px) {

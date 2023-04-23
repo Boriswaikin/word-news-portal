@@ -24,7 +24,7 @@ export default function AppLayout() {
               {
                 isAuthenticated ? (
                   <Link to="/app/bookmarks" aria-label="Bookmarks pages">
-                    <box-icon name='bookmark-alt'></box-icon>
+                    <box-icon class="user-logo" name='bookmark-alt'></box-icon>
                   </Link>) :
                   (<></>)
               }
