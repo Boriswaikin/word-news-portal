@@ -2,10 +2,10 @@
   width: 100px;
   height: 100px;
   margin-left: 0;
+  border-radius: 10px;
 }
 
 .profile {
-  /* float: left; */
   margin-left: 10px;
   display: flex;
 }
