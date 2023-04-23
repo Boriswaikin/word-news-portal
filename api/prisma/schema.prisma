@@ -18,6 +18,12 @@ model User {
   news        News[]
   stripeId    String?
   currentPlan plans?  @default(FREE)
+  firstName   String?
+  lastName    String?
+  birthday    String?
+  gender      String?
+  phone       String?
+  address     String?
 }
 
 model News {
