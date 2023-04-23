@@ -49,7 +49,7 @@ model NewsDetails {
   imageURL   String   @db.Text
   author     String   @db.VarChar(255)
   articleURL String   @db.Text
-  chatGPT    String   @db.Text
+  chatGPT    String?  @db.Text
   news       News?    @relation(fields: [newsId], references: [id])
   newsId     Int?
 }
