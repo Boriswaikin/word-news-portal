@@ -72,7 +72,7 @@ export default function Bookmarks() {
                   <box-icon class="bookmarks-icon" color="blue" name='edit'></box-icon>
                 </button>
                 <button title="delete bookmark" className="bookmarks" onClick={()=>deleteBookmarks(item.id)}>
-                  <box-icon class="bookmarks-icon" color="black" name='trash'></box-icon>
+                  <box-icon class="bookmarks-icon" color="red" name='trash'></box-icon>
                 </button>
                 <button title="Ask chatGPT" className="bookmarks" onClick={()=>navigate(`/app/chatGPT/${index}`)}>
                   <box-icon class="bookmarks-icon" color="green" name='message-rounded-detail'></box-icon>
