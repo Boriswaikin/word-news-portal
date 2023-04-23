@@ -19,7 +19,6 @@ function BookmarkProvider({ children }) {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setBookmarks(
           data.map((item) => ({
             id: item.id,

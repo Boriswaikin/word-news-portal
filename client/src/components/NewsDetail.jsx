@@ -1,5 +1,5 @@
 import "../style/newsDetail.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useNews } from "../hooks/newsContext";
 import { useHotNews } from "../hooks/useHotNews";
 import { useBookmark } from "../hooks/markContext";
@@ -49,7 +49,7 @@ export default function NewsDetail() {
 
   let thisNews;
   switch(sourceID){
-    case "news":
+    case "details":
       thisNews = news[id];
       break;
     case "hotNews":
