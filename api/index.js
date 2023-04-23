@@ -119,7 +119,7 @@ app.delete("/news/:id", requireAuth, async (req, res) => {
 app.put("/chatGPT/:id", requireAuth, async (req, res) => {
   const id = req.params.id;
   const { chatGPT } = req.body;
-  console.log(req.body);
+
   const updatedItem = await prisma.newsDetails.updateMany({
     where: {
       newsId: parseInt(id),
@@ -157,6 +157,29 @@ app.get("/profile", requireAuth, async (req, res) => {
   });
 
   res.json(user);
+});
+
+// update Profile information of authenticated user
+app.put("/profile", requireAuth, async (req, res) => {
+  const auth0Id = req.auth.payload.sub;
+
+  const { name, firstName, lastName, birthday, gender, phone, address } =
+    req.body;
+  const updatedItem = await prisma.user.update({
+    where: {
+      auth0Id,
+    },
+    data: {
+      name,
+      firstName,
+      lastName,
+      birthday,
+      gender,
+      phone,
+      address,
+    },
+  });
+  res.json(updatedItem);
 });
 
 // verify user status, if not registered in our database we will create it
