@@ -104,7 +104,7 @@ export default function Profile() {
           </div>
           <div>
             <label for="birthday">Birthday:</label>
-            <input type="text" name="birthday" id="birthday" onChange={(e) => setBirthday(e.target.value)} />
+            <input type="date" name="birthday" id="birthday" onChange={(e) => setBirthday(e.target.value)} />
           </div>
           <div>
             <label for="gender">Gender:</label>
@@ -112,7 +112,7 @@ export default function Profile() {
           </div>
           <div>
             <label for="phone">Phone:</label>
-            <input type="text" name="phone" id="phone" onChange={(e) => setPhone(e.target.value)} />
+            <input type="tel" name="phone" id="phone" onChange={(e) => setPhone(e.target.value)} />
           </div>
           <div>
             <label for="address">Address:</label>
