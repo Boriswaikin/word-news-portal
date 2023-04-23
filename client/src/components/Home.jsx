@@ -193,7 +193,7 @@ export default function Home() {
               <li key={index} className="news-item">
                 <img className="newsImage" src={item.urlToImage} alt="Logo"></img>
                 <div className="news-subItem">
-                  <Link className="item-link" to={`news/${index}`}>{item.title}</Link>
+                  <Link className="item-link" to={`details/${index}`}>{item.title}</Link>
                   <div className="news-remarks">
                   <p className="item-date">{item.publishedAt}</p>
                   <div className="item-button">
@@ -206,8 +206,6 @@ export default function Home() {
                           const bookmarksTitle = bookmarks.map(item => item.title);
                           if(!bookmarksTitle.includes(item.title)){
                             insertBookmarks(item.title, category, item.publishedAt, item.content, item.urlToImage, item.author, item.url);
-                            // setBookmarks((prev)=>[...prev, {title: item.title, displayTitle: item.title, 
-                            //                                 publishDate: item.publishedAt, category: category}])
                           }
                           else {
                             const filterBookmark = bookmarks.filter((element)=> element.title===item.title);
