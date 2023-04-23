@@ -10,7 +10,7 @@ export default function Profile() {
         <p>Name: {user.name}</p>
       </div>
       <div>
-        <img src={user.picture} className="icon" width="70" alt="profile avatar" />
+        <img src={user.picture} className="icon" width="70" border-radius='50%' alt="profile avatar" />
       </div>
       <div>
         <p>📧 Email: {user.email}</p>
