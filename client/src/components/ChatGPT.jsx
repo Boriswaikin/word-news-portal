@@ -10,49 +10,48 @@ import { useAuth0 } from "@auth0/auth0-react";
 const GPTIcon = "https://raw.githubusercontent.com/SAP-Custom-Widget/ChatGptWidget/main/icon.png";
 
 export default function ChatGPT() {
-    // TODO: enter from home page for now
-    const { news } = useNews();
-    // const { bookmarks, setBookmarks } = useBookmark();
-    const {newsID} = useParams();
-    const index = parseInt(newsID);
-    const thisNews = news[index];
-    const { user } = useAuth0();
+  const { user } = useAuth0();
+  const { bookmarks } = useBookmark();
+  const {newsID} = useParams();
+  const index = parseInt(newsID);
+  const thisNews = bookmarks[index];
+  
 
-    const [input, setInput] = useState("");
-    const [text, setText] = useState("");
-    const [history, setHistory] = useState([]);
+  const [input, setInput] = useState("");
+  const [text, setText] = useState("");
+  const [history, setHistory] = useState([]);
 
-    async function getResponse(){
+  async function getResponse(){
 
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-           'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
-           'User-Agent': 'MyApplication/1.0'
-        },
-        body: JSON.stringify({
-          model:"gpt-3.5-turbo",
-          messages: [{role: "user", content: `${input}`}], 
-          temperature: 0.1,
-          stop: "\n",
-        })
-      };
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+          'User-Agent': 'MyApplication/1.0'
+      },
+      body: JSON.stringify({
+        model:"gpt-3.5-turbo",
+        messages: [{role: "user", content: `${input}`}], 
+        temperature: 0.1,
+        stop: "\n",
+      })
+    };
 
-    try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', requestOptions);
-      if(response.ok){
-          const data = await response.json();
-          setText(data.choices[0].message.content);
-          setHistory((prev) => [...prev, data.choices[0].message.content]);
-          console.log(history);
-      }
-      } catch (err) {
-        console.log(err);
-      }
+  try {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', requestOptions);
+    if(response.ok){
+        const data = await response.json();
+        setText(data.choices[0].message.content);
+        setHistory((prev) => [...prev, data.choices[0].message.content]);
+        console.log(history);
     }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
-    function saveResponse(){}
+  function saveResponse(){}
     return (
       <div className="container">
         <h2>
