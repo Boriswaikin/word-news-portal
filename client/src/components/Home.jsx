@@ -118,9 +118,8 @@ export default function Home() {
           </div>
           <div className="search-date-panel">
             <div className="search-date-subPanel">
-              <p>Date Range</p>
+              <p className="date-header">Date Range</p>
               <div className="date-panel">
-                <div className="date-panel">
                   <p className="date-range">From</p>
                   <input
                     type="date"
@@ -129,8 +128,6 @@ export default function Home() {
                     className="date"
                     aria-label="Starting Date"
                   ></input>
-                </div>
-                <div className="date-panel">
                   <p className="date-range">To</p>
                   <input
                     type="date"
@@ -139,15 +136,22 @@ export default function Home() {
                     className="date"
                     aria-label="End Date"
                   ></input>
-                </div>
               </div>
             </div>
             <button title="Search" className="search-news-by-date" onClick={
               ()=>{
                 const from_date= document.getElementById("from-date").value;
                 const to_date= document.getElementById("to-date").value;
+                const dateDiff=(today.getTime()-new Date(from_date).getTime())/(1000 * 60 * 60 * 24);
+                if (new Date(from_date).getTime()>new Date(to_date).getTime()){
+                  alert("Starting date cannot be after the End date")
+                }
+                else if(dateDiff>30||dateDiff<0||new Date(to_date).getTime()>new Date(today).getTime()){
+                  alert("Input date must be within 30 days from now")
+                }
+                else{
                 setFromDate(from_date);
-                setToDate(to_date);
+                setToDate(to_date);}
                 }
               }>
               Search
@@ -190,6 +194,7 @@ export default function Home() {
                 <img className="newsImage" src={item.urlToImage} alt="Logo"></img>
                 <div className="news-subItem">
                   <Link className="item-link" to={`news/${index}`}>{item.title}</Link>
+                  <div className="news-remarks">
                   <p className="item-date">{item.publishedAt}</p>
                   <div className="item-button">
                     <button className="item-subButton" title="bookmark" onClick={() =>
@@ -214,9 +219,10 @@ export default function Home() {
                       }}>
                       { isAuthenticated && bookmarks.map(item=>item.title).includes(item.title)?<box-icon class ="bookmark-logo" color="slateblue" type="solid" name='bookmark-alt'></box-icon>:<box-icon class ="bookmark-logo" name='bookmark'></box-icon>}
                     </button>
-                    <button className="item-subButton" title="Ask chatGPT" onClick={()=>navigate(`/app/chatGPT/${index}`)}>
+                    {/* <button className="item-subButton" title="Ask chatGPT" onClick={()=>navigate(`/app/chatGPT/${index}`)}>
                       <box-icon class="chatGPT-logo" name='question-mark'></box-icon>
-                    </button>
+                    </button> */}
+                  </div>
                   </div>
                 </div>
               </li>
@@ -226,7 +232,7 @@ export default function Home() {
           <li className="top-news">
             <h2 className="top-news-header">LATEST</h2>
             <h2 className="top-news-header">HOT NEWS</h2>
-            <ul>
+            <ul className="top-news-list">
               { hotNews && hotNews.slice(0,5).map((item,index)=>{
                 return (
                   <li key={index} className="top-news-item">
