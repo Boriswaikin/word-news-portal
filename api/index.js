@@ -115,16 +115,17 @@ app.delete("/news/:id", requireAuth, async (req, res) => {
   res.json({ deletedNews, deletedNewsDetails });
 });
 
-// updates a news item by id (Put)
-app.put("/news/:id", requireAuth, async (req, res) => {
+// updates a news chatGPT dialog by id (Put)
+app.put("/chatGPT/:id", requireAuth, async (req, res) => {
   const id = req.params.id;
-  const { displayTitle } = req.body;
-  const updatedItem = await prisma.news.update({
+  const { chatGPT } = req.body;
+  console.log(req.body);
+  const updatedItem = await prisma.newsDetails.updateMany({
     where: {
-      id: parseInt(id),
+      newsId: parseInt(id),
     },
     data: {
-      displayTitle,
+      chatGPT,
     },
   });
   res.json(updatedItem);
