@@ -1,25 +1,6 @@
-
-[]- polish web page styles
+[]- deploy website
 []- front and back-end validations
-
-
-[]# Responsive design requirements
-[]- Web application must be usable on a desktop, tablet, or phone
-[]- Web pages must be responsive at any width of the browser
-[]- Elements must never overlap each other unintentionally
-[]- Elements must not wrap unintentionally
-[]- Scrollbars must not appear unintentionally
-[]- Must use scrollbars only when it is absolutely necessary
-
-[]# User experience requirements
-[]- Navigating between pages must be clearly marked
-[]- Currently logged in user must be clearly marked
-[]- Errors must be clearly marked and options to fix them must be provided
-[]- Navigating to the home page must be clearly marked
-[]- Navigating to the profile must be clearly marked
 
 []# Accessibility requirements (2 snapshots)
 []- Include accessibility reports from all your pages using https://developers.google.com/web/tools/lighthouse (Links to an external site.) 
 
-[]# Testing requirements (2-3 tests)
-[]Your application should have at least one unit test per page. 
