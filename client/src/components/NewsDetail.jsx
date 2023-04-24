@@ -63,12 +63,11 @@ export default function NewsDetail() {
   console.log(thisNews);
 
   return (
-    <>
+    <div className="news_details">
       <h1>{thisNews?.title}</h1>
       <p>{`Author: ${thisNews?.author}`}</p>
       <img src={thisNews?.urlToImage} className="detail_image" alt="News_Image"></img>
       <article>{thisNews?.content} <a href={thisNews?.url}>[Read More]</a></article>
-      
-    </>
+    </div>
   )
 }
