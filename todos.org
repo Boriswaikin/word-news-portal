@@ -1,6 +1,0 @@
-[]- deploy website
-[]- front and back-end validations
-
-[]# Accessibility requirements (2 snapshots)
-[]- Include accessibility reports from all your pages using https://developers.google.com/web/tools/lighthouse (Links to an external site.) 
-
