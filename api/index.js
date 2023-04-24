@@ -34,7 +34,10 @@ app.get("/news", requireAuth, async (req, res) => {
     },
   });
 
-  console.log(user);
+  if (!user) {
+    res.json([]);
+    return;
+  }
 
   const news = await prisma.news.findMany({
     where: {
