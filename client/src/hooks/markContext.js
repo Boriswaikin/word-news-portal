@@ -28,6 +28,8 @@ function BookmarkProvider({ children }) {
             publishDate: item.publishDate,
           }))
         );
+      } else {
+        console.log("Error fetching bookmarks");
       }
     }
     if (accessToken) {

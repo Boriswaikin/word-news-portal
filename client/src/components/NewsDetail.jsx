@@ -60,7 +60,6 @@ export default function NewsDetail() {
       break;
     default:
   }
-  console.log(thisNews);
 
   return (
     <div className="news_details">

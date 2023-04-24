@@ -1,5 +1,5 @@
-import { render, screen,fireEvent} from "@testing-library/react";
-import { MemoryRouter ,BrowserRouter} from "react-router-dom";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { MemoryRouter, BrowserRouter } from "react-router-dom";
 import ChatGPT from "../components/ChatGPT";
 
 let mockIsAuthenticated = false;
@@ -32,16 +32,19 @@ jest.mock("../AuthTokenContext", () => ({
   },
 }));
 
-
 jest.mock("../hooks/markContext", () => ({
-    useBookmark: () => {
-    return { bookmarks: [
-      {category:"business",
-       displayTitle:"Bookmard Title",
-       id:1,
-       publishDate:"2023-04-21",
-       title:"Bookmard Actual Title"
-    }] };
+  useBookmark: () => {
+    return {
+      bookmarks: [
+        {
+          category: "business",
+          displayTitle: "Bookmard Title",
+          id: 1,
+          publishDate: "2023-04-21",
+          title: "Bookmard Actual Title",
+        },
+      ],
+    };
   },
 }));
 
@@ -52,18 +55,19 @@ test("Able to get placeholder - Ask ChatGPT about this news", () => {
     </MemoryRouter>
   );
 
-  expect(screen.getByPlaceholderText("Ask ChatGPT about this news")).toBeInTheDocument();
-  });
+  expect(
+    screen.getByPlaceholderText("Ask ChatGPT about this news")
+  ).toBeInTheDocument();
+});
 
-  test("ChatGPT logo appears after clicking send button", () => {
-    render(
-      <BrowserRouter>
-        <ChatGPT />
-      </BrowserRouter>
-    );
-  
-    const sendButton = screen.getByRole('button',{name:'send'});
-    // console.log(editBookmarkrButton);
-    fireEvent.click(sendButton);
-    expect(screen.getByAltText("GPT_Logo")).toBeInTheDocument();
-  })
+test("ChatGPT logo appears after clicking send button", () => {
+  render(
+    <BrowserRouter>
+      <ChatGPT />
+    </BrowserRouter>
+  );
+
+  const sendButton = screen.getByRole("button", { name: "send" });
+  fireEvent.click(sendButton);
+  expect(screen.getByAltText("GPT_Logo")).toBeInTheDocument();
+});

@@ -50,7 +50,6 @@ export default function ChatGPT() {
 
   async function saveResponse(){
     const historyAsString = history.join("\n");
-    console.log(historyAsString);
     const response = await fetch(`${process.env.REACT_APP_API_URL}/chatGPT/` + thisNews.id, {
       method: "PUT",
       headers: {

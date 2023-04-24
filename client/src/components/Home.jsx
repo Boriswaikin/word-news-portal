@@ -32,7 +32,6 @@ export default function Home() {
 
   useEffect(() => {
     async function getNews() {
-      console.log("fetching news by cataegory");
       const res = await fetch(
         `https://newsapi.org/v2/everything?` +
           `q=${category}` +
@@ -80,7 +79,6 @@ export default function Home() {
       }),
     });
     if (data.ok) {
-      console.log("insert success");
       const { news } = await data.json();
       setBookmarks([...bookmarks, news]);
     } 
@@ -96,7 +94,6 @@ export default function Home() {
     });
     if (data.ok) {
       await data.json();
-      console.log("delete success");
     }
   }
 
