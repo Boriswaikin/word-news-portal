@@ -1,5 +1,5 @@
-import { render, screen,fireEvent} from "@testing-library/react";
-import { MemoryRouter ,BrowserRouter} from "react-router-dom";
+import { render, screen} from "@testing-library/react";
+import { MemoryRouter} from "react-router-dom";
 import NewsDetail from "../components/NewsDetail";
 
 let mockIsAuthenticated = false;

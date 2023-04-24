@@ -32,7 +32,7 @@ jest.mock("react-router-dom", () => ({
 }));
 
 
-test("renders AppLayout Home and Login Button", () => {
+test("renders AppLayout Home and Login Button", async () => {
   render(
     <MemoryRouter initialEntries={["/"]}>
       <AppLayout />
@@ -56,7 +56,7 @@ test("login button calls loginWithRedirect", async () => {
   expect(mockLoginWithRedirect).toHaveBeenCalled();
 });
 
-test("renders LOG IN button when user is authenticated", () => {
+test("renders LOG IN button when user is authenticated",  () => {
   mockIsAuthenticated = true;
   render(
     <MemoryRouter initialEntries={["/"]}>
@@ -68,7 +68,7 @@ test("renders LOG IN button when user is authenticated", () => {
 });
 
 
-test("Click bookmarks logo to navigate to /app/bookmarks", () => {
+test("Click bookmarks logo to navigate to /app/bookmarks",  () => {
   mockIsAuthenticated = true;
   render(
     <BrowserRouter>
@@ -81,7 +81,7 @@ test("Click bookmarks logo to navigate to /app/bookmarks", () => {
   expect(window.location.href).toBe('http://localhost/app/bookmarks');
 });
 
-test("Click profile logo to navigate to /app/Profile", () => {
+test("Click profile logo to navigate to /app/Profile",  () => {
   mockIsAuthenticated = true;
   render(
     <BrowserRouter>

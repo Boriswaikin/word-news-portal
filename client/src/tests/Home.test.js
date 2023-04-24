@@ -83,7 +83,7 @@ test("renders Home screen to check button and text exists", () => {
       </BrowserRouter>
     );
   
-    const newsDetailsButton = screen.getByRole('link',{name:'Navigate to detail page'});
+    const newsDetailsButton = screen.getByRole('link',{name:'To news detail'});
     fireEvent.click(newsDetailsButton);
     expect(window.location.href).toBe('http://localhost/details/0');
   });

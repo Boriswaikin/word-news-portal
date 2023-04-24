@@ -44,7 +44,7 @@ export default function Profile() {
         <div className="user_icon">
           <img src={user.picture} className="icon" width="70" alt="profile avatar" />
         </div>
-        <button className="edit_button" onClick={() => {
+        <button className="edit_button" title="Edit Profile" onClick={() => {
           if(edit){
             fetch(`${process.env.REACT_APP_API_URL}/profile`, {
               method: "PUT",
@@ -87,35 +87,35 @@ export default function Profile() {
       ) : (
         <div className="modify-fields">
           <div>
-            <label for="name">Username:</label>
+            <label htmlFor="name">Username:</label>
             <input type="text" name="name" id="name" onChange={(e) => setName(e.target.value)} />
           </div>
           <div>
-            <label for="email">Email:</label>
+            <label htmlFor="email">Email:</label>
             <input type="text" name="email" id="email" value={user.email} disabled/>
           </div>
           <div>
-            <label for="firstName">First name:</label>
+            <label htmlFor="firstName">First name:</label>
             <input type="text" name="firstName" id="firstName" onChange={(e) => setFirstName(e.target.value)} />
           </div>
           <div>
-            <label for="lastName">Last name:</label>
+            <label htmlFor="lastName">Last name:</label>
             <input type="text" name="lastName" id="lastName" onChange={(e) => setLastName(e.target.value)} />
           </div>
           <div>
-            <label for="birthday">Birthday:</label>
+            <label htmlFor="birthday">Birthday:</label>
             <input type="date" name="birthday" id="birthday" onChange={(e) => setBirthday(e.target.value)} />
           </div>
           <div>
-            <label for="gender">Gender:</label>
+            <label htmlFor="gender">Gender:</label>
             <input type="text" name="gender" id="gender" onChange={(e) => setGender(e.target.value)} />
           </div>
           <div>
-            <label for="phone">Phone:</label>
+            <label htmlFor="phone">Phone:</label>
             <input type="tel" name="phone" id="phone" onChange={(e) => setPhone(e.target.value)} />
           </div>
           <div>
-            <label for="address">Address:</label>
+            <label htmlFor="address">Address:</label>
             <input type="text" name="address" id="address" onChange={(e) => setAddress(e.target.value)} />
           </div>
       </div> 
