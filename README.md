@@ -2,8 +2,8 @@
 
 ## Team
 
-Wai Kin Chu
-Zhongyu Wei
+- Wai Kin Chu
+- Zhongyu Wei
 
 ## Demo Video
 
