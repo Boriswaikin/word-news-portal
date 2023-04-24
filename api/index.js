@@ -198,6 +198,12 @@ app.put("/profile", requireAuth, async (req, res) => {
 
   const { name, firstName, lastName, birthday, gender, phone, address } =
     req.body;
+
+  if (!name) {
+    res.status(400).send("username is required");
+    return;
+  }
+
   const updatedItem = await prisma.user.update({
     where: {
       auth0Id,
