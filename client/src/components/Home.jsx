@@ -57,7 +57,7 @@ export default function Home() {
       setNews(trimmedData);
     }
     getNews();
-  }, [category, fromDate, toDate, setNews]);
+  }, [category, fromDate, toDate]);
 
   // post news to database
   async function insertBookmarks(title, category, publishDate, content, imageURL, author, articleURL) {

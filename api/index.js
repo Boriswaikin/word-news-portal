@@ -34,17 +34,15 @@ app.get("/news", requireAuth, async (req, res) => {
     },
   });
 
+  console.log(user);
+
   const news = await prisma.news.findMany({
     where: {
-      authorId: user.id,
+      authorId: user?.id,
     },
   });
 
-  if (news) {
-    res.json(news);
-  } else {
-    res.status(404).send("No news found");
-  }
+  res.json(news);
 });
 
 // get detailed news
