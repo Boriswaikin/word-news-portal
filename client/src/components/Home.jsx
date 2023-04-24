@@ -1,6 +1,5 @@
 import "../style/home.css";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from "react-router-dom";
 import { useHotNews } from "../hooks/useHotNews";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -9,7 +8,6 @@ import { useBookmark } from "../hooks/markContext";
 import { useNews } from "../hooks/newsContext";
 
 export default function Home() {
-  const navigate = useNavigate();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const { accessToken } = useAuthToken();
 
@@ -34,7 +32,6 @@ export default function Home() {
 
   useEffect(() => {
     async function getNews() {
-      console.log("fetching news by cataegory");
       const res = await fetch(
         `https://newsapi.org/v2/everything?` +
           `q=${category}` +
@@ -44,7 +41,7 @@ export default function Home() {
           `&apiKey=${process.env.REACT_APP_NEWS_ID}`
       );
       if(!res.ok) {
-        console.log("fetch error");
+        console.log("fail to fetch news");
         return;
       }
       const data = await res.json();
@@ -82,10 +79,11 @@ export default function Home() {
       }),
     });
     if (data.ok) {
-      console.log("insert success");
       const { news } = await data.json();
       setBookmarks([...bookmarks, news]);
-    } 
+    } else{
+      console.log("fail to insert news");
+    }
   }
 
   async function deleteBookmarks(deleteID) {
@@ -96,9 +94,8 @@ export default function Home() {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    if (data.ok) {
-      await data.json();
-      console.log("delete success");
+    if (!data.ok) {
+      console.log("fail to delete news");
     }
   }
 
@@ -217,9 +214,6 @@ export default function Home() {
                       }}>
                       { isAuthenticated && bookmarks.map(item=>item.title).includes(item.title)?<box-icon class ="bookmark-logo" color="slateblue" type="solid" name='bookmark-alt'></box-icon>:<box-icon class ="bookmark-logo" name='bookmark'></box-icon>}
                     </button>
-                    {/* <button className="item-subButton" title="Ask chatGPT" onClick={()=>navigate(`/app/chatGPT/${index}`)}>
-                      <box-icon class="chatGPT-logo" name='question-mark'></box-icon>
-                    </button> */}
                   </div>
                   </div>
                 </div>

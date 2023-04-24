@@ -3,7 +3,7 @@ import "../style/home.css";
 import { useAuthToken } from "../AuthTokenContext";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useBookmark } from "../hooks/markContext";
 
 export default function Bookmarks() {
@@ -13,8 +13,6 @@ export default function Bookmarks() {
   const [ edit, setEdit ] = useState(false);
   const [ newTitle, setNewTitle ] = useState("");
   const [ newID, setNewID ] = useState();
-
-  console.log("bookmarks", bookmarks);
 
   async function deleteBookmarks(deleteID) {
     const data = await fetch(`${process.env.REACT_APP_API_URL}/news/` + deleteID, {
@@ -26,8 +24,9 @@ export default function Bookmarks() {
     });
     if (data.ok) {
       await data.json();
-      console.log("delete success");
       setBookmarks((prev) => prev.filter((element) => element.id !== deleteID));
+    } else {
+      console.log("Delete bookmark failed");
     }
   }
 
@@ -43,10 +42,11 @@ export default function Bookmarks() {
     });
     if (data.ok) {
       await data.json();
-      console.log("update success");
       setBookmarks((prev) => prev.map(({id , displayTitle, ...prev})=>
         ({...prev, id : id, displayTitle : id === updateID ? newTitle : displayTitle})
       ));
+    } else {
+      console.log("Update bookmark failed");
     }
   }
 

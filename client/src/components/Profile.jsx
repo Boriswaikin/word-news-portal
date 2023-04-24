@@ -30,6 +30,8 @@ export default function Profile() {
       if (response.ok) {
         const data = await response.json();
         setUserInfo(data);
+      } else {
+        console.log("get user info failed");
       }
     }
 

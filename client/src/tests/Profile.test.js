@@ -1,4 +1,4 @@
-import { render, screen,fireEvent} from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import Profile from "../components/Profile";
 
@@ -23,28 +23,27 @@ jest.mock("@auth0/auth0-react", () => ({
 }));
 
 jest.mock("../AuthTokenContext", () => ({
-    useAuthToken: () => {
-      return { accessToken: "123" };
-    },
-  }));
+  useAuthToken: () => {
+    return { accessToken: "123" };
+  },
+}));
 
 test("renders Profile", () => {
-    render(
-        <MemoryRouter initialEntries={["/"]}>
-          <Profile />
-        </MemoryRouter>
-    );
-//   console.log(screen.get);
-    expect(screen.getByText("Username:")).toBeInTheDocument();
+  render(
+    <MemoryRouter initialEntries={["/"]}>
+      <Profile />
+    </MemoryRouter>
+  );
+  expect(screen.getByText("Username:")).toBeInTheDocument();
 });
 
 test("renders Profile by clicking edit", () => {
-    render(
-        <MemoryRouter initialEntries={["/"]}>
-          <Profile />
-        </MemoryRouter>
-    );
-    const editButton = screen.getByTitle('Edit Profile');
-    fireEvent.click(editButton);
-    expect(screen.getByText('Save')).toBeInTheDocument();
+  render(
+    <MemoryRouter initialEntries={["/"]}>
+      <Profile />
+    </MemoryRouter>
+  );
+  const editButton = screen.getByTitle("Edit Profile");
+  fireEvent.click(editButton);
+  expect(screen.getByText("Save")).toBeInTheDocument();
 });

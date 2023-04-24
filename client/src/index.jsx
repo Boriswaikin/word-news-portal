@@ -67,19 +67,19 @@ root.render(
             </Route>
             <Route path="/verify-user" element={<VerifyUser />} />
             {/* pages that require authentication */}
-              <Route path="app" element={
-                  <RequireAuth>
-                    <AppLayout />
-                  </RequireAuth>
-                }
-              >
-                <Route index element={<Home />} />
-                <Route path="profile" element={<Profile />} />
-                <Route path="bookmarks" element={<Bookmarks />} />
-                <Route path=":sourceID/:newsID" element={<NewsDetail />} />
-                <Route path="chatGPT/:newsID" element={<ChatGPT />} />
-                <Route path="debugger" element={<AuthDebugger />} />
-              </Route>
+            <Route path="app" element={
+                <RequireAuth>
+                  <AppLayout />
+                </RequireAuth>
+              }
+            >
+              <Route index element={<Home />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="bookmarks" element={<Bookmarks />} />
+              <Route path=":sourceID/:newsID" element={<NewsDetail />} />
+              <Route path="chatGPT/:newsID" element={<ChatGPT />} />
+              <Route path="debugger" element={<AuthDebugger />} />
+            </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BookmarkProvider>

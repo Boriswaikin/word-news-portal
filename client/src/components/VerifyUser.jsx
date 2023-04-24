@@ -10,15 +10,21 @@ export default function VerifyUser() {
 
   useEffect(() => {
     async function verifyUser() {
-      const data = await fetch(`${process.env.REACT_APP_API_URL}/verify-user`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/verify-user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      const user = await data.json();
 
+      if(!res.ok){
+        console.log("verification failed");
+        navigate("/");
+        return;
+      }
+
+      const user = await res.json();
       if (user.auth0Id) {
         navigate("/app");
       }

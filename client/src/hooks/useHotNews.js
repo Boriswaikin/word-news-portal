@@ -5,7 +5,6 @@ export function useHotNews() {
 
   useEffect(() => {
     async function getHotNews() {
-      console.log("Getting hot news");
       const res = await fetch(
         `https://newsapi.org/v2/top-headlines/?` +
           `country=us` +
@@ -13,11 +12,10 @@ export function useHotNews() {
       );
       if (!res.ok) {
         console.log("Network response was not ok");
-        return;
+      } else {
+        const data = await res.json();
+        setHotNews(data.articles);
       }
-      const data = await res.json();
-      setHotNews(data.articles);
-      console.log(data.articles);
     }
 
     getHotNews();
