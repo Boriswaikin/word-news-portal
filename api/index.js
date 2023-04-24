@@ -40,7 +40,11 @@ app.get("/news", requireAuth, async (req, res) => {
     },
   });
 
-  res.json(news);
+  if (news) {
+    res.json(news);
+  } else {
+    res.status(404).send("No news found");
+  }
 });
 
 // get detailed news
@@ -50,7 +54,12 @@ app.get("/news/:id", requireAuth, async (req, res) => {
       newsId: parseInt(req.params.id),
     },
   });
-  res.json(newsDetails);
+
+  if (newsDetails) {
+    res.json(newsDetails);
+  } else {
+    res.status(404).send("No news found");
+  }
 });
 
 // saves news and its detail to the database
@@ -100,19 +109,23 @@ app.post("/news", requireAuth, async (req, res) => {
 app.delete("/news/:id", requireAuth, async (req, res) => {
   const id = req.params.id;
 
-  const deletedNewsDetails = await prisma.newsDetails.deleteMany({
-    where: {
-      newsId: parseInt(id),
-    },
-  });
+  try {
+    const deletedNewsDetails = await prisma.newsDetails.deleteMany({
+      where: {
+        newsId: parseInt(id),
+      },
+    });
 
-  const deletedNews = await prisma.news.delete({
-    where: {
-      id: parseInt(id),
-    },
-  });
+    const deletedNews = await prisma.news.delete({
+      where: {
+        id: parseInt(id),
+      },
+    });
 
-  res.json({ deletedNews, deletedNewsDetails });
+    res.json({ deletedNews, deletedNewsDetails });
+  } catch (error) {
+    res.status(404).send("No news found");
+  }
 });
 
 // updates a news chatGPT dialog by id (Put)
@@ -120,30 +133,49 @@ app.put("/chatGPT/:id", requireAuth, async (req, res) => {
   const id = req.params.id;
   const { chatGPT } = req.body;
 
-  const updatedItem = await prisma.newsDetails.updateMany({
-    where: {
-      newsId: parseInt(id),
-    },
-    data: {
-      chatGPT,
-    },
-  });
-  res.json(updatedItem);
+  if (!chatGPT) {
+    res.status(400).send("chatGPT data required");
+    return;
+  }
+
+  try {
+    const updatedItem = await prisma.newsDetails.updateMany({
+      where: {
+        newsId: parseInt(id),
+      },
+      data: {
+        chatGPT,
+      },
+    });
+    res.json(updatedItem);
+  } catch (error) {
+    res.status(404).send("No news found");
+  }
 });
 
 // updates a news item by id (Patch)
 app.patch("/news/:id", requireAuth, async (req, res) => {
   const id = req.params.id;
   const { displayTitle } = req.body;
-  const updatedItem = await prisma.news.update({
-    where: {
-      id: parseInt(id),
-    },
-    data: {
-      displayTitle,
-    },
-  });
-  res.json(updatedItem);
+
+  if (!displayTitle) {
+    res.status(400).send("displayTitle is required");
+    return;
+  }
+
+  try {
+    const updatedItem = await prisma.news.update({
+      where: {
+        id: parseInt(id),
+      },
+      data: {
+        displayTitle,
+      },
+    });
+    res.json(updatedItem);
+  } catch (error) {
+    res.status(404).send("No news found");
+  }
 });
 
 // get Profile information of authenticated user
