@@ -45,7 +45,7 @@ export default function NewsDetail() {
     if(sourceID === "bookmarks"){
       getNewsDetail(bookmarks[id].id);
     }
-  }, []);
+  });
 
   let thisNews;
   switch(sourceID){

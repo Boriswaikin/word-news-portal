@@ -3,7 +3,7 @@ import "../style/home.css";
 import { useAuthToken } from "../AuthTokenContext";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useBookmark } from "../hooks/markContext";
 
 export default function Bookmarks() {

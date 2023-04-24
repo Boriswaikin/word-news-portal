@@ -1,6 +1,5 @@
 import "../style/home.css";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from "react-router-dom";
 import { useHotNews } from "../hooks/useHotNews";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -9,7 +8,6 @@ import { useBookmark } from "../hooks/markContext";
 import { useNews } from "../hooks/newsContext";
 
 export default function Home() {
-  const navigate = useNavigate();
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const { accessToken } = useAuthToken();
 
@@ -60,7 +58,7 @@ export default function Home() {
       setNews(trimmedData);
     }
     getNews();
-  }, [category, fromDate, toDate]);
+  }, [category, fromDate, toDate, setNews]);
 
   // post news to database
   async function insertBookmarks(title, category, publishDate, content, imageURL, author, articleURL) {
