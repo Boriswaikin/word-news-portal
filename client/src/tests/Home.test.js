@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen,fireEvent} from "@testing-library/react";
 import Home from "../components/Home";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter ,BrowserRouter} from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 
 let mockIsAuthenticated = false;
@@ -35,7 +35,19 @@ jest.mock("../AuthTokenContext", () => ({
 
 jest.mock("../hooks/newsContext", () => ({
   useNews: () => {
-    return { news: [] };
+    return { news: [
+      {
+        author:'news author',
+        content:"testing news",
+        description:"testing news description",
+        publishAt:"2023-04-21",
+        source:{id:"testing id",name:"testing source"},
+        title:"testing title",
+        url:"testing url",
+        urlToImage:"testing image"
+      }
+
+    ] };
   },
 }));
 
@@ -62,4 +74,16 @@ test("renders Home screen to check button and text exists", () => {
   expect(screen.getByText("Technology")).toBeInTheDocument();
   expect(screen.getByText("LATEST")).toBeInTheDocument();
   expect(screen.getByText("HOT NEWS")).toBeInTheDocument();
+  });
+
+  test("Able to navigate to details page after clicking news item link", () => {
+    render(
+      <BrowserRouter>
+        <Home />
+      </BrowserRouter>
+    );
+  
+    const newsDetailsButton = screen.getByRole('link',{name:'Navigate to detail page'});
+    fireEvent.click(newsDetailsButton);
+    expect(window.location.href).toBe('http://localhost/details/0');
   });

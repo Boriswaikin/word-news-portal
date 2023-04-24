@@ -23,7 +23,7 @@ export default function AppLayout() {
             <li>
               {
                 isAuthenticated ? (
-                  <Link to="/app/bookmarks" aria-label="Bookmarks pages">
+                  <Link to="/app/bookmarks" title="Bookmarks page" aria-label="Bookmarks page">
                     <box-icon class="user-logo" name='bookmark-alt'></box-icon>
                   </Link>) :
                   (<></>)
@@ -32,7 +32,7 @@ export default function AppLayout() {
             <li>
               {
                 isAuthenticated ? (
-                  <Link to="/app/Profile"  aria-label="Profile pages">
+                  <Link to="/app/Profile"  title="Profile page" aria-label="Profile page">
                     <box-icon class="user-logo" name='user'></box-icon>
                   </Link>) :
                   (<></>)

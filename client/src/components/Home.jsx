@@ -193,7 +193,7 @@ export default function Home() {
               <li key={index} className="news-item">
                 <img className="newsImage" src={item.urlToImage} alt="Logo"></img>
                 <div className="news-subItem">
-                  <Link className="item-link" to={`details/${index}`}>{item.title}</Link>
+                  <Link className="item-link" to={`details/${index}`} aria-label="To news detail">{item.title}</Link>
                   <div className="news-remarks">
                   <p className="item-date">{item.publishedAt}</p>
                   <div className="item-button">
