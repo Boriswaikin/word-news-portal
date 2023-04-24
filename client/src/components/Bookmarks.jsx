@@ -63,18 +63,18 @@ export default function Bookmarks() {
           return (
             <li 
               key={index} className="bookmark-item">
-                <Link to={`/bookmarks/${index}`} className="bookmark-link">{item.displayTitle}</Link>
+                <Link to={`/bookmarks/${index}`} className="bookmark-link" aria-label="Bookmarks link">{item.displayTitle}</Link>
                 <p className="bookmarks-category">{item.category}</p>
                 <p className="bookmarks-publishDate">{item.publishDate}</p>
-                <button title="edit bookmark" className="bookmarks" onClick={()=>{
+                <button title="edit bookmark" className="bookmarks-logo" aria-label="edit bookmark" onClick={()=>{
                   setNewID(item.id);
                   setEdit(true);}}>
                   <box-icon class="bookmarks-icon" color="blue" name='edit'></box-icon>
                 </button>
-                <button title="delete bookmark" className="bookmarks" onClick={()=>deleteBookmarks(item.id)}>
+                <button title="delete bookmark" className="bookmarks-logo" aria-label="delete bookmark" onClick={()=>deleteBookmarks(item.id)}>
                   <box-icon class="bookmarks-icon" color="red" name='trash'></box-icon>
                 </button>
-                <button title="Ask chatGPT" className="bookmarks" onClick={()=>navigate(`/app/chatGPT/${index}`)}>
+                <button title="Ask chatGPT" className="bookmarks-logo" aria-label="Ask ChatGpt" onClick={()=>navigate(`/app/chatGPT/${index}`)}>
                   <box-icon class="bookmarks-icon" color="green" name='message-rounded-detail'></box-icon>
                 </button>
             </li>

@@ -1,6 +1,5 @@
 import "../style/appLayout.css";
-import 'boxicons';
-
+import 'boxicons'
 import { Outlet, Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -23,8 +22,8 @@ export default function AppLayout() {
             <li>
               {
                 isAuthenticated ? (
-                  <Link to="/app/bookmarks" aria-label="Bookmarks pages">
-                    <box-icon name='bookmark-alt'></box-icon>
+                  <Link to="/app/bookmarks" title="Bookmarks page" aria-label="Bookmarks page">
+                    <box-icon class="user-logo" name='bookmark-alt'></box-icon>
                   </Link>) :
                   (<></>)
               }
@@ -32,7 +31,7 @@ export default function AppLayout() {
             <li>
               {
                 isAuthenticated ? (
-                  <Link to="/app/Profile"  aria-label="Profile pages">
+                  <Link to="/app/Profile"  title="Profile page" aria-label="Profile page">
                     <box-icon class="user-logo" name='user'></box-icon>
                   </Link>) :
                   (<></>)

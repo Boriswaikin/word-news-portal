@@ -17,6 +17,7 @@ export function useHotNews() {
       }
       const data = await res.json();
       setHotNews(data.articles);
+      console.log(data.articles);
     }
 
     getHotNews();
