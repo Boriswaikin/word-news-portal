@@ -114,7 +114,12 @@ export default function Profile() {
           </div>
           <div>
             <label htmlFor="gender">Gender:</label>
-            <input type="text" name="gender" id="gender" placeholder={userInfo?.gender} onChange={(e) => setGender(e.target.value)} />
+            <select name="gender" id="gender" placeholder={userInfo?.gender} onChange={(e) => setGender(e.target.value)}>
+              <option selected disabled>-------</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
           <div>
             <label htmlFor="phone">Phone:</label>
