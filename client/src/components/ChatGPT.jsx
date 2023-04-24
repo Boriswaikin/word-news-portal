@@ -18,7 +18,6 @@ export default function ChatGPT() {
   
 
   const [input, setInput] = useState("");
-  const [text, setText] = useState("");
   const [history, setHistory] = useState([]);
 
   function getResponse(){
@@ -41,7 +40,6 @@ export default function ChatGPT() {
     fetch('https://api.openai.com/v1/chat/completions', requestOptions)
     .then((response) => response.json())
     .then((data) => {
-      setText(data.choices[0].message.content);
       setHistory((prev) => [...prev, data.choices[0].message.content]);})
     .catch( (err) => {
       console.log(err);
@@ -61,7 +59,7 @@ export default function ChatGPT() {
       }),
     });
     if (!response.ok) {
-      console.log("put error");
+      console.log("chatGPT dialog put error");
     }
   }
 

@@ -39,6 +39,8 @@ export default function NewsDetail() {
           url: item.articleURL,
         }));
         setNewsDetail(formatData);
+      } else {
+        console.log("Get news detail failed");
       }
     }
 

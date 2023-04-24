@@ -12,10 +12,10 @@ export function useHotNews() {
       );
       if (!res.ok) {
         console.log("Network response was not ok");
-        return;
+      } else {
+        const data = await res.json();
+        setHotNews(data.articles);
       }
-      const data = await res.json();
-      setHotNews(data.articles);
     }
 
     getHotNews();

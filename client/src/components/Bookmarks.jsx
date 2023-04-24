@@ -25,6 +25,8 @@ export default function Bookmarks() {
     if (data.ok) {
       await data.json();
       setBookmarks((prev) => prev.filter((element) => element.id !== deleteID));
+    } else {
+      console.log("Delete bookmark failed");
     }
   }
 
@@ -43,6 +45,8 @@ export default function Bookmarks() {
       setBookmarks((prev) => prev.map(({id , displayTitle, ...prev})=>
         ({...prev, id : id, displayTitle : id === updateID ? newTitle : displayTitle})
       ));
+    } else {
+      console.log("Update bookmark failed");
     }
   }
 

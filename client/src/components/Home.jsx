@@ -41,7 +41,7 @@ export default function Home() {
           `&apiKey=${process.env.REACT_APP_NEWS_ID}`
       );
       if(!res.ok) {
-        console.log("fetch error");
+        console.log("fail to fetch news");
         return;
       }
       const data = await res.json();
@@ -81,7 +81,9 @@ export default function Home() {
     if (data.ok) {
       const { news } = await data.json();
       setBookmarks([...bookmarks, news]);
-    } 
+    } else{
+      console.log("fail to insert news");
+    }
   }
 
   async function deleteBookmarks(deleteID) {
@@ -92,8 +94,8 @@ export default function Home() {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    if (data.ok) {
-      await data.json();
+    if (!data.ok) {
+      console.log("fail to delete news");
     }
   }
 
@@ -212,9 +214,6 @@ export default function Home() {
                       }}>
                       { isAuthenticated && bookmarks.map(item=>item.title).includes(item.title)?<box-icon class ="bookmark-logo" color="slateblue" type="solid" name='bookmark-alt'></box-icon>:<box-icon class ="bookmark-logo" name='bookmark'></box-icon>}
                     </button>
-                    {/* <button className="item-subButton" title="Ask chatGPT" onClick={()=>navigate(`/app/chatGPT/${index}`)}>
-                      <box-icon class="chatGPT-logo" name='question-mark'></box-icon>
-                    </button> */}
                   </div>
                   </div>
                 </div>
