@@ -9,10 +9,13 @@
 
 https://www.youtube.com/watch?v=eP3LKQn7Gdk&ab_channel=JerryWei
 
-## Unable to deploy client API
-When trying to deploy our web client, we got error 426 when using our newsAPI to fetch the news. As the free plan of newsAPI we used does not allow us to send request from browser. (It works in localhost)
+## Important Notes!!!
+**We have successfully deployed the server API and database, but are unable tp deploy the client API** 
+When trying to deploy our web client, we got error 426 when using our newsAPI to fetch the news. As the free plan of newsAPI we used does not allow us to send request from browser in production mode. If you want to test our client website, please create a .env file in the client folder, and include the following configurations:
 
-Below is API URL: https://cs5610assignment3.ue.r.appspot.com/
+Then run ```npm start``` to load our website.
+
+Below is Server API URL: https://cs5610assignment3.ue.r.appspot.com/
 
 
 You will be working in groups of up to 2 students for this project.
