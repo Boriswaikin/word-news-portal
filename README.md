@@ -10,8 +10,26 @@
 https://www.youtube.com/watch?v=eP3LKQn7Gdk&ab_channel=JerryWei
 
 ## Important Notes!!!
-**We have successfully deployed the server API and database, but are unable tp deploy the client API** 
+**We have successfully deployed the server API and database, but are unable tp deploy the client API** <br>
 When trying to deploy our web client, we got error 426 when using our newsAPI to fetch the news. As the free plan of newsAPI we used does not allow us to send request from browser in production mode. If you want to test our client website, please create a .env file in the client folder, and include the following configurations:
+
+  ```
+  REACT_APP_API_URL=https://cs5610assignment3.ue.r.appspot.com/
+
+  REACT_APP_AUTH0_DOMAIN=assignmentboris.us.auth0.com
+
+  REACT_APP_AUTH0_CLIENT_ID=gvQhZ60wOkvMqFYSZcJcN4PZ57Y0Zs5e
+
+  REACT_APP_AUTH0_AUDIENCE=https://api.todos
+
+  REACT_APP_JWT_NAMESPACE=https://api.todos
+
+  REACT_APP_NEWS_ID=18ef04289933418d8271f9d99dfeaa62
+
+  REACT_APP_OPENAI_API_KEY=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
+
+  GENERATE_SOURCEMAP=false
+  ```
 
 Then run ```npm start``` to load our website.
 
