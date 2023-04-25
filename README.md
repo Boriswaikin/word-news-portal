@@ -10,8 +10,8 @@
 https://www.youtube.com/watch?v=eP3LKQn7Gdk&ab_channel=JerryWei
 
 ## Important Notes!!!
-**We have successfully deployed the server API and database, but are unable tp deploy the client API** <br>
-When trying to deploy our web client, we got error 426 when using our newsAPI to fetch the news. As the free plan of newsAPI we used does not allow us to send request from browser in production mode. If you want to test our client website, please create a .env file in the client folder, and include the following configurations:
+**We have successfully deployed the server API and database, but are unable to deploy the client API** <br>
+When trying to deploy our web client, we got error 426 from the external API - News API. As the free plan of News API does not allow us to send request from browser in production mode. Unfortunately, the home page does not display any content as it supposes to. If you want to test our client website, please create a .env file in the client folder, and include the following configurations:
 
   ```
   REACT_APP_API_URL=https://cs5610assignment3.ue.r.appspot.com/
