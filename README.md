@@ -9,6 +9,10 @@ Zhongyu Wei
 
 https://www.youtube.com/watch?v=eP3LKQn7Gdk&ab_channel=JerryWei
 
+## Unable deploy client API
+When trying to deploy our web client, we got error 426 when using our newsAPI to fetch the news. As the free plan of newsAPI we used is not allowed us to send request from browser. (It works in localhost)
+
+
 You will be working in groups of up to 2 students for this project.
 
 The goal is to develop a "Software as a Service" web application performing CRUD operations based on React, NodeJs and Prisma (Some examples include an online store, food ordering, personal journal, learning management system, social network, ...).
