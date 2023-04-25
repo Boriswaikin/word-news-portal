@@ -12,6 +12,8 @@ https://www.youtube.com/watch?v=eP3LKQn7Gdk&ab_channel=JerryWei
 ## Unable deploy client API
 When trying to deploy our web client, we got error 426 when using our newsAPI to fetch the news. As the free plan of newsAPI we used is not allowed us to send request from browser. (It works in localhost)
 
+API URL: https://cs5610assignment3.ue.r.appspot.com/
+
 
 You will be working in groups of up to 2 students for this project.
 
