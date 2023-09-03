@@ -1,6 +1,6 @@
-runtime: nodejs16
+runtime: nodejs18
 env_variables:
-  DATABASE_URL: "mysql://1nb92gok9cozni59xvmd:pscale_pw_buDwQ9SAkkRy5rfs74xydnUMTSrJEYtFjnRGZOqJwp4@aws.connect.psdb.cloud/deploy-test?sslaccept=strict"
+  DATABASE_URL: "mysql://mhcds6q1331694xlczxd:pscale_pw_Kz6lBWWeqqEXtHBDfjk3GSkM2wnROtTp8DcAH9MpwaW@aws.connect.psdb.cloud/deploy-test?sslaccept=strict"
   AUTH0_JWK_URI: "https://assignmentboris.us.auth0.com/.well-known/jwks.json"
   AUTH0_AUDIENCE: "https://api.todos"
   AUTH0_ISSUER: "https://assignmentboris.us.auth0.com/"

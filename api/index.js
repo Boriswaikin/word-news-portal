@@ -72,9 +72,9 @@ app.post("/news", requireAuth, async (req, res) => {
     publishDate,
     displayTitle,
     content,
-    imageURL,
+    image,
     author,
-    articleURL,
+    url,
   } = req.body;
 
   if (!title) {
@@ -94,9 +94,9 @@ app.post("/news", requireAuth, async (req, res) => {
       data: {
         title,
         content,
-        imageURL,
+        image,
         author,
-        articleURL,
+        url,
         news: { connect: { id: news.id } },
       },
     });
@@ -247,8 +247,8 @@ app.post("/verify-user", requireAuth, async (req, res) => {
   }
 });
 
-// app.listen(8000, () => {
-//   console.log("Server running on http://localhost:8000 🎉 🚀");
+// app.listen(8080, () => {
+//   console.log("Server running on http://localhost:8080 🎉 🚀");
 // });
 
 const PORT = parseInt(process.env.PORT) || 8080;
