@@ -27,7 +27,7 @@ export default function ChatGPT() {
       headers: {
         'Content-Type': 'application/json',
           'Authorization': `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
-          'User-Agent': 'MyApplication/1.0'
+          // 'User-Agent': 'MyApplication/1.0'
       },
       body: JSON.stringify({
         model:"gpt-3.5-turbo",
@@ -40,6 +40,7 @@ export default function ChatGPT() {
     fetch('https://api.openai.com/v1/chat/completions', requestOptions)
     .then((response) => response.json())
     .then((data) => {
+      console.log(data);
       setHistory((prev) => [...prev, data.choices[0].message.content]);})
     .catch( (err) => {
       console.log(err);

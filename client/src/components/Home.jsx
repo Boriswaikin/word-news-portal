@@ -33,12 +33,13 @@ export default function Home() {
   useEffect(() => {
     async function getNews() {
       const res = await fetch(
-        `https://newsapi.org/v2/everything?` +
+        `https://gnews.io/api/v4/search?` +
           `q=${category}` +
-          `&language=en` +
-          `&sortBy=popularity` +
+          `&lang=en` +
+          `&country=us` + 
+          `&sortBy=publishedAt` +
           `&from=${fromDate}&to=${toDate}` +
-          `&apiKey=${process.env.REACT_APP_NEWS_ID}`
+          `&apikey=` + `${process.env.REACT_APP_NEWS_ID}`
       );
       if(!res.ok) {
         console.log("fail to fetch news");
@@ -47,7 +48,7 @@ export default function Home() {
       const data = await res.json();
       // filter out articles without images
       let trimmedData = data.articles.filter(
-        (item) => item.urlToImage !== null
+        (item) => item.image !== null
       );
       // trim the publishedAt date
       for (const item of trimmedData) {
@@ -60,7 +61,7 @@ export default function Home() {
   }, [category, fromDate, toDate]);
 
   // post news to database
-  async function insertBookmarks(title, category, publishDate, content, imageURL, author, articleURL) {
+  async function insertBookmarks(title, category, publishDate, content, image, author, url) {
     const data = await fetch(`${process.env.REACT_APP_API_URL}/news`, {
       method: "POST",
       headers: {
@@ -73,9 +74,9 @@ export default function Home() {
         publishDate: publishDate,
         displayTitle: title,
         content: content,
-        imageURL: imageURL,
+        image: image,
         author: author,
-        articleURL: articleURL,
+        url: url,
       }),
     });
     if (data.ok) {
@@ -188,7 +189,7 @@ export default function Home() {
             return item.title.toLowerCase().includes(text.toLowerCase()) ? 
            (
               <li key={index} className="news-item">
-                <img className="newsImage" src={item.urlToImage} alt="Logo"></img>
+                <img className="newsImage" src={item.image} alt="Logo"></img>
                 <div className="news-subItem">
                   <Link className="item-link" to={`details/${index}`} aria-label="To news detail">{item.title}</Link>
                   <div className="news-remarks">
@@ -202,7 +203,7 @@ export default function Home() {
                         else{
                           const bookmarksTitle = bookmarks.map(item => item.title);
                           if(!bookmarksTitle.includes(item.title)){
-                            insertBookmarks(item.title, category, item.publishedAt, item.content, item.urlToImage, item.author, item.url);
+                            insertBookmarks(item.title, category, item.publishedAt, item.content, item.image, "null", item.url);
                           }
                           else {
                             const filterBookmark = bookmarks.filter((element)=> element.title===item.title);

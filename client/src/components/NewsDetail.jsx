@@ -34,9 +34,9 @@ export default function NewsDetail() {
           id: item.id,
           title: item.title,
           content: item.content,
-          urlToImage: item.imageURL,
+          image: item.image,
           author: item.author,
-          url: item.articleURL,
+          url: item.url,
         }));
         setNewsDetail(formatData);
       } else {
@@ -66,8 +66,8 @@ export default function NewsDetail() {
   return (
     <div className="news_details">
       <h1>{thisNews?.title}</h1>
-      <p>{`Author: ${thisNews?.author}`}</p>
-      <img src={thisNews?.urlToImage} className="detail_image" alt="News_Image"></img>
+      {/* <p>{`Author: ${thisNews?.author}`}</p> */}
+      <img src={thisNews?.image} className="detail_image" alt="News_Image"></img>
       <article>{thisNews?.content} <a href={thisNews?.url}>[Read More]</a></article>
     </div>
   )

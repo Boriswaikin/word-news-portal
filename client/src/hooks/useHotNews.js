@@ -6,9 +6,10 @@ export function useHotNews() {
   useEffect(() => {
     async function getHotNews() {
       const res = await fetch(
-        `https://newsapi.org/v2/top-headlines/?` +
-          `country=us` +
-          `&apiKey=${process.env.REACT_APP_NEWS_ID}`
+        `https://gnews.io/api/v4/top-headlines?` +
+          `category=general` +
+          `&lang=en` +
+          `&apikey=${process.env.REACT_APP_NEWS_ID}`
       );
       if (!res.ok) {
         console.log("Network response was not ok");
@@ -17,7 +18,6 @@ export function useHotNews() {
         setHotNews(data.articles);
       }
     }
-
     getHotNews();
   }, []);
 
