@@ -100,6 +100,29 @@ export default function Home() {
     }
   }
 
+  function convertDateFormat(inputDate) {
+    // Parse the input date string into a Date object
+    const dateParts = inputDate.split('-');
+    const year = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]) - 1; // Months are 0-based in JavaScript
+    const day = parseInt(dateParts[2]);
+    const dateObject = new Date(year, month, day);
+  
+    // Format the date to YYYY-MM-DDThh:mm:ssTZD
+    const yyyy = dateObject.getFullYear();
+    const mm = String(dateObject.getMonth() + 1).padStart(2, '0'); // Adding 1 to month as it's 0-based
+    const dd = String(dateObject.getDate()).padStart(2, '0');
+    const hh = '00'; // You can set the time to 00:00:00 if you don't have a specific time
+    const min = '00';
+    const sec = '00';
+    const tzd = 'Z'; // Assuming UTC time zone, you can change this to your desired timezone
+  
+    const formattedDate = `${yyyy}-${mm}-${dd}T${hh}:${min}:${sec}${tzd}`;
+    
+    return formattedDate;
+  }
+  
+
   return (
     <div className="home">
       <div className="section-news">
@@ -148,8 +171,8 @@ export default function Home() {
                   alert("Input date must be within 30 days from now")
                 }
                 else{
-                setFromDate(from_date);
-                setToDate(to_date);}
+                setFromDate(convertDateFormat(from_date));
+                setToDate(convertDateFormat(to_date));}
                 }
               }>
               Search
